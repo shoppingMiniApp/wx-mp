@@ -65,6 +65,12 @@
           "pathName": "pages/order/order",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "地址",
+          "pathName": "pages/address/address",
+          "query": "",
+          "scene": null
         }
       ]
     }

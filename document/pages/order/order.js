@@ -2,11 +2,29 @@
 import { request } from "../../request/index";
 Page({
   data: {
+    address: {
+      username: "李嘉城",
+      phonenumber: "18512828693",
+      site: "四川省充市"
+    },
+    goodsMsg: {
+      good_name: "",
+      img: "",
+      promotion_price: "",
 
+    }
+  },
+  handleChooseAdd() {
+    wx.navigateTo({
+      url: '../address/address'
+    });
   },
   onLoad: function (options) {
     request({
-      url: "http://api_devs.wanxikeji.cn/api/goodList",
+      url: "/api/goodInfo",
+      data: {
+        good_id: "1008"
+      }
     }).then((res) => {
       console.log(res);
     });

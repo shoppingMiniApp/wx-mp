@@ -1,2 +1,5 @@
-<!--pages/order/order.wxml-->
-<text>pages/order/order.wxml</text>
+<view class="revice_address_row">
+    <view class="address_btn">
+        <button type="primary" bindtap="handleChooseAdd" plain="{{true}}">获取收货地址</button>
+    </view>
+</view>
