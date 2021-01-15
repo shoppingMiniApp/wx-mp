@@ -1,7 +1,7 @@
 <!-- index.wxml -->
 <!-- 页面显示 -->
 <!-- 首页 -->
-<!-- <navigator class="" target="" url="/pages/search/search" open-type="navigateTo">跳转</navigator> -->
+<navigator class="" target="" url="/pages/search/search" open-type="navigateTo">跳转</navigator>
 <view class="homepage" wx:if="{{ current == 'homepage'}}">
   <!-- 搜索栏 -->
   <view class="searchBar"></view>

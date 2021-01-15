@@ -1,2 +1,8 @@
-<!--pages/address/address.wxml-->
-<text>pages/address/address.wxml</text>
+<view class="address_buttom">
+    <view>
+        <i-button i-class="address_btn" bind:click="handleImportSite" type="ghost" shape="circle" size="small">微信导入</i-button>
+    </view>
+    <view>
+        <i-button i-class="address_btn" bind:click="handleAddSite" type="error" shape="circle" size="small">新增收货地址</i-button>
+    </view>
+</view>

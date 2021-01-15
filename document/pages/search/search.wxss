@@ -1,1 +1,54 @@
-/* pages/search/search.wxss */
+/* miniprogram/pages/search/search.wxss */
+.search-part {
+  padding: 15rpx 15rpx 0;
+}
+.search-input {
+  border-radius: 2px;
+  background: rgb(238, 238, 243);
+  padding: 12rpx 0 12rpx 49rpx;
+  font-size: 28rpx;
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  padding: 31rpx 10rpx;
+}
+
+/* *热门搜索 */
+.hot-search,
+.history-search {
+  padding: 36rpx 16rpx 0;
+  font-size: 28rpx;
+}
+.search-tit {
+  display: inline-block;
+  padding-bottom: 18rpx;
+}
+.hot-keyword-part,
+.history-keyword-part {
+  display: flex;
+  flex-wrap: wrap;
+}
+.hot-keyword,
+.history-keyword {
+  font-size: 24rpx;
+  background: rgb(238, 238, 243);
+  padding: 12rpx 16rpx;
+  color: #555;
+  display: inline-block;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+}
+.delete-icon {
+  position: absolute;
+  top: 0;
+  right: 18rpx;
+  z-index: 5;
+  padding: 25rpx 8rpx;
+}
+.trash-icon {
+  float: right;
+  margin-right: 20rpx;
+}
