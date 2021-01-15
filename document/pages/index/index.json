@@ -5,6 +5,7 @@
     "i-tab-bar-item": "../../dist/tab-bar-item/index",
     "i-tabs": "../../dist/tabs/index",
     "i-tab": "../../dist/tab/index",
-    "i-button": "../../dist/button/index"
+    "i-button": "../../dist/button/index",
+    "i-avatar": "../../dist/avatar/index"
   }
 }

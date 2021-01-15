@@ -11,10 +11,88 @@
 <view class="cart" wx:if="{{ current == 'cart'}}">cart</view>
 <!-- 我的 -->
 <view class="mine" wx:if="{{ current == 'mine'}}">
-  <i-button bind:click="handleClick" type="error" long="true">
-  
-  </i-button>
-  <button bindtap="getData">t</button>
+  <!-- <button class="login">登录</button> -->
+  <view class="loginPanel">
+    <i-button wx:if="{{!hasUserInfo && canIUse}}" i-class="loginBtn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" long="true" size="large" inline>
+      <i-avatar i-class="avatar" size="large" shape="round" src="{{ userInfo.avatarUrl }}">
+        妙
+      </i-avatar>
+      登录/注册
+    </i-button>
+    <view class="login" wx:else>
+      <i-avatar size="large" i-class="avatar" shape="round" src="{{ userInfo.avatarUrl }}">
+        A
+      </i-avatar>
+      <view>{{ userInfo.nickName }} 欢迎回来！</view>
+    </view>
+  </view>
+  <!-- <view class="shopHistory"></view> -->
+  <i-panel title="dw" i-class="shopHistory">
+    <view style="padding-left:50rpx;padding-right:50rpx;background:#fef5e780;margin-bottom:25rpx;">
+      <view class="historyHeader">
+        <view class="headeright">
+          <i-icon type="activity" size="23" i-class="icon" style="line-height:0;padding-right:10rpx;" />
+          <view style="padding:0">购买记录</view>
+        </view>
+        <view class="headerLeft">
+          <view style="padding:0;color:#666;font-size:28rpx">全部订单</view>
+          <i-icon type="enter" size="14" i-class="icon" style="line-height:0;padding-left:10rpx; color:#666;" />
+        </view>
+      </view>
+      <view class="shopStatus">
+        <view class="shopStatusIcon">
+          <i-icon type="redpacket" size="25" style="line-height:0;" />
+          <view style="font-size:26rpx">待付款</view>
+        </view>
+        <view class="shopStatusIcon">
+          <i-icon type="editor" size="25" style="line-height:0;" />
+          <view style="font-size:26rpx">待发货</view>
+        </view>
+        <view class="shopStatusIcon">
+          <i-icon type="task" size="25" style="line-height:0;" />
+          <view style="font-size:26rpx">待收货</view>
+        </view>
+      </view>
+      <view class="generalPanel">
+        <view class="generalHead">
+          <i-icon type="addressbook" size="23" style="line-height:0;padding-right:10rpx;" />
+          <view>地址管理</view>
+        </view>
+        <i-icon type="enter" size="14" i-class="icon" style="line-height:0;padding-left:10rpx; color:#666;" />
+      </view>
+      <view class="generalPanel">
+        <view class="generalHead">
+          <i-icon type="createtask" size="23" style="line-height:0;padding-right:10rpx;" />
+          <view>账户管理</view>
+        </view>
+        <i-icon type="enter" size="14" i-class="icon" style="line-height:0;" />
+      </view>
+      <view class="generalPanel">
+        <view class="generalHead">
+          <i-icon type="coupons" size="23" style="line-height:0;padding-right:10rpx;" />
+          <view>卡劵管理</view>
+        </view>
+        <i-icon type="enter" size="14" i-class="icon" style="line-height:0;padding-left:10rpx; color:#666;" />
+      </view>
+      <view class="generalPanel">
+        <view class="generalHead">
+          <i-icon type="message" size="23" style="line-height:0;padding-right:10rpx;" />
+          <view>消息通知</view>
+        </view>
+        <i-icon type="enter" size="14" i-class="icon" style="line-height:0;padding-left:10rpx; color:#666;" />
+      </view>
+      <view class="generalPanel">
+        <view class="generalHead">
+          <i-icon type="service" size="23" style="line-height:0;padding-right:10rpx;" />
+          <view>客户中心</view>
+        </view>
+        <i-icon type="enter" size="14" i-class="icon" style="line-height:0;padding-left:10rpx; color:#666;" />
+      </view>
+    </view>
+  </i-panel>
+  <i-panel title="标题" wx:if="{{hasUserInfo}}" bindtap="logOut">
+    <view style="padding:30rpx 50rpx;background:#fef5e7;text-align:center">退出登录</view>
+  </i-panel>
 </view>
 <!-- 底部导航 -->
 <i-tab-bar current="{{ current }}" color="#fba414" fixed bindchange="handleChange" i-class="navTabBar">
