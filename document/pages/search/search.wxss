@@ -52,3 +52,64 @@
   float: right;
   margin-right: 20rpx;
 }
+.search-result {
+  position: absolute;
+  background: #fff;
+  padding: 15rpx;
+}
+.search-resitem {
+  width: 716rpx;
+  font-size: 28rpx;
+  border-bottom: 1rpx solid #ccc9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 15rpx;
+}
+.ok button {
+  color: #fba414 !important;
+  padding: 0;
+  width: auto !important;
+}
+.search-goods-list {
+  padding: 0 12rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.search-goods-list-item {
+  width: 49%;
+  box-shadow: 0 0 3px #ccc7;
+  border-radius: 3px;
+  margin-top: 16rpx;
+}
+.search-goods-list-item image {
+  width: 100%;
+  height: 360rpx;
+}
+.search-goods-tit {
+  font-size: 28rpx;
+  padding: 0 15rpx;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: #555;
+}
+sup {
+  font-size: 25rpx;
+}
+.goods-items-bottom b {
+  font-weight: bold;
+}
+.goods-items-bottom span {
+  font-size: 20rpx;
+  padding-top: 8rpx;
+  color: #5558;
+}
+.goods-items-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding: 25rpx 15rpx 25rpx;
+}
