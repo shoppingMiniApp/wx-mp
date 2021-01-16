@@ -44,15 +44,14 @@
               <image src="{{swiperSrc[index].pic}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
             </view>
             <view class="">
-
               <text class="info" decode="false">这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介</text>
-
               <view class="">
                 <text class="price" decode="false">$132</text>
                 <text class="hide" decode="false" bindtap="care" data-hide="{{index}}">...</text>
-                <view class="redece" wx:if="{{ care == index}}" data-hide="{{index}}" bindtap="del">不感兴趣</view>
+                <view class="redece" wx:if="{{ care == index}}" data-hide="{{index}}" bindtap="del">
+                  不感兴趣
+                </view>
               </view>
-
             </view>
           </view>
         </view>
@@ -68,12 +67,17 @@
   </view>
 </view>
 <!-- 购物车 -->
-<view class="cart" wx:if="{{ current == 'cart'}}">cart</view>
+<view class="cart" wx:if="{{ current == 'cart'}}">
+  <!-- <block wx:for="{{}}">
+    
+  </block> -->
+    <button bindtap="change">cart</button>
+</view>
 <!-- 我的 -->
 <view class="mine" wx:if="{{ current == 'mine'}}">
   <!-- <button class="login">登录</button> -->
   <view class="loginPanel">
-    <i-button wx:if="{{!hasUserInfo && canIUse}}" i-class="loginBtn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" long="true" size="large" inline>
+    <i-button wx:if="{{!hasUserInfo && canIUse}}" i-class="loginBtn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" long="true" size="large" inline bindtap="logIn">
       <i-avatar i-class="avatar" size="large" shape="round" src="{{ userInfo.avatarUrl }}">
         妙
       </i-avatar>

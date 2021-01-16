@@ -4,13 +4,14 @@ const app = getApp();
 
 Page({
   data: {
+    registerStatus: "",
     avatarUrl: "",
     userInfo: "",
     hasUserInfo: false,
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
     num: 0,
     care: -1,
-    current: "homepage",
+    current: "cart",
     current_scroll: "家居",
     recommendData: [],
     swiperSrc: [
@@ -59,6 +60,9 @@ Page({
     //这之前的data数据是曾勇的
   },
   handleChange: function ({ detail }) {
+    if (detail.key == "homepage") {
+      wx.setNavigationBarTitle({ title: "商城" });
+    }
     if (detail.key == "mine") {
       wx.setNavigationBarTitle({ title: "我的" });
     }
@@ -69,7 +73,7 @@ Page({
     this.setData({
       current: detail.key,
     });
-    console.log(this.data.current);
+    // console.log(this.data.current);
   },
   //头部分页点击事件-zy
   handleChangeScroll: function (e) {
@@ -237,6 +241,9 @@ Page({
         },
       });
     }
+
+    this.register();
+    console.log(this.data.registerStatus, "r");
   },
   getUserInfo(e) {
     app.globalData.userInfo = e.detail.userInfo;
@@ -244,7 +251,8 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true,
     });
-    // console.log(this.data.userInfo);
+    console.log(this.data.userInfo);
+    this.register()
   },
   logOut() {
     this.setData({
@@ -259,6 +267,97 @@ Page({
       success: (result) => {},
       fail: () => {},
       complete: () => {},
+    });
+  },
+  change() {
+    var reqTask = wx.request({
+      url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
+      data: {},
+      header: { "content-type": "application/json" },
+      method: "GET",
+      dataType: "json",
+      responseType: "text",
+      success: (result) => {
+        console.log(result, "cart");
+      },
+      fail: () => {},
+      complete: () => {},
+    });
+    return reqTask;
+  },
+  logIn() {
+    // wx.login({
+    //   success(res) {
+    //     if (res.code) {
+    //       //发起网络请求
+
+    //       wx.request({
+    //         url: "http://api_devs.wanxikeji.cn/api/",
+    //         data: {
+    //           code: res.code,
+    //         },
+    //         success(res) {
+    //           console.log(res.data);
+    //           wx.request({
+    //             url: "http://api_devs.wanxikeji.cn/api/refreshToken",
+    //             data: {
+    //               openid: res.data.data.openid,
+    //             },
+    //             success(res) {
+    //               console.log(res, "token");
+    //             },
+    //           });
+    //         },
+    //       });
+    //     } else {
+    //       console.log("登录失败！" + res.errMsg);
+    //     }
+    //   },
+    // });
+
+    // var reqTask = wx.request({
+    //   url: "http://api_devs.wanxikeji.cn/api/login",
+    //   data: {},
+    //   header: { "content-type": "application/json" },
+    //   method: "GET",
+    //   dataType: "json",
+    //   responseType: "text",
+    //   success: (result) => {
+    //     console.log(result, "cart");
+    //   },
+    //   fail: () => {},
+    //   complete: () => {},
+    // });
+    // return reqTask;
+  
+  },
+  register() {
+    wx.getStorage({
+      key: "registered",
+      success: (result) => {
+        console.log(result.data, "!");
+        this.setData({ registerStatus: result.data });
+        if (result.data == false) {
+          console.log(this.data.userInfo,"ewqewqeqweqweq");
+          // this.getUserInfo();
+          wx.getStorage({
+            key: "openid",
+            success: (result) => {
+              wx.request({
+                url: "http://api_devs.wanxikeji.cn/api/register",
+                data: {
+                  openid: result.data,
+                  nick_name: this.data.userInfo.nickName,
+                  icon: this.data.userInfo.avatarUrl,
+                },
+                success(res) {
+                  console.log(res.data.data,"eqeq");
+                },
+              });
+            },
+          });
+        }
+      },
     });
   },
 });
