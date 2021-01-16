@@ -1,8 +1,16 @@
+<!-- <view class="" wx:for="{{userAddressData}}" wx:key="*this" bindtap="选择地址"></view> -->
+<i-radio-group current="{{current}}" bindchange="handleFruitChange">
+    <i-radio wx:for="{{userAddressData}}" addressdatas="{{item}}" position="left" wx:key="id" value="{{item.id}}"></i-radio>
+</i-radio-group>
 <view class="address_buttom">
     <view>
-        <i-button i-class="address_btn" bind:click="handleImportSite" type="ghost" shape="circle" size="small">微信导入</i-button>
+        <i-button i-class="address_btn" bind:click="handleImportSite" type="ghost" shape="circle" size="small">
+            微信导入
+        </i-button>
     </view>
     <view>
-        <i-button i-class="address_btn" bind:click="handleAddSite" type="error" shape="circle" size="small">新增收货地址</i-button>
+        <i-button i-class="address_btn" bind:click="handleAddSite" type="error" shape="circle" size="small">
+            新增收货地址
+        </i-button>
     </view>
 </view>
