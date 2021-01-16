@@ -5,7 +5,67 @@
   <!-- 搜索栏 -->
   <navigator class="" target="" url="/pages/search/search" open-type="navigateTo">跳转</navigator>
   <view class="searchBar"></view>
-  <view class="homepageContent"></view>
+  <view class="homepageContent">
+    <!-- content -->
+    <view class="homepageContent">
+      <!-- 分类 -->
+      <scroll-view class="nav" scroll-x="true" scroll-left="0" scroll-into-view="">
+        <view class="{{ num == index ? 'navborder' : 'navbordernone' }}" wx:for="{{recommendData}}" wx:key="index" bindtap="handleChangeScroll" data-index="{{index}}" data-title="{{recommendData[index].type_name}}">
+          {{recommendData[index].type_name}}
+        </view>
+      </scroll-view>
+      <!-- 推荐 -->
+      <view class="" wx:if="{{ current_scroll == '家居'}}">
+        <!-- swiper -->
+        <swiper class="" indicator-dots="false" indicator-color="#fba414" autoplay="false" current="0" current-item-id="" interval="3000" duration="1000" circular="false" display-multiple-items="1" bindchange="">
+          <swiper-item class="" item-id="" wx:for="{{swiperSrc}}" wx:key="index">
+            <image class="" src="{{swiperSrc[index].pic}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+          </swiper-item>
+        </swiper>
+        <!-- promise -->
+        <view class="promise">
+          <text>正品保证</text>
+          <text>逐件检查</text>
+          <text>多重鉴别</text>
+        </view>
+        <!-- recommended -->
+        <view class="recommended">
+          <view class="" wx:for="{{recommenMain}}" wx:key="index" data-index="{{index}}" bindtap="handleRecommend">
+            <image class="" src="{{recommenMain[index].src}}" mode="aspectFit|aspectFill|widthFix"></image>
+            <text class="retext" selectable="false" space="false" decode="false">
+              {{recommenMain[index].info}}
+            </text>
+          </view>
+        </view>
+        <!-- main -->
+        <view class="main">
+          <view wx:for="{{swiperSrc}}" wx:key="index">
+            <view class="img">
+              <image src="{{swiperSrc[index].pic}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
+            </view>
+            <view class="">
+
+              <text class="info" decode="false">这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介</text>
+
+              <view class="">
+                <text class="price" decode="false">$132</text>
+                <text class="hide" decode="false" bindtap="care" data-hide="{{index}}">...</text>
+                <view class="redece" wx:if="{{ care == index}}" data-hide="{{index}}" bindtap="del">不感兴趣</view>
+              </view>
+
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 其他分类 -->
+      <view class="" wx:if="{{current_scroll == navName}}">
+        {{navName}}
+        <view>
+          <text>这是商品列表页，根据点击头部导航获得的navName值，请求接口，渲染数据</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>
 <!-- 购物车 -->
 <view class="cart" wx:if="{{ current == 'cart'}}">cart</view>
