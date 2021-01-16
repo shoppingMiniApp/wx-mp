@@ -20,7 +20,7 @@
     "checkInvalidKey": true,
     "checkSiteMap": false,
     "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
+    "compileHotReLoad": true,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
     "useApiHostProcess": false,
@@ -69,6 +69,12 @@
         {
           "name": "地址管理",
           "pathName": "pages/address/address",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/product/product",
+          "pathName": "pages/product/product",
           "query": "",
           "scene": null
         }
