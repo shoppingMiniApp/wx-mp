@@ -59,10 +59,7 @@ Page({
     ],
     classify: [],
   },
-
   handleChange: function ({ detail }) {
-    // var detail = _a.detail;
-
     if (detail.key == "mine") {
       wx.setNavigationBarTitle({ title: "我的" });
     }
@@ -296,5 +293,13 @@ Page({
       hasUserInfo: false,
     });
     // app.globalData.userInfo = false;
+  },
+  toAddress() {
+    wx.navigateTo({
+      url: "/pages/address/address",
+      success: (result) => {},
+      fail: () => {},
+      complete: () => {},
+    });
   },
 });

@@ -12,6 +12,10 @@ Component({
             type: String,
             value: ''
         },
+        addressdatas: {
+            type: Object,
+            value: {}
+        },
         checked: {
             type: Boolean,
             value: false

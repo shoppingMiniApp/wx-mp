@@ -6,7 +6,7 @@ Page({
    */
   data: {
     hotArray: [
-      { id: 1, title: "AJ11白蓝康扣" },
+      { id: 1, title: "分期" },
       { id: 2, title: "白蓝康扣" },
       { id: 3, title: "AJ11白蓝扣" },
       { id: 4, title: "1康扣" },
@@ -50,12 +50,15 @@ Page({
         deleteBtn: true,
         hotStatus: false,
         searchResultStatus: true,
+        searchGoodsListStatus: false,
       });
     } else {
       this.setData({
         deleteBtn: false,
         searchResultStatus: false,
         hotStatus: true,
+        searchGoodsListStatus: false,
+        historyShow: true,
       });
     }
     // *解决防抖  定时器
@@ -84,6 +87,7 @@ Page({
       searchResultStatus: false,
       hotStatus: true,
       searchResult: [],
+      historyShow: true,
     });
   },
   resultTap(e) {
@@ -97,6 +101,9 @@ Page({
     }
     this.setData({
       searchGoodsListStatus: true,
+      hotStatus: false,
+      historyShow: false,
+      searchResultStatus: false,
     });
   },
   // *历史搜索

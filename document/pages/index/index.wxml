@@ -120,7 +120,7 @@
           <view style="font-size:26rpx">待收货</view>
         </view>
       </view>
-      <view class="generalPanel">
+      <view class="generalPanel" bindtap="toAddress">
         <view class="generalHead">
           <i-icon type="addressbook" size="23" style="line-height:0;padding-right:10rpx;" />
           <view>地址管理</view>
