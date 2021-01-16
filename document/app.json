@@ -11,8 +11,8 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarBackgroundColor": "#fba414",
+    "navigationBarTitleText": "商城",
     "navigationBarTextStyle": "black"
   },
   "style": "v2",

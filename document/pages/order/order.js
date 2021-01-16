@@ -1,18 +1,33 @@
 // pages/order/order.js
+import { request } from "../../request/index";
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
+    address: {
+      username: "李嘉城",
+      phonenumber: "18512828693",
+      site: "四川省充市"
+    },
+    goodsMsg: {
+      good_name: "",
+      img: "",
+      promotion_price: "",
 
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  handleChooseAdd() {
+    wx.navigateTo({
+      url: '../address/address'
+    });
+  },
   onLoad: function (options) {
-
+    request({
+      url: "/api/goodInfo",
+      data: {
+        good_id: "1008"
+      }
+    }).then((res) => {
+      console.log(res);
+    });
   },
 
   /**

@@ -40,8 +40,8 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.14.4",
-  "appid": "wx0a3df94d10f40455",
+  "libVersion": "2.14.3",
+  "appid": "wx4d3f39d47981353c",
   "projectname": "%E5%BE%AE%E4%BF%A1%E5%B0%8F%E5%95%86%E5%9F%8E",
   "debugOptions": {
     "hidedInDevtools": []
@@ -49,23 +49,30 @@
   "scripts": {},
   "isGameTourist": false,
   "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
+    "plugin": {
       "list": []
     },
     "game": {
-      "list": []
-    },
-    "plugin": {
       "list": []
     },
     "gamePlugin": {
       "list": []
     },
     "miniprogram": {
-      "list": []
+      "list": [
+        {
+          "name": "订单",
+          "pathName": "pages/order/order",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "地址",
+          "pathName": "pages/address/address",
+          "query": "",
+          "scene": null
+        }
+      ]
     }
   }
 }

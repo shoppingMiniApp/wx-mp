@@ -4,9 +4,13 @@ const app = getApp();
 
 Page({
   data: {
+    avatarUrl: "",
+    userInfo: "",
+    hasUserInfo: false,
+    canIUse: wx.canIUse("button.open-type.getUserInfo"),
     num: 0,
     care: -1,
-    current: "家居",
+    current: "homepage",
     current_scroll: "家居",
     recommendData: [],
     swiperSrc: [
@@ -55,8 +59,20 @@ Page({
     //这之前的data数据是曾勇的
   },
   //底部导航事件
-  handleChange: function (_a) {
-    var detail = _a.detail;
+//   handleChange: function (_a) {
+//     var detail = _a.detail;
+
+// var data = "1";
+  handleChange: function ({ detail }) {
+    // var detail = _a.detail;
+
+    if (detail.key == "mine") {
+      wx.setNavigationBarTitle({ title: "我的" });
+    }
+
+    if (detail.key == "cart") {
+      wx.setNavigationBarTitle({ title: "我的购物车" });
+    }
     this.setData({
       current: detail.key,
     });
@@ -204,4 +220,44 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {},
+  onLoad() {
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true,
+      });
+    } else if (this.data.canIUse) {
+      app.userInfoReadyCallback = (res) => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true,
+        });
+      };
+    } else {
+      wx.getUserInfo({
+        success: (res) => {
+          app.globalData.userInfo = res.userInfo;
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true,
+          });
+        },
+      });
+    }
+  },
+  getUserInfo(e) {
+    app.globalData.userInfo = e.detail.userInfo;
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true,
+    });
+    // console.log(this.data.userInfo);
+  },
+  logOut() {
+    this.setData({
+      userInfo: {},
+      hasUserInfo: false,
+    });
+    // app.globalData.userInfo = false;
+  },
 });

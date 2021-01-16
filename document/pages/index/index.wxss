@@ -8,21 +8,98 @@ text {
 }
 
 /**index.wxss**/
-.userinfo {
+
+.navTabBar {
+  margin-bottom: 25rpx;
+}
+.mine {
+  width: 100%;
+  margin: 0;
+}
+.loginPanel {
+  width: 100%;
+  margin-bottom: 20rpx;
+  background: #fef5e780;
+}
+.login {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  color: rgb(51, 48, 48);
+  background: #fef5e780;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  padding: 58rpx 50rpx;
+  font-size: 18px;
+  font-weight: normal;
+  box-sizing: border-box;
+
+}
+.login_text {
+  margin: 0;
+  padding: 0;
+}
+.mine .loginBtn {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  padding: 50rpx;
+  background: #fef5e780 !important;
+  font-size: 18px;
+  font-weight: normal;
+}
+.avatar {
+  margin-right: 15rpx;
+}
+.shopHistory {
+  width: 100%;
+  background: #fef5e780 !important;
+}
+.historyHeader {
+  display: flex;
+  border-bottom: 2rpx solid #eee8;
+  justify-content: space-between;
+  padding: 20rpx 0;
+}
+.headeright {
+  display: flex;
   align-items: center;
 }
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.headerLeft {
+  display: flex;
+  align-items: center;
 }
-
-.userinfo-nickname {
-  color: #aaa;
+.icon {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shopStatus {
+  width: 100%;
+  display: flex;
+  padding: 50rpx 20rpx;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-bottom: 2rpx solid #eee8;
+}
+.shopStatusIcon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.generalPanel {
+  display: flex;
+  border-bottom: 2rpx solid #eee8;
+  justify-content: space-between;
+  padding: 20rpx 0;
+}
+.generalHead {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
 }
 
 .usermotto {

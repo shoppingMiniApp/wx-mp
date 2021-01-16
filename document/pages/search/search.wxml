@@ -1,2 +1,52 @@
-<!--pages/search/search.wxml-->
-<text>pages/search/search.wxml</text>
+<!-- miniprogram/pages/search/search.wxml -->
+<view class="search">
+    <!-- *输入框板块 -->
+    <!-- *************whiaojdajsdjaijsdijaposjdpoj** -->
+    <view class="search-part">
+        <i-icon type="search" i-class="search-icon" size="20" color="#666" />
+        <input type="text" placeholder="输入商品名称" class="search-input" auto-focus="{{true}}" bindinput="handleValue" value="{{searchValue}}" bindconfirm="enterSearch" />
+        <i-icon type="delete" i-class="delete-icon" size="24" color="#666" wx:if="{{deleteBtn}}" bindtap="deleteValue" />
+    </view>
+    <!-- *搜索联想结果列表 -->
+    <view class="search-result" wx:if="{{searchResultStatus}}">
+        <view wx:for="{{searchResult}}" wx:for-index="resindex" wx:for-item="resitem" class="search-resitem" data-index="{{resindex}}" data-item="{{resitem}}" bindtap="resultTap">
+            {{resitem.good_name}}
+        </view>
+    </view>
+    <!-- *热门搜索 -->
+    <view class="hot-search" wx:if="{{hotStatus}}">
+        <p class="search-tit">热门搜索</p>
+        <view class="hot-keyword-part">
+            <view class="hot-keyword" wx:for="{{hotArray}}" wx:for-index="index" wx:for-item="item" bindtap="hotKeyword" data-index="{{index}}" data-item="{{item}}">
+                {{item.title}}
+            </view>
+        </view>
+    </view>
+    <!-- *历史搜索 -->
+    <view class="history-search" wx:if="{{historyShow}}">
+        <p class="search-tit">历史搜索</p>
+        <i-icon type="trash" i-class="trash-icon" size="24" color="#666" bindtap="deleteHistery" />
+        <i-modal visible="{{ visible5 }}" bind:ok="handleOK" bind:cancel="handleCancel" i-class="ok">
+            <view>是否清空历史记录</view>
+        </i-modal>
+        <view class="history-keyword-part">
+            <view class="history-keyword" wx:for="{{historyArray}}" wx:for-index="hisindex" wx:for-item="hisitem" data-index="{{hisindex}}" data-item="{{hisitem}}">
+                {{hisitem}}
+            </view>
+        </view>
+    </view>
+    <!-- *搜索结果展示列表 -->
+    <view class="search-goods-list" wx:if="{{searchGoodsListStatus}}">
+        <view class="search-goods-list-item" wx:for="{{searchResult}}" wx:for-index="goodsindex" wx:for-item="goodsitem">
+            <image src="{{goodsitem.img}}" alt="" />
+            <p class="search-goods-tit">{{goodsitem.good_name}}</p>
+            <view class="goods-items-bottom">
+                <b>
+                    <sup>￥</sup>
+                    <b>{{goodsitem.price}}</b>
+                </b>
+                <span>3235人付款</span>
+            </view>
+        </view>
+    </view>
+</view>
