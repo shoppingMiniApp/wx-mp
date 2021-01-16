@@ -3,8 +3,7 @@
 <!-- 首页 -->
 <view class="homepage" wx:if="{{ current == 'homepage'}}">
   <!-- 搜索栏 -->
-<navigator class="" target="" url="/pages/search/search" open-type="navigateTo">跳转</navigator>
-
+  <navigator class="" target="" url="/pages/search/search" open-type="navigateTo">跳转</navigator>
   <view class="searchBar"></view>
   <view class="homepageContent">
     <!-- content -->
@@ -16,7 +15,7 @@
         </view>
       </scroll-view>
       <!-- 推荐 -->
-      <view class="" wx:if="{{ current_scroll == '家居'}}">
+      <view class="" wx:if="{{ current_scroll == '推荐'}}">
         <!-- swiper -->
         <swiper class="" indicator-dots="false" indicator-color="#fba414" autoplay="false" current="0" current-item-id="" interval="3000" duration="1000" circular="false" display-multiple-items="1" bindchange="">
           <swiper-item class="" item-id="" wx:for="{{swiperSrc}}" wx:key="index">
@@ -32,37 +31,44 @@
         <!-- recommended -->
         <view class="recommended">
           <view class="" wx:for="{{recommenMain}}" wx:key="index" data-index="{{index}}" bindtap="handleRecommend">
-            <image class="" src="{{recommenMain[index].src}}" mode="aspectFit|aspectFill|widthFix"></image>
+            <image class="" src="{{recommenMain[index].img}}" mode="aspectFit|aspectFill|widthFix"></image>
             <text class="retext" selectable="false" space="false" decode="false">
-              {{recommenMain[index].info}}
+              {{recommenMain[index].good_name}}
             </text>
           </view>
         </view>
         <!-- main -->
-        <view class="main">
-          <view wx:for="{{swiperSrc}}" wx:key="index">
+        <view class="main" id="main">
+          <view wx:for="{{swiperSrc}}" wx:key="index" bindtap="detail" data-index="{{index}}">
             <view class="img">
               <image src="{{swiperSrc[index].pic}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
             </view>
             <view class="">
-
               <text class="info" decode="false">这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介</text>
-
               <view class="">
-                <text class="price" decode="false">$132</text>
-                <text class="hide" decode="false" bindtap="care" data-hide="{{index}}">...</text>
-                <view class="redece" wx:if="{{ care == index}}" data-hide="{{index}}" bindtap="del">不感兴趣</view>
+                <b class="price"><sup>￥</sup>132</b>
+                <text class="hide" decode="false" catchtap="care" data-hide="{{index}}">...</text>
+                <view class="redece" wx:if="{{ care == index}}" data-hide="{{index}}" bindtap="del">
+                  不感兴趣
+                </view>
               </view>
-
             </view>
           </view>
         </view>
       </view>
       <!-- 其他分类 -->
       <view class="" wx:if="{{current_scroll == navName}}">
-        {{navName}}
-        <view>
-          <text>这是商品列表页，根据点击头部导航获得的navName值，请求接口，渲染数据</text>
+        <!-- {{navName}} -->
+        <view class="classify" >
+          <view class="" wx:for="{{classify}}" wx:key="index" bindtap="detailmore" data-index="{{index}}">
+            <view class="">
+              <image class="" src="{{classify[index].img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
+            </view>
+            <view class="infos">
+              <text class="info">{{classify[index].good_name}}</text>
+              <b class="price"><sup>￥</sup>{{classify[index].price}}</b>
+            </view>
+          </view>
         </view>
       </view>
     </view>
