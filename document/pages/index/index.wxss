@@ -9,18 +9,19 @@ text {
 
 /**index.wxss**/
 
-.navTabBar {
- /* padding:20rpx 0 ; */
-}
+
+
 .mine {
   width: 100%;
   margin: 0;
 }
+
 .loginPanel {
   width: 100%;
   margin-bottom: 20rpx;
   background: #fef5e780;
 }
+
 .login {
   display: flex;
   align-items: center;
@@ -34,10 +35,12 @@ text {
   font-weight: normal;
   box-sizing: border-box;
 }
+
 .login_text {
   margin: 0;
   padding: 0;
 }
+
 .mine .loginBtn {
   width: 100%;
   height: 100%;
@@ -47,27 +50,33 @@ text {
   font-size: 18px;
   font-weight: normal;
 }
+
 .avatar {
   margin-right: 15rpx;
 }
+
 .shopHistory {
   width: 100%;
   background: #fef5e780 !important;
 }
+
 .historyHeader {
   display: flex;
   border-bottom: 2rpx solid #eee8;
   justify-content: space-between;
   padding: 20rpx 0;
 }
+
 .headeright {
   display: flex;
   align-items: center;
 }
+
 .headerLeft {
   display: flex;
   align-items: center;
 }
+
 .icon {
   padding: 0;
   margin: 0;
@@ -75,6 +84,7 @@ text {
   justify-content: center;
   align-items: center;
 }
+
 .shopStatus {
   width: 100%;
   display: flex;
@@ -83,18 +93,21 @@ text {
   box-sizing: border-box;
   border-bottom: 2rpx solid #eee8;
 }
+
 .shopStatusIcon {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .generalPanel {
   display: flex;
   border-bottom: 2rpx solid #eee8;
   justify-content: space-between;
   padding: 20rpx 0;
 }
+
 .generalHead {
   display: flex;
   /* flex-direction: column; */
@@ -116,15 +129,15 @@ text {
 .nav view {
   /* width:20%; */
   display: inline-block;
-  padding: 8px 12px;
+  padding: 10rpx 16rpx;
   white-space: normal;
   text-align: center;
   /* background-color: rgb(158, 37, 37); */
-  margin: 0 2px;
+  margin: 0 4rpx;
 }
 
 .navborder {
-  border-bottom: 2px solid #fba414;
+  border-bottom: 4rpx solid #fba414;
   color: #fba414;
 }
 
@@ -141,11 +154,11 @@ swiper {
 
 swiper-item {
   width: 100%;
-  height: 200px;
+  height: 400rpx;
 }
 
 swiper-item image {
-  width: 375px;
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
@@ -167,46 +180,50 @@ swiper-item image {
 .recommended {
   display: flex;
   flex-wrap: wrap;
-  padding-bottom: 8px;
-  border: 1px solid #999;
+  justify-content: space-between;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #999;
 }
 
-.recommended > view {
-  padding: 8px 4px 0px 4px;
+.recommended>view {
   width: 25%;
+  /* height: 150rpx; */
+  overflow: hidden;
+  padding: 16rpx 8rpx 0rpx 8rpx;
   display: flex;
   flex-direction: column;
   text-align: center;
   font-size: 24rpx;
+
 }
 
 .retext {
   padding: 0;
   margin: 0;
   text-align: center;
-  margin-top: -10px;
+  margin-top: -20rpx;
 }
 
 .recommended > view image {
   width: 100%;
-  height: 150rpx;
+  height: 170rpx;
+  object-fit: cover;
 }
 
 /* main */
 .main {
-  margin-top: 8px;
+  margin-top: 12rpx;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 0 4px;
+  padding: 0 8rpx;
 }
 
 .main > view {
   width: 49%;
-  padding: 0 4px;
-  border-radius: 0 0 20px 20px;
-  /* border: 1px solid #000; */
-  margin-bottom: 12px;
+  /* box-shadow: 0 0 3px #ccc7; */
+  border-radius: 10rpx;
+  margin-top: 16rpx;
 }
 
 .main > view view {
@@ -215,30 +232,38 @@ swiper-item image {
 }
 .img {
   width: 100%;
-  height: 390rpx;
   /* background-color: rgb(41, 195, 131); */
   overflow: hidden;
+
 }
+
 .img image {
   width: 100%;
-  height: 100%;
+  height: 360rpx;
 }
-.img + view {
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-  padding: 0 2px;
-  border-radius: 0 0 10px 10px;
-  margin-bottom: 8px;
+
+.img+view {
+  box-shadow: 0 0 4rpx rgba(0, 0, 0, .3);
+  padding: 0 4rpx;
+  border-radius: 0 0 20rpx 20rpx;
+  margin-bottom: 16rpx;
+  margin-top: -8rpx;
 }
+
 .info {
+  font-size: 28rpx;
+  padding: 0 15rpx;
+  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
+  color: #555;
+  height: 70rpx;
 }
 
-.main > view view view {
-  padding: 6px 0;
+.main>view view view {
+  padding: 12rpx 15rpx;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -247,11 +272,13 @@ swiper-item image {
 .main > view view view view {
   position: absolute;
   width: 90%;
-  height: 180px;
-  background-color: rgba(0, 0, 0, 0.3);
+  height: 340rpx;
+  background-color: rgba(0, 0, 0, .3);
+  /* background-color: rgb(170, 27, 27); */
+
   color: #fba414;
-  font-size: 24px;
-  top: -430%;
+  font-size: 48rpx;
+  top: -380%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -263,6 +290,31 @@ swiper-item image {
   font-weight: bold;
 }
 
+.price sup {
+  font-size: 25rpx;
+}
+
 .hide {
-  padding: 0 10px;
+  padding: 0 20rpx;
+}
+
+/* 其他分类 商品列表样式*/
+.classify{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 15rpx;
+}
+.classify > view {
+  width: 49%;
+  box-shadow: 0 0 6rpx #ccc7;
+  border-radius: 10rpx;
+  margin-top: 16rpx;
+}
+.classify > view image {
+  width: 100%;
+  height: 360rpx;
+}
+.infos {
+  padding: 0 15rpx;
 }
