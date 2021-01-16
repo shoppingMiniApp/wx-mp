@@ -58,14 +58,7 @@ Page({
     navName: "头部导航名称",
     //这之前的data数据是曾勇的
   },
-  //底部导航事件
-//   handleChange: function (_a) {
-//     var detail = _a.detail;
-
-// var data = "1";
   handleChange: function ({ detail }) {
-    // var detail = _a.detail;
-
     if (detail.key == "mine") {
       wx.setNavigationBarTitle({ title: "我的" });
     }
@@ -154,9 +147,9 @@ Page({
       responseType: "text",
       success: (result) => {
         console.log(result.data.data);
-        let json = {}
-        json.type_name = "推荐"
-        result.data.data.unshift(json)
+        let json = {};
+        json.type_name = "推荐";
+        result.data.data.unshift(json);
         console.log(result.data.data);
         this.setData({
           recommendData: result.data.data,
@@ -259,5 +252,13 @@ Page({
       hasUserInfo: false,
     });
     // app.globalData.userInfo = false;
+  },
+  toAddress() {
+    wx.navigateTo({
+      url: "/pages/address/address",
+      success: (result) => {},
+      fail: () => {},
+      complete: () => {},
+    });
   },
 });
