@@ -1,3 +1,12 @@
+/* 重置样式 */
+view,
+image,
+text {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /**index.wxss**/
 .userinfo {
   display: flex;
@@ -18,4 +27,168 @@
 
 .usermotto {
   margin-top: 200px;
+}
+
+/* 分类样式 */
+.nav {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  /* border-bottom: 1px solid #999; */
+}
+
+.nav view {
+  /* width:20%; */
+  display: inline-block;
+  padding: 8px 12px;
+  white-space: normal;
+  text-align: center;
+  /* background-color: rgb(158, 37, 37); */
+  margin: 0 2px;
+}
+
+.navborder {
+  border-bottom: 2px solid #fba414;
+  color: #fba414;
+}
+
+.navbordernone {
+  border: none;
+  color: #000;
+}
+
+
+/* 轮播 */
+swiper {
+  width: 100%;
+  height: calc(100vw * 280 / 520);
+}
+
+swiper-item {
+  width: 100%;
+  height: 200px;
+}
+
+swiper-item image {
+  width: 375px;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* promise */
+.promise {
+  display: flex;
+}
+
+.promise text {
+  width: 33.3%;
+  display: inline-block;
+  text-align: center;
+  padding: 20rpx 12rpx;
+  border-bottom: 1px solid #999;
+}
+
+/* recommended */
+.recommended {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 8px;
+  border: 1px solid #999;
+}
+
+.recommended>view {
+  padding: 8px 4px 0px 4px;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 24rpx;
+}
+
+.retext {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.recommended>view image {
+  width: 100%;
+  height: 150rpx;
+}
+
+
+/* main */
+.main {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.main>view {
+  width: 49%;
+  padding: 0 4px;
+  border-radius: 0 0 20px 20px;
+  /* border: 1px solid #000; */
+  margin-bottom: 12px;
+}
+
+.main>view view {
+  width: 100%;
+  /* padding: 4px; */
+}
+.img{
+  width: 100%;
+  height: 390rpx;
+  /* background-color: rgb(41, 195, 131); */
+  overflow: hidden;
+}
+.img image {
+  width: 100%;
+  height: 100%;
+}
+.img + view {
+  box-shadow: 0 0 2px rgba(0,0,0,.3);
+  padding: 0 2px;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 8px;
+}
+.info {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.main>view view view {
+  padding: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.main>view view view view {
+  position: absolute;
+  width: 90%;
+  height: 180px;
+  background-color: rgba(0, 0, 0, .3);
+  color: #fba414;
+  font-size: 24px;
+  top: -430%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price {
+ font-weight: bold;
+}
+
+.hide {
+  padding: 0 10px;
 }

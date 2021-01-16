@@ -4,9 +4,9 @@
     "ignore": []
   },
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": true,
-    "enhance": false,
+    "enhance": true,
     "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,
@@ -18,9 +18,9 @@
     "scopeDataCheck": false,
     "uglifyFileName": false,
     "checkInvalidKey": true,
-    "checkSiteMap": true,
+    "checkSiteMap": false,
     "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
+    "compileHotReLoad": true,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
     "useApiHostProcess": false,
