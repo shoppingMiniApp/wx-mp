@@ -6,7 +6,7 @@ Page({
    */
   data: {
     hotArray: [
-      { id: 1, title: "AJ11白蓝康扣" },
+      { id: 1, title: "分期" },
       { id: 2, title: "白蓝康扣" },
       { id: 3, title: "AJ11白蓝扣" },
       { id: 4, title: "1康扣" },
@@ -15,26 +15,24 @@ Page({
       { id: 7, title: "AJ11白蓝扣" },
       { id: 8, title: "AJ11扣" },
     ],
+    // *搜索联想列表
+    searchResult: [],
     // *输入框内值
     searchValue: "",
     // *历史搜索数据
-    historyArray: [1, 2, 3],
+    historyArray: [],
     // *删除按钮是否显示
     deleteBtn: false,
     //*历史搜删除按钮显示状态
     visible5: false,
-    actions5: [
-      {
-        name: "取消",
-      },
-      {
-        name: "确认",
-        color: "#ed3f14",
-        loading: false,
-      },
-    ],
+    searchResultStatus: false,
     // *历史搜索模块显示状态
     historyShow: false,
+    // *热门搜索显示
+    hotStatus: true,
+    // *搜索结果列表展示状态
+    searchGoodsListStatus: false,
+    searchGoodsList: [],
   },
   // *定时器
   timeId: -1,
@@ -50,10 +48,17 @@ Page({
     if (e.detail.value) {
       this.setData({
         deleteBtn: true,
+        hotStatus: false,
+        searchResultStatus: true,
+        searchGoodsListStatus: false,
       });
     } else {
       this.setData({
         deleteBtn: false,
+        searchResultStatus: false,
+        hotStatus: true,
+        searchGoodsListStatus: false,
+        historyShow: true,
       });
     }
     // *解决防抖  定时器
@@ -63,18 +68,42 @@ Page({
         searchValue: e.detail.value,
       });
       console.log(this.data.searchValue);
-      this.searchQuest(this.data.searchValue);
-    }, 1000);
-
-    // if(!this.data.searchValue)
-
-    // this.searchQuest(this.data.searchValue)
+      if (this.data.searchValue) {
+        this.searchQuest(this.data.searchValue);
+      }
+    }, 500);
+  },
+  // *垃圾桶按钮
+  deleteHistery() {
+    this.setData({
+      visible5: true,
+    });
   },
   // *删除按键
   deleteValue() {
     this.setData({
       searchValue: "",
       deleteBtn: false,
+      searchResultStatus: false,
+      hotStatus: true,
+      searchResult: [],
+      historyShow: true,
+    });
+  },
+  resultTap(e) {
+    console.log(e);
+  },
+  // *搜索按下功能
+  enterSearch() {
+    this.pushHistory();
+    if (this.data.searchValue) {
+      this.searchQuest(this.data.searchValue);
+    }
+    this.setData({
+      searchGoodsListStatus: true,
+      hotStatus: false,
+      historyShow: false,
+      searchResultStatus: false,
     });
   },
   // *历史搜索
@@ -84,49 +113,45 @@ Page({
       console.log(this.data.historyArray);
       this.setData({
         historyShow: true,
+        historyArray: this.data.historyArray,
       });
     }
   },
   // *请求搜索数据
   async searchQuest(data) {
+    var that = this;
+    console.log(that);
     wx.request({
       url: "http://api_devs.wanxikeji.cn/api/goodList", // 仅为示例，并非真实的接口地址
       data: {
         search: data,
-        y: "",
       },
       header: {
         "content-type": "application/json", // 默认值
       },
       method: "POST", //发送post请求
       success(res) {
-        console.log(res.data);
+        console.log(res.data.data.data);
+        that.setData({
+          searchResult: res.data.data.data,
+        });
+        // console.log(this.data.searchResult);
       },
     });
   },
-
-  handleClick5({ detail }) {
-    if (detail.index === 0) {
-      this.setData({
-        visible5: false,
-      });
-    } else {
-      const action = [...this.data.actions5];
-      action[1].loading = true;
-
-      this.setData({
-        actions5: action,
-      });
-
-      setTimeout(() => {
-        action[1].loading = false;
-        this.setData({
-          visible5: false,
-          actions5: action,
-          historyShow: false,
-        });
-      }, 200);
-    }
+  // *垃圾桶确认按钮
+  handleOK() {
+    this.setData({
+      visible5: false,
+      historyShow: false,
+      historyArray: [],
+    });
+  },
+  // *垃圾桶取消按钮
+  handleCancel() {
+    this.setData({
+      visible5: false,
+    });
   },
   /**
    * 生命周期函数--监听页面加载
