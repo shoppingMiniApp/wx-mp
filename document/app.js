@@ -9,6 +9,26 @@ App({
     // 登录
     wx.login({
       success: (res) => {
+        if (res.code) {
+          wx.request({
+            url: "http://api_devs.wanxikeji.cn/api/codeExchangeOpenid",
+            data: {
+              code: res.code,
+            },
+            success(res) {
+              if (res.data.data.info) {
+                wx.setStorageSync("registered", true);
+                console.log(res.data.data.info);
+                wx.setStorageSync("token", res.data.data.info.token);
+
+              } else {
+                console.log(res.data.data.openid, "2222");
+                wx.setStorageSync("registered", false);
+                wx.setStorageSync("openid", res.data.data.openid);
+              }
+            },
+          });
+        }
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       },
     });

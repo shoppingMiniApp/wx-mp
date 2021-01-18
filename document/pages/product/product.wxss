@@ -1,1 +1,14 @@
 /* pages/product/product.wxss */
+.product-detail {
+  width: 100%;
+  height: 1000px;
+  background: #ddd5;
+}
+.goods-img {
+  width: 100%;
+  height: 680rpx;
+}
+.goods-img image {
+  width: 100%;
+  height: 100%;
+}

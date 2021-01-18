@@ -6,6 +6,8 @@
     "i-tabs": "../../dist/tabs/index",
     "i-tab": "../../dist/tab/index",
     "i-button": "../../dist/button/index",
-    "i-avatar": "../../dist/avatar/index"
+    "i-avatar": "../../dist/avatar/index",
+    "i-radio-group": "../../dist/radio-group/index",
+    "i-radio": "../../dist/radio/index"
   }
 }

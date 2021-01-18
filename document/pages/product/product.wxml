@@ -1,2 +1,6 @@
-<!--pages/product/product.wxml-->
-<text>pages/product/product.wxml</text>
+<!-- pages/product/product.wxml -->
+<view class="product-detail">
+    <view class="goods-img">
+        <image class="" src="{{goodImg}}"></image>
+    </view>
+</view>
