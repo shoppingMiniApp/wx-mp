@@ -99,7 +99,7 @@
                     <view class="evaluate-user-info">
                         <!-- *用户头像 -->
                         <view class="evaluate-user-img">
-                            <image class="" src="../user-img-test.jpeg"></image>
+                            <image class="" src="../../../../55.jpg"></image>
                         </view>
                         <!-- *用户名 -->
                         <view class="evaluate-user-name">
@@ -200,16 +200,16 @@
         <view class="goods-detail-title">-宝贝详情-</view>
         <!-- *全是图片 -->
         <view class="goods-detail-img">
-            <image class="" src="../../haley.jpg"></image>
-            <image class="" src="../../bell.jpg"></image>
-            <image class="" src="../../haley.jpg"></image>
-            <image class="" src="../../bell.jpg"></image>
-            <image class="" src="../../haley.jpg"></image>
-            <image class="" src="../../bell.jpg"></image>
-            <image class="" src="../../haley.jpg"></image>
-            <image class="" src="../../bell.jpg"></image>
-            <image class="" src="../../haley.jpg"></image>
-            <image class="" src="../../bell.jpg"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
         </view>
     </view>
 </view>
