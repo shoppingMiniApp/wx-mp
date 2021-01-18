@@ -55,13 +55,29 @@
     </view>
 </view>
 <view class="block"></view>
-<view>
-   <view class="goods-delivery-sty">
-       <view>商品总额</view>
-       <view>{{￥}}</view>
-   </view>
-   <view class="goods-delivery-sty">
-       <view>运费</view>
-       <view>免运费</view>
-   </view>
+<view class="goods-amount">
+    <view class="goods-delivery-sty">
+        <view>商品总额</view>
+        <view class="delivery-size">￥{{original_price}}</view>
+    </view>
+    <view class="goods-delivery-sty underscore">
+        <view>运费</view>
+        <view class="delivery-size delivery-color2">免运费</view>
+    </view>
+    <view class="goods-delivery-sty">
+        <view></view>
+        <view>总计：<text class="delivery-color2">￥{{original_price}}</text></view>
+    </view>
+</view>
+<view class="block"></view>
+<view class="goods-delivery-sty fapiao">
+    <view>发票</view>
+    <view class="goods-delivery-sty delivery-size delivery-color1">电子发票（商品明细-个人）
+        <i-icon type="enter" size="14" color="#C3C3C3" />
+    </view>
+</view>
+<view class="block"></view>
+<view class="order-buttom">
+    <view class="order-buttom-size">总计：<text class="delivery-color2">￥{{original_price}}</text></view>
+    <view class="pay-btn">微信支付</view>
 </view>

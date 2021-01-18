@@ -8,7 +8,7 @@ Page({
     goodsMsg: {},
     addressShow: false,
     goodsNumber: 1,
-    original_price: 0
+    original_price: 0,
   },
   handleChooseAdd() {
     wx.navigateTo({
@@ -17,7 +17,7 @@ Page({
   },
   handletap(e) {
     const operation = e.currentTarget.dataset.operation;
-    let goodsMsg;
+    let original_price;
 
     if (operation > 0) {
       this.setData({
@@ -31,10 +31,10 @@ Page({
         })
       }
     }
-    goodsMsg = this.data.goodsMsg;
-    goodsMsg.promotion_price = (this.data.original_price * this.data.goodsNumber).toFixed(2);
+
+    original_price = (this.data.goodsMsg.promotion_price * this.data.goodsNumber).toFixed(2);
     this.setData({
-      goodsMsg
+      original_price
     })
 
   },
@@ -70,21 +70,22 @@ Page({
       });
     }
     console.log(this.data.address)
-  },
-  onLoad: function (options) {
-    request({
+    let res = await request({
       url: "/api/goodInfo",
       data: {
         good_id: "1008"
       }
-    }).then((res) => {
-      res.data.data.promotion_price = "0.10"
-      this.setData({
-        goodsMsg: res.data.data
-      })
-      this.data.original_price = Number(res.data.data.promotion_price);
-      console.log(this.data.goodsMsg);
-    });
+    })
+    res.data.data.promotion_price = "0.10"
+    this.setData({
+      goodsMsg: res.data.data
+    })
+    this.setData({
+      original_price: Number(res.data.data.promotion_price).toFixed(2)
+    })
+    console.log(this.data.original_price);
+  },
+  onLoad: function (options) {
     this.init();
   },
 
