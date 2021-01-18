@@ -4,37 +4,32 @@ import {
   chooseAddress,
   openSetting
 } from "../../utils/asyncWx.js"
-import { request } from "../../request/index.js"
+import {
+  request
+} from "../../request/index.js"
 
 Page({
 
   data: {
-    userAddressData: [{
-      cityName: "广州市",
-      consignee: "张三",
-      countyName: "海珠区",
-      detailInfo: "新港中路397号",
-      id: "1",
-      provinceName: "广东省",
-      telNumber: "020-81167888",
-      userName: "张三",
-    },
-    {
-      cityName: "广州市",
-      consignee: "张三",
-      countyName: "海珠区",
-      detailInfo: "新港中路397号",
-      id: "2",
-      provinceName: "广东省",
-      telNumber: "020-81167888",
-      userName: "张三",
-    }],
+    userAddressData: [],
     current: '',
   },
-  handleFruitChange({ detail = {} }) {
+  handleFruitChange({
+    detail = {}
+  }) {
     console.log(detail);
     this.setData({
       current: detail.value
+    });
+    this.data.userAddressData.forEach(element => {
+      if (detail.value == element.address_id) {
+        wx.setStorageSync("selectAddress", JSON.stringify(element));
+        wx.navigateTo({
+          url: '../order/order',
+          success: (result) => {
+          },
+        });
+      }
     });
 
   },
@@ -42,25 +37,34 @@ Page({
   async handleImportSite() {
     try {
       const res2 = await chooseAddress();
-      console.log(res2);
       let userAddressData = {
-        id: "3",
-        userName: res2.userName,
+        name: res2.userName,
         consignee: res2.userName,
-        telNumber: res2.telNumber,
-        provinceName: res2.provinceName,
-        cityName: res2.cityName,
-        countyName: res2.countyName,
-        detailInfo: res2.detailInfo
+        phone: res2.telNumber,
+        procince: res2.provinceName,
+        city: res2.cityName,
+        area: res2.countyName,
+        detailed: res2.detailInfo
       }
-      let addressList = this.data.userAddressData;
-      addressList.push(userAddressData)
       // console.log(userAddressData);
-      //设置本地数据
-      this.setData({
-        userAddressData: addressList
+      const token = wx.getStorageSync("token");
+      const setAddress = await request({
+        url: "/api/userAddressAddModify",
+        data: {
+          token: token,
+          phone: userAddressData.phone,
+          procince: userAddressData.procince,
+          city: userAddressData.city,
+          area: userAddressData.area,
+          name: userAddressData.name,
+          detailed: userAddressData.detailed,
+        }
       })
-      console.log(this.data.userAddressData, 1)
+
+      console.log(setAddress);
+      this.getAddress();
+      //设置本地数据
+
       //将数据上传至服务器
       // const address = await request({})
 
@@ -68,29 +72,24 @@ Page({
       console.log(error);
     }
   },
-  onLoad: function (options) {
+  async getAddress() {
     const token = wx.getStorageSync("token");
-    console.log(token);
-    // const reslist = await request({
-    //   url: "/api/userAddressList",
-    //   data: {
-    //     token
-    //   }
-    // })
-    // console.log(reslist);
-    // if (!token) {
-    //   const openid = wx.getStorageSync("openid");
-    //   const restoken = await request({
-    //     url: "/api/refreshToken",
-    //     data: {
-    //       openid
-    //     }
-    //   }).then((res) => {
-    //     console.log(res);
-    //   })
-    //   return;
-    // }
+    const reslists = await request({
+      url: "/api/userAddressList",
+      data: {
+        token: token
+      }
+    })
+    let addressList = reslists.data.data
+    console.log(addressList)
+    this.setData({
+      userAddressData: addressList
+    })
 
+
+  },
+  onLoad: function (options) {
+    this.getAddress();
 
   },
 

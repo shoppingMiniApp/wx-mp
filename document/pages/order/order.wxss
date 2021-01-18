@@ -1,1 +1,122 @@
 /* pages/order/order.wxss */
+
+.address-text {
+  display: flex;
+  align-items: center;
+  padding: 19rpx;
+}
+
+.block {
+  background: #f3f3f3;
+  height: 30rpx;
+}
+
+.address-text-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.address-phone {
+  padding-left: 49rpx;
+}
+
+.address-phone,
+.address-name {
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+.address-detailed {
+  padding-top: 10rpx;
+  font-size: 14px;
+}
+
+.notice .notice-bar text {
+  font-size: 12px;
+}
+
+.price-description {
+  font-size: 10px;
+  color: #a6a6a6;
+  padding-top: 3rpx;
+}
+
+.goods {
+  padding: 0 20rpx;
+}
+
+.goods-msg {
+  padding: 15rpx 0;
+  display: flex;
+}
+
+.goods-msg image {
+  width: 500rpx;
+}
+
+.goods-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.good-name {
+  font-size: 16px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.money-show {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.money-show text {
+  color: #f00;
+}
+
+.money-btn {
+  width: 180rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.money-btn view {
+  width: 60rpx;
+  height: 60rpx;
+  text-align: center;
+  line-height: 60rpx;
+}
+
+.money-btn-sty {
+  border-radius: 3px;
+  background: #f3f3f3;
+}
+
+.goods-delivery {
+  font-size: 16px;
+}
+
+.goods-delivery-sty {
+  padding: 19rpx 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delivery-size {
+  font-size: 12px;
+}
+
+.delivery-color1 {
+  color: #a6a6a6;
+}
+.input-text{
+  width: 500rpx;
+
+}
