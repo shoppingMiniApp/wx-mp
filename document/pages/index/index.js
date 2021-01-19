@@ -518,7 +518,7 @@ Page({
         good_id: dataList[e.currentTarget.dataset.set].good_id,
         num: tmp,
         price: dataList[e.currentTarget.dataset.set].price,
-        money: dataList[e.currentTarget.dataset.set].money,
+        money: "0.01",
         sku: dataList[e.currentTarget.dataset.set].sku,
         shopping_car_id: dataList[e.currentTarget.dataset.set].shopping_car_id,
       },

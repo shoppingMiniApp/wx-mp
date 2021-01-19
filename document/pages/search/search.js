@@ -40,11 +40,16 @@ Page({
   // *定时器
   timeId: -1,
   hotKeyword: function (e) {
-    console.log(e.currentTarget.dataset.item.title);
+    this.searchQuest(e.currentTarget.dataset.item.title);
     this.setData({
       searchValue: e.currentTarget.dataset.item.title,
       deleteBtn: true,
+      searchGoodsListStatus: true,
+      hotStatus: false,
+      historyShow: false,
+      searchResultStatus: false,
     });
+    this.pushHistory();
   },
   // *监测搜索框内值改变事件
   handleValue(e) {
@@ -72,7 +77,7 @@ Page({
       this.setData({
         searchValue: e.detail.value,
       });
-      console.log(this.data.searchValue);
+      // console.log(this.data.searchValue);
       if (this.data.searchValue) {
         this.searchQuest(this.data.searchValue);
       }
@@ -98,7 +103,15 @@ Page({
   },
   // *搜索结果列表点击事件
   resultTap(e) {
-    console.log(e);
+    // console.log(e.currentTarget.dataset.item.good_name);
+    this.searchQuest(e.currentTarget.dataset.item.good_name);
+    this.setData({
+      searchGoodsListStatus: true,
+      hotStatus: false,
+      historyShow: false,
+      searchResultStatus: false,
+    });
+    this.pushHistory();
   },
   // *搜索按下功能
   enterSearch() {
@@ -116,7 +129,6 @@ Page({
   // *历史搜索push =去重 =存入缓存
   pushHistory() {
     var that = this;
-
     if (this.data.searchValue) {
       for (let i = 0; i < this.data.historyArray.length; i++) {
         if (this.data.searchValue == this.data.historyArray[i]) {
@@ -130,7 +142,7 @@ Page({
       wx.getStorage({
         key: "historyArray",
         success: function (res) {
-          console.log(res.data);
+          // console.log(res.data);
           that.setData({
             historyArray: res.data,
           });
@@ -140,15 +152,21 @@ Page({
   },
   // *历史搜索的点击输入
   historyChoose(e) {
+    this.searchQuest(e.currentTarget.dataset.item);
     this.setData({
       searchValue: e.currentTarget.dataset.item,
       deleteBtn: true,
+      searchGoodsListStatus: true,
+      hotStatus: false,
+      historyShow: false,
+      searchResultStatus: false,
     });
+    this.pushHistory();
   },
   // *请求搜索数据
   async searchQuest(data) {
     var that = this;
-    console.log(that);
+    // console.log(that);
     wx.request({
       url: "http://api_devs.wanxikeji.cn/api/goodList",
       data: {
@@ -159,7 +177,7 @@ Page({
       },
       method: "POST", //发送post请求
       success(res) {
-        console.log(res.data.data.data);
+        // console.log(res.data.data.data);
         that.setData({
           searchResult: res.data.data.data,
         });
@@ -194,13 +212,12 @@ Page({
   },
   // *搜索结果商品列表每个点击事件跳转信息详情页
   goodsClick(e) {
-    console.log(e.currentTarget.dataset.item.good_id);
+    // console.log(e.currentTarget.dataset.item.good_id);
     wx.navigateTo({
       url:
         "/pages/product/product?good_id=" +
         e.currentTarget.dataset.item.good_id,
     });
-    
   },
   /**
    * 生命周期函数--监听页面加载
@@ -214,7 +231,7 @@ Page({
     wx.getStorage({
       key: "historyArray",
       success: function (res) {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.length != 0) {
           that.setData({
             historyShow: true,
