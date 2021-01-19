@@ -1,7 +1,7 @@
 <!-- miniprogram/pages/search/search.wxml -->
 <view class="search">
     <!-- *输入框板块 -->
-    <!-- *************whiaojdajsdjaijsdijaposjdpoj** -->
+    <!-- *************shit** -->
     <view class="search-part">
         <i-icon type="search" i-class="search-icon" size="20" color="#666" />
         <input type="text" placeholder="输入商品名称" class="search-input" auto-focus="{{true}}" bindinput="handleValue" value="{{searchValue}}" bindconfirm="enterSearch" />
@@ -37,8 +37,8 @@
     </view>
     <!-- *搜索结果展示列表 -->
     <view class="search-goods-list" wx:if="{{searchGoodsListStatus}}">
-        <view class="search-goods-list-item" wx:for="{{searchResult}}" wx:for-index="goodsindex" wx:for-item="goodsitem" data-index="{{goodsindex}}" data-item="{{goodsitem}}" bindtap="goodsClick">
-            <image src="{{goodsitem.img}}" alt="" />
+        <view class="search-goods-list-item" wx:for="{{searchResult}}" wx:for-index="goodsindex" wx:key="index" wx:for-item="goodsitem" data-index="{{goodsindex}}" data-item="{{goodsitem}}" bindtap="goodsClick">
+            <image src="{{goodsitem.img}}" alt="" mode="aspectFit" />
             <p class="search-goods-tit">{{goodsitem.good_name}}</p>
             <view class="goods-items-bottom">
                 <b>

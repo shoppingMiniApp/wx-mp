@@ -1,4 +1,4 @@
-<!-- pages/product/product.wxml -->
+<!-- pages/product/product.wxml 222222222222222 -->
 <view class="product-detail">
     <view class="goods-img">
         <image class="" src="{{goodImg}}"></image>
@@ -99,7 +99,7 @@
                     <view class="evaluate-user-info">
                         <!-- *用户头像 -->
                         <view class="evaluate-user-img">
-                            <image class="" src="../../../../55.jpg"></image>
+                            <image class="" src="{{goodImg}}"></image>
                         </view>
                         <!-- *用户名 -->
                         <view class="evaluate-user-name">
@@ -115,7 +115,7 @@
                     <view class="evaluate-user-info">
                         <!-- *用户头像 -->
                         <view class="evaluate-user-img">
-                            <image class="" src="../user-img-test.jpeg"></image>
+                            <image class="" src="{{goodImg}}"></image>
                         </view>
                         <!-- *用户名 -->
                         <view class="evaluate-user-name">
@@ -139,10 +139,10 @@
                 </view>
                 <!-- *预览图 -->
                 <view class="preview">
-                    <image class="" src="../../haley.jpg"></image>
-                    <image class="" src="../../bell.jpg"></image>
-                    <image class="" src="../../haley.jpg"></image>
-                    <image class="" src="../../bell.jpg"></image>
+                    <image class="" src="{{goodImg}}" mode="aspectFit"></image>
+                    <image class="" src="{{goodImg}}" mode="aspectFit"></image>
+                    <image class="" src="{{goodImg}}" mode="aspectFit"></image>
+                    <image class="" src="{{goodImg}}" mode="aspectFit"></image>
                 </view>
             </view>
             <!-- *问大家 -->
@@ -166,6 +166,11 @@
             </view>
         </view>
     </view>
+    <!-- *点击回顶部 -->
+    <view class="goTopBtn" wx:if="{{goTop}}" bindtap="goTopBtn">
+        <i-icon type="packup" size="18" />
+        <b>顶部</b>
+    </view>
     <!-- *底部的按钮模块fixed' -->
     <view class="bottom-btn-part">
         <view class="bottom-wrap">
@@ -182,7 +187,7 @@
                 <p>收藏</p>
             </span>
             <view class="shopping-btn">
-                <view class="add-shoppingCar">加入购物车</view>
+                <view class="add-shoppingCar" catchtap='clickPup'>加入购物车</view>
                 <view class="buy-now">立即购买</view>
             </view>
         </view>
@@ -200,16 +205,87 @@
         <view class="goods-detail-title">-宝贝详情-</view>
         <!-- *全是图片 -->
         <view class="goods-detail-img">
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
-            <image class="" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
+            <image class="goods-image" src="{{goodImg}}"></image>
         </view>
     </view>
+    <!-- <button catchtap='clickPup'>点击底部动画弹窗</button> -->
+    <!-- 底部弹窗动画的内容 -->
+    <!-- <view class='pupContent {{click? "showContent": "hideContent"}} {{option? "open": "close"}}' hover-stop-propagation='true'> -->
+    <view class='pupContent {{click? "showContent": "hideContent"}} {{option? "open": "close"}}' hover-stop-propagation='true'>
+        <view class="pupContent-wrap">
+            <view class="">
+                <view class='pupContent-top'>
+                    <!-- *sku弹出框商品图片价格 -->
+                    <view class="goods-info-top">
+                        <!-- *图片 -->
+                        <view class="goods-sku-top">
+                            <view class="goods-sku-img">
+                                <image class="" src="{{goodImg}}" mode="aspectFit|aspectFill|widthFix"></image>
+                            </view>
+                            <!-- *价格 -->
+                            <view class="goods-sku-price">
+                                <b class="dollar">
+                                    <i>￥</i>
+                                    <b>{{goodPrice}}</b>
+                                </b>
+                            </view>
+                        </view>
+                        <!-- *关闭按钮 -->
+                        <i-icon type="delete" size="24" i-class="delete-icon" bindtap="close" />
+                    </view>
+                    <!-- *评价预览 -->
+                    <view class="evaluate-show">
+                        <b>
+                            <i-icon type="message" size="20" />
+                            12人评价“外观设计很好看”
+                        </b>
+                        <span>
+                            全部（475）
+                            <i-icon type="enter" size="20" />
+                        </span>
+                    </view>
+                    <!-- *商品分类 -->
+                    <view class="goods-sku-all">
+                        <p>颜色分类</p>
+                        <view class="sku-all">
+                            <view class="goods-sku-item {{skuindex==idx?'skuColor':''}}" wx:for="{{skuData}}" wx:for-index="skuindex" wx:key="id" wx:for-item="skuitem" data-index="{{skuindex}}" data-item="{{skuitem}}" bindtap="skuChoose">
+                                {{skuitem.sku}}
+                            </view>
+                        </view>
+                    </view>
+                    <!-- *购买数量 -->
+                    <view class="goods-count">
+                        <span>
+                            购买数量
+                            <b>库存{{inventory}}件</b>
+                        </span>
+                        <view class="cartItem_number">
+                            <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{-1}}" style="width:50rpx;height:40rpx;padding:0px;line-height:1;color:#555">
+                                -
+                            </button>
+                            <view class="itemNum">
+                                <input value="{{itemNum}}" />
+                            </view>
+                            <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{1}}" style="width:50rpx;height:40rpx;padding:0px;line-height:1;color:#555" bingt>
+                                +
+                            </button>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <!-- *确定 -->
+            <view class="ok-btn" bindtap="addOkBtn">加入购物车</view>
+        </view>
+    </view>
+    <!-- 固定的背景 -->
+    <view class='pupContentBG {{click?"showBG":"hideBG"}} {{option?"openBG":"closeBG"}}' catchtap='clickPup'></view>
 </view>
