@@ -1,4 +1,5 @@
 // pages/product/product.js
+const { $Toast } = require("../../dist/base/index");
 Page({
   /**
    * 页面的初始数据
@@ -17,19 +18,29 @@ Page({
     option: false, //显示弹窗或关闭弹窗的操作动画
     inventory: 99,
     itemNum: 1,
+    goods_id: "",
     goTop: false,
     skuData: [
-      { id: 1, sku: "红色(现货)" },
-      { id: 2, sku: "哈哈哈哈哈哈色(现货)" },
-      { id: 3, sku: "红色(现货)" },
-      { id: 4, sku: "256色(现货)" },
-      { id: 5, sku: "红色(现货)" },
-      { id: 6, sku: "纤纤嘻嘻色(现货)" },
-      { id: 7, sku: "加单色(现货)" },
-      { id: 8, sku: "机麻色(现货)" },
+      { id: 1, sku: "红色(ass)" },
+      { id: 2, sku: "哈哈哈哈哈哈色(ass)" },
+      { id: 3, sku: "红色(ass)" },
+      { id: 4, sku: "256色(ass)" },
+      { id: 5, sku: "红色(ass)" },
+      { id: 6, sku: "纤纤嘻嘻色(ass)" },
+      { id: 7, sku: "加单色(ass)" },
+      { id: 8, sku: "机麻色(ass)" },
     ],
     skuColor: "skuColor",
-    idx: 0,
+    idx: -1,
+    showNav: false,
+    unselect: true,
+    isselect: false,
+    isselectSku: "",
+    loadingHidden: true,
+    // *收藏
+    collectionIcon: "collection",
+    collectionColor: "",
+    collectionTxt: "收藏",
   },
   // *计数器
   modifyNum(e) {
@@ -93,8 +104,9 @@ Page({
         "content-type": "application/json",
       },
       success: function (res) {
-        // console.log(res.data, "商品详情151515");
+        console.log(res.data, "商品详情151515");
         that.setData({
+          goods_id: res.data.data.good_id,
           goodImg: res.data.data.img,
           goodTitle: res.data.data.good_name,
           goodPrice: res.data.data.price,
@@ -134,17 +146,40 @@ Page({
     }
   },
   onPageScroll: function (e) {
-    // 页面滚动监听
-    // console.log(e);
-    if (e.scrollTop) {
+    //监听用户滑动页面事件
+
+    if (e.scrollTop <= 0) {
+      // 滚动到最顶部
+      e.scrollTop = 0;
       this.setData({
-        navOpacity: this.data.navOpacity + 0.01,
+        navOpacity: e.scrollTop,
+      });
+    } else if (e.scrollTop > this.data.scrollHeight) {
+      // 滚动到最底部
+      e.scrollTop = this.data.scrollHeight;
+    }
+    if (
+      e.scrollTop > this.data.scrollTop ||
+      e.scrollTop >= this.data.scrollHeight
+    ) {
+      //向下滚动
+      // console.log("向下 ", this.data.scrollHeight);
+      this.setData({
+        navOpacity: this.data.navOpacity + 0.04,
       });
     } else {
+      //向上滚动
+      // console.log("向上滚动 ", this.data.scrollHeight);
       this.setData({
-        navOpacity: this.data.navOpacity - 0.01,
+        navOpacity: this.data.navOpacity - 0.04,
       });
     }
+    //给scrollTop重新赋值
+    this.setData({
+      scrollTop: e.scrollTop,
+    });
+
+    // 页面滚动监听
     if (e.scrollTop >= 0 && e.scrollTop < 696) {
       this.setData({
         current: "宝贝",
@@ -167,7 +202,23 @@ Page({
     this.clickPup();
   },
   // *加入购物车弹窗确认键
-  addOkBtn() {},
+  addOkBtn() {
+    this.setData({
+      loadingHidden: false,
+    });
+    this.addToCart();
+    var that = this;
+    setTimeout(function () {
+      that.setData({
+        loadingHidden: true,
+      });
+      that.clickPup();
+      $Toast({
+        content: "已成功添加购物车",
+        type: "success",
+      });
+    }, 1000);
+  },
   // *回到顶部
   goTopBtn() {
     wx.pageScrollTo({
@@ -182,14 +233,50 @@ Page({
     // console.log('每个index',index)
     this.setData({
       idx: index,
+      unselect: false,
+      isselect: true,
+      isselectSku: e.currentTarget.dataset.item.sku,
     });
+  },
+  // *加入购物车借口
+  addToCart() {
+    // var that=this;
+    wx.request({
+      url: "http://api_devs.wanxikeji.cn/api/shoppingCarAddModify",
+      data: {
+        token: wx.getStorageSync("token"),
+        good_id: this.data.goods_id,
+        num: this.data.itemNum,
+        price: this.data.goodPrice,
+        money: "2259.00",
+        sku: this.data.isselectSku,
+      },
+      header: { "content-type": "application/json" },
+      success: (result) => {
+        console.log(result, "Addcart");
+      },
+    });
+  },
+  // *收藏
+  collection() {
+    console.log(11);
+    if (this.data.collectionIcon == "collection") {
+      this.setData({
+        collectionIcon: "collection_fill",
+        collectionColor: "#f00",
+      });
+    } else {
+      this.setData({
+        collectionIcon: "collection",
+        collectionColor: "",
+      });
+    }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {},
-
   /**
    * 生命周期函数--监听页面显示
    */

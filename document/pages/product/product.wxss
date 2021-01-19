@@ -224,6 +224,19 @@
   width: 100%;
   padding-bottom: 8rpx;
   background: #fbad2b;
+  /* animation: navshow 1s ease-in both; */
+  /* opacity: 0; */
+}
+.top-nav.navshow {
+  animation: navshow 1s ease-in both;
+}
+@keyframes navshow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .top-nav .top-nav-tabs {
   background: #fbad2b;
@@ -282,9 +295,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
-
 /* 设置显示的背景 */
-
 .showBG {
   display: block;
 }
@@ -301,15 +312,14 @@
   }
 
   to {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 
 @keyframes slideBGDown {
   from {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.5);
   }
-
   to {
     background: transparent;
   }
@@ -343,7 +353,6 @@
   from {
     height: 0;
   }
-
   to {
     height: 1100rpx;
   }
@@ -353,7 +362,6 @@
   from {
     height: 1100rpx;
   }
-
   to {
     height: 0;
   }
@@ -426,6 +434,7 @@
   margin-right: 20rpx;
   margin-top: 24rpx;
   border-radius: 10rpx;
+  border: 1rpx solid transparent;
 }
 .goods-sku-item.skuColor {
   color: #f00;
@@ -497,4 +506,7 @@
 }
 .goTopBtn b {
   font-size: 25rpx;
+}
+.enter-icon {
+  padding-bottom: 5rpx;
 }
