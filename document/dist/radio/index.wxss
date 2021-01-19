@@ -9,8 +9,18 @@
 }
 .i-radio-radio {
   vertical-align: middle;
+  margin-top: 18rpx;
 }
 .i-radio-title {
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   vertical-align: middle;
+}
+.phoen{
+  padding-right: 100rpx;
+}
+.i-radio-text{
+  display: flex;
+  justify-content: space-between;
 }

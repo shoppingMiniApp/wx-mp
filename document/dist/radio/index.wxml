@@ -1,15 +1,17 @@
 <view class="i-class i-radio" catchtap="radioChange">
     <i-cell i-class="i-radio-cell">
         <label>
-            <radio value="{{value}}" checked="{{checked}}" color="{{checked?color:''}}" disabled="{{disabled}}" class="i-radio-radio {{positionCls}}" />
+            <radio value="{{value}}" checked="{{checked}}" color="{{checked?color:''}}" disabled="{{disabled}}"
+                class="i-radio-radio {{positionCls}}" />
             <!-- <view class="i-radio-title">{{datas.userName}}</view> -->
             <view class="i-radio-title">
-                <text class="">{{addressdatas.userName}}</text>
-                <text class="">{{addressdatas.telNumber}}</text>
+                <view class="">{{addressdatas.name}}</view>
+                <view class="phoen">{{addressdatas.phone}}</view>
+                <view class="">
+                    {{addressdatas.procince+addressdatas.city+addressdatas.area+addressdatas.detailed}}
+                </view>
             </view>
-            <text class="">
-                {{addressdatas.provinceName+addressdatas.cityName+addressdatas.countyName+addressdatas.detailInfo}}
-            </text>
+
         </label>
     </i-cell>
 </view>

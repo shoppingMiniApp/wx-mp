@@ -1,6 +1,6 @@
 <!-- <view class="" wx:for="{{userAddressData}}" wx:key="*this" bindtap="选择地址"></view> -->
 <i-radio-group current="{{current}}" bindchange="handleFruitChange">
-    <i-radio wx:for="{{userAddressData}}" addressdatas="{{item}}" position="left" wx:key="id" value="{{item.id}}"></i-radio>
+    <i-radio wx:for="{{userAddressData}}" addressdatas="{{item}}" position="left" wx:key="id" value="{{item.address_id}}"></i-radio>
 </i-radio-group>
 <view class="address_buttom">
     <view>
