@@ -1,6 +1,10 @@
 <!-- index.wxml -->
 <!-- 页面显示 -->
 <!-- 首页 -->
+<i-modal visible="{{ visible }}" bind:ok="okRegister" bind:cancel="cancelRegister" i-class="register">
+  <view>用户您好，您未注册，需要帮您注册嘛？</view>
+  <view>(未注册无法使用所用功能)</view>
+</i-modal>
 <view class="homepage" wx:if="{{ current == 'homepage'}}">
   <!-- 搜索栏 -->
   <navigator class="" target="" url="/pages/search/search" open-type="navigateTo">跳转</navigator>
@@ -46,7 +50,10 @@
             <view class="">
               <text class="info" decode="false">这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介</text>
               <view class="">
-                <b class="price"><sup>￥</sup>132</b>
+                <b class="price">
+                  <sup>￥</sup>
+                  132
+                </b>
                 <text class="hide" decode="false" catchtap="care" data-hide="{{index}}">...</text>
                 <view class="redece" wx:if="{{ care == index}}" data-hide="{{index}}" bindtap="del">
                   不感兴趣
@@ -59,14 +66,17 @@
       <!-- 其他分类 -->
       <view class="" wx:if="{{current_scroll == navName}}">
         <!-- {{navName}} -->
-        <view class="classify" >
+        <view class="classify">
           <view class="" wx:for="{{classify}}" wx:key="index" bindtap="detailmore" data-index="{{index}}">
             <view class="">
               <image class="" src="{{classify[index].img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
             </view>
             <view class="infos">
               <text class="info">{{classify[index].good_name}}</text>
-              <b class="price"><sup>￥</sup>{{classify[index].price}}</b>
+              <b class="price">
+                <sup>￥</sup>
+                {{classify[index].price}}
+              </b>
             </view>
           </view>
         </view>
@@ -76,16 +86,52 @@
 </view>
 <!-- 购物车 -->
 <view class="cart" wx:if="{{ current == 'cart'}}">
-  <!-- <block wx:for="{{}}">
-    
-  </block> -->
-    <button bindtap="change">cart</button>
+  <view></view>
+  <view wx:if="{{registerStatus}}" class="cartListContent">
+    <block>购物车列表</block>
+    <view wx:for="{{cartList}}" class="cartList" wx:key="shopping_car_id">
+      <view class="checkIcon">
+        <i-icon type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="33" color="" />
+      </view>
+      <view class="cartItem">
+        <image class="" src="{{item.img}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+        <view class="cartItem_right">
+          <view class="cartItem_name">{{item.good_name}}</view>
+          <button class="cartItem_sku" style="padding:0;">这是sku的一栏</button>
+          <view class="cartItem_bottom">
+            <view class="cartItem_price">
+              <span>￥</span>
+              <i>{{item.money}}</i>
+            </view>
+            <view class="cartItem_number">
+              <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{-1}}" style="width:40rpx;height:40rpx;padding:0px;line-height:1;padding:0;border-radius:0;background:none;">
+                -
+              </button>
+              <view class="itemNum">
+                <input value="{{item.num}}" />
+              </view>
+              <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{1}}" style="width:40rpx;height:40rpx;padding:0px;line-height:1;padding:0;border-radius:0;background:none;" bingt>
+                +
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <button bindtap="change">cart</button>
+  <button bindtap="addToCart">Add to Cart</button>
+  <view class="cartButton">
+    <i-button bind:click="checkOut" color="#fba414" shape="circle" size="small" i-class="checkOut">
+      结算{{cartItemCount}}
+    </i-button>
+  </view>
 </view>
 <!-- 我的 -->
 <view class="mine" wx:if="{{ current == 'mine'}}">
   <!-- <button class="login">登录</button> -->
   <view class="loginPanel">
-    <i-button wx:if="{{!hasUserInfo && canIUse}}" i-class="loginBtn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" long="true" size="large" inline bindtap="logIn">
+    <i-button wx:if="{{!hasUserInfo && canIUse}}" i-class="loginBtn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" long="true" size="large" inline>
       <i-avatar i-class="avatar" size="large" shape="round" src="{{ userInfo.avatarUrl }}">
         妙
       </i-avatar>
@@ -172,3 +218,4 @@
   <i-tab-bar-item key="cart" icon="publishgoods_fill" current-icon="publishgoods_fill" title="购物车"></i-tab-bar-item>
   <i-tab-bar-item key="mine" icon="mine" current-icon="mine_fill" title="我的"></i-tab-bar-item>
 </i-tab-bar>
+<view class="bottomBox"></view>

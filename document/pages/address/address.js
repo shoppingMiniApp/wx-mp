@@ -69,14 +69,14 @@ Page({
     }
   },
   onLoad: function (options) {
-    const token = wx.getStorageSync("token");
-    const requests = await request({
-      url: "/api/userAddressList",
-      data: {
-        token
-      }
-    }).then((res) => {
-      console.log(res);
+    // const token = wx.getStorageSync("token");
+    // const requests = await request({
+    //   url: "/api/userAddressList",
+    //   data: {
+    //     token
+    //   }
+    // }).then((res) => {
+    //   console.log(res);
       //如果res的code返回值大于2999,则去请求更新token的接口
       // if (res.code > 2999) {
       // const restoken = await request({
@@ -90,9 +90,9 @@ Page({
       // }else{
       //在else里面处理请求到的正确的地址列表
       // }
-    }).catch((err) => {
-      console.log(err);
-    })
+    // }).catch((err) => {
+    //   console.log(err);
+    // })
 
     // if (!token) {
     //   const openid = wx.getStorageSync("openid");

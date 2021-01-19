@@ -4,13 +4,15 @@ const app = getApp();
 
 Page({
   data: {
-    registerStatus: "",
+    currentItem: "",
+    registerStatus: false,
+    openid: "",
     avatarUrl: "",
     userInfo: "",
     hasUserInfo: false,
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
-    current: "homepage",
-
+    current: "cart",
+    visible: false,
     num: 0,
     care: -1,
     current_scroll: "推荐",
@@ -24,7 +26,7 @@ Page({
       "https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg",
       "https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg",
     ],
-    recommenMain: [
+    recommendMain: [
       {
         src: "https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg",
         info: "这是一只猫",
@@ -59,6 +61,8 @@ Page({
       },
     ],
     classify: [],
+    cartList: [],
+    cartItemCount: 0,
   },
   handleChange: function ({ detail }) {
     if (detail.key == "homepage") {
@@ -104,7 +108,7 @@ Page({
           this.setData({
             classify: result.data.data.data,
           });
-          console.log(this.data.classify[0].good_id);
+          // console.log(this.data.classify[0].good_id);
         },
         fail: (error) => {
           console.log(error);
@@ -163,29 +167,45 @@ Page({
   },
 
   onLoad() {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true,
-      });
-    } else if (this.data.canIUse) {
-      app.userInfoReadyCallback = (res) => {
+    // let resisterStatus = ;
+    // console.log(tmp);
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      openid: wx.getStorageSync("openid"),
+    });
+    if (this.data.registerStatus == true) {
+      console.log("3");
+      if (app.globalData.userInfo) {
         this.setData({
-          userInfo: res.userInfo,
+          userInfo: app.globalData.userInfo,
           hasUserInfo: true,
         });
-      };
-    } else {
-      wx.getUserInfo({
-        success: (res) => {
-          app.globalData.userInfo = res.userInfo;
+      } else if (this.data.canIUse) {
+        app.userInfoReadyCallback = (res) => {
           this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true,
           });
-        },
+        };
+      } else {
+        wx.getUserInfo({
+          success: (res) => {
+            app.globalData.userInfo = res.userInfo;
+            this.setData({
+              userInfo: res.userInfo,
+              hasUserInfo: true,
+            });
+          },
+        });
+      }
+    } else {
+      console.log("4");
+
+      this.setData({
+        visible: true,
       });
     }
+    this.getCartList();
     // 请求分类数据-zy
     wx.request({
       url: "http://api_devs.wanxikeji.cn/api/goodType",
@@ -195,11 +215,11 @@ Page({
       dataType: "json",
       responseType: "text",
       success: (result) => {
-        console.log(result.data.data);
+        // console.log(result.data.data);
         let json = {};
         json.type_name = "推荐";
         result.data.data.unshift(json);
-        console.log(result.data.data);
+        // console.log(result.data.data);
         this.setData({
           recommendData: result.data.data,
         });
@@ -208,7 +228,7 @@ Page({
         console.log(error);
       },
       complete: () => {
-        console.log("接口调用结束");
+        // console.log("接口调用结束");
       },
     });
     // 请求banner-zy
@@ -220,7 +240,7 @@ Page({
       dataType: "json",
       responseType: "text",
       success: (result) => {
-        console.log(result.data.data);
+        // console.log(result.data.data);
         this.setData({
           swiperSrc: result.data.data,
         });
@@ -229,7 +249,7 @@ Page({
         console.log(error);
       },
       complete: () => {
-        console.log("接口调用结束");
+        // console.log("接口调用结束");
       },
     });
     //请求的4个推荐-zy
@@ -243,9 +263,9 @@ Page({
       dataType: "json",
       responseType: "text",
       success: (result) => {
-       let arr = []
-        for(let i = 0; i < 4; i++){
-          arr[arr.length] = result.data.data.data[i]
+        let arr = [];
+        for (let i = 0; i < 4; i++) {
+          arr[arr.length] = result.data.data.data[i];
         }
         this.setData({
           recommenMain: arr,
@@ -255,7 +275,7 @@ Page({
         console.log(error);
       },
       complete: () => {
-        console.log("8个推荐接口调用结束");
+        // console.log("8个推荐接口调用结束");
       },
     });
     // 请求推荐数据-zy
@@ -269,56 +289,16 @@ Page({
       dataType: "json",
       responseType: "text",
       success: (result) => {
-        console.log(result.data.data);
+        // console.log(result.data.data);
       },
       fail: (error) => {
         console.log(error);
       },
       complete: () => {
-        console.log("接口调用结束");
+        // console.log("接口调用结束");
       },
     });
-    
-    
-  },
-  onReady() {},
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-  onLoad() {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true,
-      });
-    } else if (this.data.canIUse) {
-      app.userInfoReadyCallback = (res) => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true,
-        });
-      };
-    } else {
-      wx.getUserInfo({
-        success: (res) => {
-          app.globalData.userInfo = res.userInfo;
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true,
-          });
-        },
-      });
-    }
-
-    this.register();
-    console.log(this.data.registerStatus, "r");
+    // console.log(this.data.userInfo,"wq");
   },
   getUserInfo(e) {
     app.globalData.userInfo = e.detail.userInfo;
@@ -326,8 +306,8 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true,
     });
-    console.log(this.data.userInfo);
-    this.register()
+    // console.log(this.data.userInfo);
+    this.register();
   },
   logOut() {
     this.setData({
@@ -335,6 +315,7 @@ Page({
       hasUserInfo: false,
     });
     // app.globalData.userInfo = false;
+    wx.setStorageSync("token", "");
   },
   toAddress() {
     wx.navigateTo({
@@ -345,94 +326,161 @@ Page({
     });
   },
   change() {
-    var reqTask = wx.request({
-      url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
-      data: {},
-      header: { "content-type": "application/json" },
-      method: "GET",
-      dataType: "json",
-      responseType: "text",
+    wx.getStorage({
+      key: "token",
       success: (result) => {
-        console.log(result, "cart");
+        wx.request({
+          url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
+          data: {
+            token: result.data,
+          },
+          header: { "content-type": "application/json" },
+          success: (result) => {
+            console.log(result, "cart");
+          },
+        });
       },
-      fail: () => {},
-      complete: () => {},
     });
-    return reqTask;
-  },
-  logIn() {
-    // wx.login({
-    //   success(res) {
-    //     if (res.code) {
-    //       //发起网络请求
 
-    //       wx.request({
-    //         url: "http://api_devs.wanxikeji.cn/api/",
-    //         data: {
-    //           code: res.code,
-    //         },
-    //         success(res) {
-    //           console.log(res.data);
-    //           wx.request({
-    //             url: "http://api_devs.wanxikeji.cn/api/refreshToken",
-    //             data: {
-    //               openid: res.data.data.openid,
-    //             },
-    //             success(res) {
-    //               console.log(res, "token");
-    //             },
-    //           });
-    //         },
-    //       });
-    //     } else {
-    //       console.log("登录失败！" + res.errMsg);
-    //     }
-    //   },
-    // });
-
-    // var reqTask = wx.request({
-    //   url: "http://api_devs.wanxikeji.cn/api/login",
+    // wx.request({
+    //   url: "http://api_devs.wanxikeji.cn/api/goodList",
     //   data: {},
     //   header: { "content-type": "application/json" },
-    //   method: "GET",
-    //   dataType: "json",
-    //   responseType: "text",
     //   success: (result) => {
     //     console.log(result, "cart");
     //   },
-    //   fail: () => {},
-    //   complete: () => {},
     // });
-    // return reqTask;
-  
+  },
+  addToCart() {
+    wx.request({
+      url: "http://api_devs.wanxikeji.cn/api/shoppingCarAddModify",
+      data: {
+        token: wx.getStorageSync("token"),
+        good_id: "1008",
+        num: "1",
+        price: "2259.00",
+        money: "2259.00",
+        sku: "台",
+      },
+      header: { "content-type": "application/json" },
+      success: (result) => {
+        console.log(result, "Addcart");
+      },
+    });
+  },
+  okRegister() {
+    wx.getUserInfo({
+      success: (res) => {
+        console.log("7");
+        app.globalData.userInfo = res.userInfo;
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true,
+        });
+        this.register();
+        this.setData({
+          visible: false,
+        });
+      },
+    });
+    // this.getUserInfo();
+  },
+  cancelRegister() {
+    this.setData({
+      visible: false,
+    });
+    wx.setStorageSync("registered", false);
   },
   register() {
-    wx.getStorage({
-      key: "registered",
-      success: (result) => {
-        console.log(result.data, "!");
-        this.setData({ registerStatus: result.data });
-        if (result.data == false) {
-          console.log(this.data.userInfo,"ewqewqeqweqweq");
-          // this.getUserInfo();
-          wx.getStorage({
-            key: "openid",
-            success: (result) => {
-              wx.request({
-                url: "http://api_devs.wanxikeji.cn/api/register",
-                data: {
-                  openid: result.data,
-                  nick_name: this.data.userInfo.nickName,
-                  icon: this.data.userInfo.avatarUrl,
-                },
-                success(res) {
-                  console.log(res.data.data,"eqeq");
-                },
-              });
-            },
+    if (this.data.registerStatus == false) {
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/register",
+        data: {
+          openid: this.data.openid,
+          nick_name: this.data.userInfo.nickName,
+          icon: this.data.userInfo.avatarUrl,
+        },
+        success(res) {
+          console.log("5", res);
+
+          wx.setStorageSync("token", res.data.data.token);
+          wx.setStorageSync("registered", true);
+        },
+      });
+    } else {
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/refreshToken",
+        data: {
+          openid: this.data.openid,
+        },
+        success(res) {
+          console.log("6");
+          wx.setStorageSync("token", res.data.data.token);
+          wx.setStorageSync("registered", true);
+        },
+        fail() {
+          console.log("error");
+        },
+      });
+    }
+  },
+  getCartList() {
+    if (this.data.registerStatus == true) {
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
+        data: {
+          token: wx.getStorageSync("token"),
+        },
+        header: { "content-type": "application/json" },
+        success: (result) => {
+          console.log(result, "cart");
+          this.setData({
+            cartList: result.data.data.data,
           });
-        }
+        },
+        fail: () => {},
+        complete: () => {},
+      });
+    } else {
+    }
+  },
+  modifyNum(e) {
+    let dataList = this.data.cartList;
+    let tmp =
+      dataList[e.currentTarget.dataset.set].num + e.currentTarget.dataset.unit;
+    if (tmp <= 1) {
+      tmp = 1;
+    } else if (tmp >= 99) {
+      tmp = 99;
+    }
+    dataList[e.currentTarget.dataset.set].num = tmp;
+    this.setData({
+      cartList: dataList,
+    });
+    wx.request({
+      url: "http://api_devs.wanxikeji.cn/api/shoppingCarAddModify",
+      data: {
+        token: wx.getStorageSync("token"),
+        good_id: dataList[e.currentTarget.dataset.set].good_id,
+        num: tmp,
+        price: dataList[e.currentTarget.dataset.set].price,
+        money: dataList[e.currentTarget.dataset.set].money,
+        sku: dataList[e.currentTarget.dataset.set].sku,
+        shopping_car_id: dataList[e.currentTarget.dataset.set].shopping_car_id,
       },
+      header: { "content-type": "application/json" },
+      success: (result) => {
+        console.log(result, "se");
+      },
+    });
+  },
+  checkOut() {
+    wx.setStorageSync("checkList", this.data.cartList[0]);
+    wx.navigateTo({
+      url: "/pages/order/order",
+      success: (result) => {},
+      fail: () => {},
+      complete: () => {},
     });
   },
 });

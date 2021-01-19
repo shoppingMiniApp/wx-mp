@@ -1,1 +1,57 @@
-.i-checkbox-cell::after{display:block}.i-checkbox-checkbox-left{float:left}.i-checkbox-checkbox-right{float:right}.i-checkbox-radio{vertical-align:middle}.i-checkbox-title{display:inline-block;vertical-align:middle}
+.i-checkbox-cell::after {
+  display: block;
+}
+.i-checkbox-checkbox-left {
+  float: left;
+}
+.i-checkbox-checkbox-right {
+  float: right;
+}
+.i-checkbox-radio {
+  vertical-align: middle;
+}
+.i-checkbox-cell label {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: #eee6;
+  border-radius: 10rpx;
+  padding: 20rpx 15rpx;
+  margin-bottom: 15rpx;
+  box-sizing: border-box;
+
+}
+.i-checkbox-title {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  /* background: coral; */
+}
+.i-checkbox-title image {
+  width: 200rpx;
+  height: 200rpx;
+  border: 2rpx solid #eee;
+  background: #fef5e7;
+  border-radius: 10rpx;
+  margin: 0 15rpx;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.i-checkbox-title .right {
+  flex-grow: 1;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* background: coral; */
+  padding: 0 25rpx;
+}
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.name {
+  font-size: 40rpx;
+}
