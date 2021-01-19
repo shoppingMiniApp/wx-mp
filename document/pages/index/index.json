@@ -11,6 +11,7 @@
     "i-radio": "../../dist/radio/index",
     "i-modal": "../../dist/modal/index",
     "i-checkbox-group": "../../dist/checkbox-group/index",
-    "i-checkbox": "../../dist/checkbox/index"
+    "i-checkbox": "../../dist/checkbox/index",
+    "i-notice-bar": "../../dist/notice-bar/index"
   }
 }
