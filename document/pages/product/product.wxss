@@ -1,14 +1,257 @@
 /* pages/product/product.wxss */
 .product-detail {
   width: 100%;
-  height: 1000px;
+  /* height: 2500px; */
   background: #ddd5;
+  margin-bottom: 73px;
 }
+
 .goods-img {
   width: 100%;
-  height: 680rpx;
+  height: 750rpx;
 }
 .goods-img image {
   width: 100%;
+  height: 100%;
+}
+.product-wrap {
+  width: 720rpx;
+  margin: 0 auto;
+}
+.good-tit,
+.SKU-part,
+.evaluate-part {
+  background: rgb(255, 255, 255);
+  margin-top: 16rpx;
+  border-radius: 10rpx;
+  padding: 23rpx; /*padding*/
+  box-shadow: 0 0 5rpx #0005;
+}
+.goods-price {
+  font-size: 50rpx;
+  color: #f00;
+}
+.goods-price sup {
+  font-size: 30rpx;
+}
+.discount {
+  padding: 15rpx 0;
+}
+.discount span {
+  padding: 6rpx 10rpx;
+  font-size: 24rpx;
+  background: rgb(251, 164, 20, 0.3);
+  margin-right: 25rpx;
+  border-radius: 8rpx;
+  color: #f60;
+}
+.toDiscount {
+  color: rgb(251, 164, 20);
+  float: right;
+  font-size: 28rpx;
+  padding-top: 6rpx;
+}
+.title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.extend-btn {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 18rpx;
+}
+.extend-btn b {
+  font-size: 28rpx;
+  color: #6668;
+}
+.extend-btn b > b {
+  display: inline-block;
+  vertical-align: middle;
+}
+.SKU-choose,
+.address-choose,
+.safeguard,
+.activity {
+  display: flex;
+  font-size: 28rpx;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 35rpx;
+}
+.parameter {
+  display: flex;
+  font-size: 28rpx;
+  justify-content: space-between;
+  width: 100%;
+}
+.SKU-part span {
+  color: #999;
+  font-size: 28rpx;
+  padding-right: 45rpx;
+}
+
+.block {
+  display: flex;
+}
+.arrow {
+  color: #999;
+}
+
+.tit-btn {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+.tit-btn .look-all {
+  font-weight: normal;
+  font-size: 28rpx;
+  color: rgb(251, 164, 20);
+  padding-top: 5rpx;
+}
+.evaluate-user-img {
+  width: 90rpx;
+  height: 90rpx;
+}
+.evaluate-user-img image {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.evaluate-user-info {
+  display: flex;
+  padding-top: 25rpx;
+}
+.evaluate-user-name {
+  margin-left: 15rpx;
+  display: flex;
+  flex-direction: column;
+  font-size: 28rpx;
+  padding-top: 8rpx;
+}
+.evaluate-user-name b {
+  color: #999;
+}
+.evaluate-word {
+  font-size: 30rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 19rpx 0;
+}
+
+.buyers-show {
+  border-top: 1rpx solid #6665;
+  border-bottom: 1rpx solid #6665;
+  padding: 25rpx 0;
+  margin-top: 35rpx;
+}
+.preview image {
+  width: 24.5%;
+  height: 170rpx;
+}
+.preview {
+  padding-top: 25rpx;
+  display: flex;
+  border-radius: 10rpx;
+  justify-content: space-between;
+}
+.ask-everyone {
+  padding-top: 25rpx;
+  padding-bottom: 5rpx;
+}
+.question {
+  padding-top: 10rpx;
+}
+.question-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 27rpx;
+  margin-top: 10rpx;
+}
+.question-item span {
+  color: #999;
+}
+.bottom-wrap {
+  width: 720rpx;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.bottom-btn-part {
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  width: 100%;
+
+  padding: 15rpx 0rpx 55rpx;
+}
+.bottom-btn-part span {
+  display: flex;
+  flex-direction: column;
+  font-size: 25rpx;
+}
+.add-shoppingCar {
+  background: rgb(251, 164, 20);
+  color: #fff;
+  border-bottom-left-radius: 45rpx;
+  border-top-left-radius: 45rpx;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  padding: 0 35rpx;
+}
+.buy-now {
+  background: rgb(255, 0, 0);
+  color: #fff;
+  border-bottom-right-radius: 45rpx;
+  border-top-right-radius: 45rpx;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  padding: 0 45rpx;
+}
+.shopping-btn {
+  display: flex;
+}
+.top-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding-bottom: 8rpx;
+  background: #fbad2b;
+}
+.top-nav .top-nav-tabs {
+  background: #fbad2b;
+  height: 74rpx;
+  color: #fff;
+  line-height: 76rpx;
+  letter-spacing: 5rpx;
+}
+
+.top-nav .top-nav-tabs::after {
+  content: "";
+  border: none;
+}
+.top-nav .top-nav-tabs view {
+  color: #fff;
+}
+.goods-detail-title {
+  font-size: 28rpx;
+  text-align: center;
+  padding: 25rpx 0 55rpx;
+  color: #999;
+}
+.goods-detail-img {
+  width: 100%;
+  height: 680rpx;
+}
+
+.goods-detail-img image {
+  width: 100%;
+  display: block;
   height: 100%;
 }

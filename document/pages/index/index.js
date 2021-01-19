@@ -319,7 +319,7 @@ Page({
   },
   toAddress() {
     wx.navigateTo({
-      url: "/pages/address/address",
+      url: "/pages/order/order",
       success: (result) => {},
       fail: () => {},
       complete: () => {},

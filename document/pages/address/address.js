@@ -1,119 +1,85 @@
 // pages/address/address.js
-import {
-  getSetting,
-  chooseAddress,
-  openSetting
-} from "../../utils/asyncWx.js"
-import { request } from "../../request/index.js"
+import { getSetting, chooseAddress, openSetting } from "../../utils/asyncWx.js";
+import { request } from "../../request/index.js";
 
 Page({
-
   data: {
-    userAddressData: [{
-      cityName: "广州市",
-      consignee: "张三",
-      countyName: "海珠区",
-      detailInfo: "新港中路397号",
-      id: "1",
-      provinceName: "广东省",
-      telNumber: "020-81167888",
-      userName: "张三",
-    },
-    {
-      cityName: "广州市",
-      consignee: "张三",
-      countyName: "海珠区",
-      detailInfo: "新港中路397号",
-      id: "2",
-      provinceName: "广东省",
-      telNumber: "020-81167888",
-      userName: "张三",
-    }],
-    current: '',
+    userAddressData: [],
+    current: "",
   },
   handleFruitChange({ detail = {} }) {
     console.log(detail);
     this.setData({
-      current: detail.value
+      current: detail.value,
     });
-
+    this.data.userAddressData.forEach((element) => {
+      if (detail.value == element.address_id) {
+        wx.setStorageSync("selectAddress", JSON.stringify(element));
+        wx.navigateTo({
+          url: "../order/order",
+          success: (result) => {},
+        });
+      }
+    });
   },
 
   async handleImportSite() {
     try {
       const res2 = await chooseAddress();
-      console.log(res2);
       let userAddressData = {
-        id: "3",
-        userName: res2.userName,
+        name: res2.userName,
         consignee: res2.userName,
-        telNumber: res2.telNumber,
-        provinceName: res2.provinceName,
-        cityName: res2.cityName,
-        countyName: res2.countyName,
-        detailInfo: res2.detailInfo
-      }
-      let addressList = this.data.userAddressData;
-      addressList.push(userAddressData)
+        phone: res2.telNumber,
+        procince: res2.provinceName,
+        city: res2.cityName,
+        area: res2.countyName,
+        detailed: res2.detailInfo,
+      };
       // console.log(userAddressData);
+      const token = wx.getStorageSync("token");
+      const setAddress = await request({
+        url: "/api/userAddressAddModify",
+        data: {
+          token: token,
+          phone: userAddressData.phone,
+          procince: userAddressData.procince,
+          city: userAddressData.city,
+          area: userAddressData.area,
+          name: userAddressData.name,
+          detailed: userAddressData.detailed,
+        },
+      });
+
+      console.log(setAddress);
+      this.getAddress();
       //设置本地数据
-      this.setData({
-        userAddressData: addressList
-      })
-      console.log(this.data.userAddressData, 1)
+
       //将数据上传至服务器
       // const address = await request({})
-
     } catch (error) {
       console.log(error);
     }
   },
+  async getAddress() {
+    const token = wx.getStorageSync("token");
+    const reslists = await request({
+      url: "/api/userAddressList",
+      data: {
+        token: token,
+      },
+    });
+    let addressList = reslists.data.data;
+    console.log(addressList);
+    this.setData({
+      userAddressData: addressList,
+    });
+  },
   onLoad: function (options) {
-    // const token = wx.getStorageSync("token");
-    // const requests = await request({
-    //   url: "/api/userAddressList",
-    //   data: {
-    //     token
-    //   }
-    // }).then((res) => {
-    //   console.log(res);
-      //如果res的code返回值大于2999,则去请求更新token的接口
-      // if (res.code > 2999) {
-      // const restoken = await request({
-      //     url: "/api/refreshToken",
-      //     data: {
-      //       openid
-      //     }
-      //   }).then((res) => {
-      //     console.log(res);
-      //   })
-      // }else{
-      //在else里面处理请求到的正确的地址列表
-      // }
-    // }).catch((err) => {
-    //   console.log(err);
-    // })
-
-    // if (!token) {
-    //   const openid = wx.getStorageSync("openid");
-    //   const restoken = await request({
-    //     url: "/api/refreshToken",
-    //     data: {
-    //       openid
-    //     }
-    //   }).then((res) => {
-    //     console.log(res);
-    //   })
-    //   return;
-    // }
-
-
+    this.getAddress();
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
-  }
-})
+  onShareAppMessage: function () {},
+});

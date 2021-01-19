@@ -1,5 +1,83 @@
 <view class="revice_address_row">
-    <view class="address_btn">
+    <view class="address-text" wx:if="{{addressShow}}" bindtap="handleChooseAdd">
+        <view class="address-text-content">
+            <text class="address-name">{{address.name}}</text>
+            <text class="address-phone">{{address.phone}}</text>
+            <text class="address-detailed">{{address.procince+address.city+address.area+address.detailed}}</text>
+        </view>
+        <i-icon type="enter" size="24" color="#C3C3C3" />
+    </view>
+    <view class="address_btn" wx:else>
         <button type="primary" bindtap="handleChooseAdd" plain="{{true}}">获取收货地址</button>
     </view>
+</view>
+<view class="notice">
+    <i-notice-bar i-class="notice-bar">
+        <i-icon type="flag_fill" size="16" color="#F76A24" />
+        <text>恭喜你,挑选的商品好评率高达97%</text>
+    </i-notice-bar>
+</view>
+<view class="goods">
+    <view class="goods-msg">
+        <image src="{{goodsMsg.img}}" mode="widthFix"></image>
+        <view class="goods-text">
+            <view class="good-name">{{goodsMsg.good_name}}</view>
+            <view class="price">
+                <view class="money-show"><text>￥{{goodsMsg.promotion_price}}</text>
+                    <view class="money-btn">
+                        <view class="money-btn-sty" bindtap="handletap" data-operation="{{1}}">+</view>
+                        <view>{{goodsNumber}}</view>
+                        <view class="money-btn-sty" bindtap="handletap" data-operation="{{-1}}">-</view>
+                    </view>
+                </view>
+                <view class="price-description">
+                    <i-icon type="prompt" size="16" color="#a6a6a6" /> 支持7天无理由退货（拆封后不支持）
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="goods-delivery">
+        <view class="goods-delivery-sty">
+            <view>配送服务</view>
+            <view class="delivery-size">快递运输</view>
+        </view>
+        <view class="goods-delivery-sty">
+            <view>退换无忧 <text class="delivery-size delivery-color1">退换货可获得运费赔付或免费取件 </text>
+                <i-icon type="prompt" size="15" color="#a6a6a6" />
+            </view>
+            <view class="delivery-size delivery-color2">商家赠送</view>
+        </view>
+        <view class="goods-delivery-sty">
+            <view>留言</view>
+            <input class="delivery-size delivery-color1 input-text" placeholder="选填，给商家留言"
+                placeholder-style="text-align: right;" />
+        </view>
+    </view>
+</view>
+<view class="block"></view>
+<view class="goods-amount">
+    <view class="goods-delivery-sty">
+        <view>商品总额</view>
+        <view class="delivery-size">￥{{original_price}}</view>
+    </view>
+    <view class="goods-delivery-sty underscore">
+        <view>运费</view>
+        <view class="delivery-size delivery-color2">免运费</view>
+    </view>
+    <view class="goods-delivery-sty">
+        <view></view>
+        <view>总计：<text class="delivery-color2">￥{{original_price}}</text></view>
+    </view>
+</view>
+<view class="block"></view>
+<view class="goods-delivery-sty fapiao">
+    <view>发票</view>
+    <view class="goods-delivery-sty delivery-size delivery-color1">电子发票（商品明细-个人）
+        <i-icon type="enter" size="14" color="#C3C3C3" />
+    </view>
+</view>
+<view class="block"></view>
+<view class="order-buttom">
+    <view class="order-buttom-size">总计：<text class="delivery-color2">￥{{original_price}}</text></view>
+    <view class="pay-btn">微信支付</view>
 </view>

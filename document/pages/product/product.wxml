@@ -3,4 +3,213 @@
     <view class="goods-img">
         <image class="" src="{{goodImg}}"></image>
     </view>
+    <!-- *版心 -->
+    <view class="product-wrap">
+        <!-- *商品的价格 标题 等模块 -->
+        <view class="good-tit">
+            <b class="goods-price">
+                <sup>￥</sup>
+                <b>{{goodPrice}}</b>
+            </b>
+            <!-- *领券 -->
+            <view class="discount">
+                <span>用户积分可抵2.53元起</span>
+                <span>店铺满150减5</span>
+                <b class="toDiscount">领券 ></b>
+            </view>
+            <!-- *商品标题 -->
+            <view class="title">{{goodTitle}}</view>
+            <!-- *扩展按钮 推荐 帮我选 分享 -->
+            <view class="extend-btn">
+                <b>
+                    <i-icon type="like" size="18" />
+                    <b>推荐</b>
+                </b>
+                <b>
+                    <i-icon type="group" size="18" />
+                    <b>帮我选</b>
+                </b>
+                <b>
+                    <i-icon type="share" size="18" />
+                    <b>分享</b>
+                </b>
+            </view>
+        </view>
+        <!-- *SKU 地址 活动 保障 -->
+        <view class="SKU-part">
+            <!-- *sku -->
+            <view class="SKU-choose">
+                <view class="block">
+                    <span>选择</span>
+                    <view class="">颜色分类</view>
+                </view>
+                <b class="arrow">></b>
+            </view>
+            <!-- *地址 -->
+            <view class="address-choose">
+                <view class="block">
+                    <span>发货</span>
+                    <view class="">
+                        四川成都
+                        <i>|</i>
+                        快递：快递包邮
+                    </view>
+                </view>
+                <b class="arrow">月销3 ></b>
+            </view>
+            <!-- *保障 -->
+            <view class="safeguard">
+                <view class="block">
+                    <span>保障</span>
+                    <view class="">订单险 · 7天无理由 · 公益宝贝</view>
+                </view>
+                <b class="arrow">></b>
+            </view>
+            <!-- *活动 -->
+            <view class="activity">
+                <view class="block">
+                    <span>活动</span>
+                    <view class="">开卡领5元通用红包！</view>
+                </view>
+                <b class="arrow">></b>
+            </view>
+            <!-- 参数 -->
+            <view class="parameter">
+                <view class="block">
+                    <span>参数</span>
+                    <view class="">品牌 型号...</view>
+                </view>
+                <b class="arrow">></b>
+            </view>
+        </view>
+        <!-- *评价 -->
+        <view class="evaluate-part">
+            <!-- *标题=按钮 -->
+            <view class="tit-btn">
+                <b>
+                    宝贝评价
+                    <i>(34)</i>
+                </b>
+                <span class="look-all">查看全部 ></span>
+            </view>
+            <!-- *评价展示 -->
+            <view class="evaluate-list">
+                <view class="evaluate-item">
+                    <!-- *用户信息展示 -->
+                    <view class="evaluate-user-info">
+                        <!-- *用户头像 -->
+                        <view class="evaluate-user-img">
+                            <image class="" src="../../../../55.jpg"></image>
+                        </view>
+                        <!-- *用户名 -->
+                        <view class="evaluate-user-name">
+                            <p>w**f</p>
+                            <b>3个月前</b>
+                        </view>
+                    </view>
+                    <!-- *用户的评价 -->
+                    <view class="evaluate-word">非常好，视野开阔，镜片清晰轻巧，复古全盔绝配非常好，视野开阔，镜片清晰轻巧，复古全盔绝配</view>
+                </view>
+                <view class="evaluate-item">
+                    <!-- *用户信息展示 -->
+                    <view class="evaluate-user-info">
+                        <!-- *用户头像 -->
+                        <view class="evaluate-user-img">
+                            <image class="" src="../user-img-test.jpeg"></image>
+                        </view>
+                        <!-- *用户名 -->
+                        <view class="evaluate-user-name">
+                            <p>w**f</p>
+                            <b>3个月前</b>
+                        </view>
+                    </view>
+                    <!-- *用户的评价 -->
+                    <view class="evaluate-word">非常好，视野开阔，镜片清晰轻巧，复古全盔绝配非常好，视野开阔，镜片清晰轻巧，复古全盔绝配</view>
+                </view>
+            </view>
+            <!-- *买家秀 -->
+            <view class="buyers-show">
+                <!-- *标题=按钮 -->
+                <view class="tit-btn">
+                    <b>
+                        买家秀
+                        <i>(25)</i>
+                    </b>
+                    <span class="look-all">查看全部 ></span>
+                </view>
+                <!-- *预览图 -->
+                <view class="preview">
+                    <image class="" src="../../haley.jpg"></image>
+                    <image class="" src="../../bell.jpg"></image>
+                    <image class="" src="../../haley.jpg"></image>
+                    <image class="" src="../../bell.jpg"></image>
+                </view>
+            </view>
+            <!-- *问大家 -->
+            <view class="ask-everyone">
+                <!-- *标题=按钮 -->
+                <view class="tit-btn">
+                    <b>问大家</b>
+                    <span class="look-all">查看全部 ></span>
+                </view>
+                <!-- *问题展示 -->
+                <view class="question">
+                    <view class="question-item">
+                        <text class="">请问戴着个头盔影响我开兰博基尼吗？</text>
+                        <span>2个回答</span>
+                    </view>
+                    <view class="question-item">
+                        <text class="">请问风噪大不大？</text>
+                        <span>5个回答</span>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- *底部的按钮模块fixed' -->
+    <view class="bottom-btn-part">
+        <view class="bottom-wrap">
+            <span>
+                <i-icon type="shop_fill" size="23" color="rgb(251, 164, 20)" />
+                <p>店铺</p>
+            </span>
+            <span>
+                <i-icon type="emoji" size="23" />
+                <p>客服</p>
+            </span>
+            <span>
+                <i-icon type="collection" size="23" />
+                <p>收藏</p>
+            </span>
+            <view class="shopping-btn">
+                <view class="add-shoppingCar">加入购物车</view>
+                <view class="buy-now">立即购买</view>
+            </view>
+        </view>
+    </view>
+    <!-- *顶部导航 -->
+    <view class="top-nav" style="opacity:{{navOpacity}}">
+        <i-tabs current="{{ current }}" color="#fff" bindchange="handleChange" i-class="top-nav-tabs">
+            <i-tab key="宝贝" title="宝贝"></i-tab>
+            <i-tab key="评价" title="评价"></i-tab>
+            <i-tab key="详情" title="详情"></i-tab>
+        </i-tabs>
+    </view>
+    <!-- *详情 -->
+    <view class="goods-detail">
+        <view class="goods-detail-title">-宝贝详情-</view>
+        <!-- *全是图片 -->
+        <view class="goods-detail-img">
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+            <image class="" src="{{goodImg}}"></image>
+        </view>
+    </view>
 </view>

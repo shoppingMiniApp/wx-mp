@@ -17,7 +17,7 @@
     <view class="hot-search" wx:if="{{hotStatus}}">
         <p class="search-tit">热门搜索</p>
         <view class="hot-keyword-part">
-            <view class="hot-keyword" wx:for="{{hotArray}}" wx:for-index="index" wx:for-item="item" bindtap="hotKeyword" data-index="{{index}}" data-item="{{item}}">
+            <view class="hot-keyword" wx:for="{{hotArray}}" wx:for-index="index" wx:key="id" wx:for-item="item" bindtap="hotKeyword" data-index="{{index}}" data-item="{{item}}">
                 {{item.title}}
             </view>
         </view>
@@ -30,14 +30,14 @@
             <view>是否清空历史记录</view>
         </i-modal>
         <view class="history-keyword-part">
-            <view class="history-keyword" wx:for="{{historyArray}}" wx:for-index="hisindex" wx:for-item="hisitem" data-index="{{hisindex}}" data-item="{{hisitem}}" bindtap="historyChoose">
+            <view class="history-keyword" wx:for="{{historyArray}}" wx:for-index="hisindex" wx:key="index" wx:for-item="hisitem" data-index="{{hisindex}}" data-item="{{hisitem}}" bindtap="historyChoose">
                 {{hisitem}}
             </view>
         </view>
     </view>
     <!-- *搜索结果展示列表 -->
     <view class="search-goods-list" wx:if="{{searchGoodsListStatus}}">
-        <view class="search-goods-list-item" wx:for="{{searchResult}}" wx:for-index="goodsindex" wx:for-item="goodsitem"  data-index="{{goodsindex}}" data-item="{{goodsitem}}" bindtap="goodsClick">
+        <view class="search-goods-list-item" wx:for="{{searchResult}}" wx:for-index="goodsindex" wx:for-item="goodsitem" data-index="{{goodsindex}}" data-item="{{goodsitem}}" bindtap="goodsClick">
             <image src="{{goodsitem.img}}" alt="" />
             <p class="search-goods-tit">{{goodsitem.good_name}}</p>
             <view class="goods-items-bottom">
