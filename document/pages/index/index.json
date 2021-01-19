@@ -12,6 +12,8 @@
     "i-modal": "../../dist/modal/index",
     "i-checkbox-group": "../../dist/checkbox-group/index",
     "i-checkbox": "../../dist/checkbox/index",
-    "i-notice-bar": "../../dist/notice-bar/index"
+    "i-notice-bar": "../../dist/notice-bar/index",
+    "i-toast": "../../dist/toast/index",
+    "i-load-more": "../../dist/load-more/index"
   }
 }

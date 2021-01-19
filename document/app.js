@@ -29,7 +29,7 @@ App({
               // console.log(res, "222222");
               // wx.setStorageSync("registered", false);
               // wx.setStorageSync("registered", true);
-
+              console.log(res, "code");
               wx.setStorageSync("openid", res.data.data.openid);
             },
           });

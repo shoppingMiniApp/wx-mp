@@ -91,12 +91,21 @@
 </view>
 <!-- 购物车 -->
 <view class="cart" wx:if="{{ current == 'cart'}}">
+  <i-toast id="toast" />
   <view></view>
   <view wx:if="{{registerStatus}}" class="cartListContent">
-    <block>购物车列表</block>
+    <view class="cartTop">
+      <view class="topTitle">
+        <!-- <view>物品总数量：</view> -->
+        <view>共{{cartTotal}}件宝贝</view>
+      </view>
+      <button style="font-weight:normal;font-size:24rpx;width:180rpx;padding:15rpx;" bindtap="manageCart">
+        {{manageText}}
+      </button>
+    </view>
     <view wx:for="{{cartList}}" class="cartList" wx:key="shopping_car_id">
-      <view class="checkIcon">
-        <i-icon type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="33" color="" />
+      <view class="checkIcon" bindtap="selectItem" data-set="{{index}}" data-type="single">
+        <i-icon type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="34" wx:if="{{item.remark}}" />
       </view>
       <view class="cartItem">
         <image class="" src="{{item.img}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
@@ -105,17 +114,17 @@
           <button class="cartItem_sku" style="padding:0;">这是sku的一栏</button>
           <view class="cartItem_bottom">
             <view class="cartItem_price">
-              <span>￥</span>
-              <i>{{item.money}}</i>
+              <view class="cartMoneyIcon">￥</view>
+              <view>{{item.money}}</view>
             </view>
             <view class="cartItem_number">
               <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{-1}}" style="width:40rpx;height:40rpx;padding:0px;line-height:1;padding:0;border-radius:0;background:none;">
                 -
               </button>
               <view class="itemNum">
-                <input value="{{item.num}}" />
+                <input value="{{item.num}}" disabled="true" />
               </view>
-              <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{1}}" style="width:40rpx;height:40rpx;padding:0px;line-height:1;padding:0;border-radius:0;background:none;" bingt>
+              <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{1}}" style="width:40rpx;height:40rpx;padding:0px;line-height:1;padding:0;border-radius:0;background:none;">
                 +
               </button>
             </view>
@@ -124,12 +133,34 @@
       </view>
     </view>
   </view>
-  <button bindtap="change">cart</button>
-  <button bindtap="addToCart">Add to Cart</button>
+  <i-load-more tip="您的购物车已经到底拉！" loading="{{ false }}" />
+  <!-- <button bindtap="change">cart</button>
+  <button bindtap="addToCart">Add to Cart</button> -->
   <view class="cartButton">
-    <i-button bind:click="checkOut" color="#fba414" shape="circle" size="small" i-class="checkOut">
-      结算{{cartItemCount}}
-    </i-button>
+    <view class="cartButtonLeft">
+      <view class="checkIcon" bindtap="selectItem" data-type="all">
+        <i-icon type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="34" wx:if="{{iconShow}}" />
+      </view>
+      <view>全选</view>
+    </view>
+    <view class="cartButtonRight" wx:if="{{manageCart}}">
+      <view class="cartButtonRightPrice">
+        <view>合计：</view>
+        <view class="cartMoneyIcon">￥{{totalPrice}}</view>
+      </view>
+      <i-button bind:click="checkOut" color="#fba414" shape="circle" size="small" i-class="checkOut">
+        结算({{cartItemCount}})
+      </i-button>
+    </view>
+    <view wx:else class="cartButtonRight">
+      <view class="cartButtonRightPrice">
+        <view>已选中：</view>
+        <view class="cartMoneyIcon">{{cartItemCount}}件</view>
+      </view>
+      <i-button bind:click="checkOut" color="#fba414" shape="circle" size="small" i-class="checkOut">
+        删除
+      </i-button>
+    </view>
   </view>
 </view>
 <!-- 我的 -->

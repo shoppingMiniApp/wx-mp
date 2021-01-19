@@ -1,9 +1,16 @@
 // index.js
 // 获取应用实例
 const app = getApp();
-
+const { $Toast } = require("../../dist/base/index");
 Page({
   data: {
+    manageText: "管理",
+    manageCart: true,
+    cartTotal: 0,
+    totalPrice: 0,
+    checkList: [],
+    cartItemCount: 0,
+    iconShow: false,
     currentItem: "",
     registerStatus: false,
     openid: "",
@@ -36,7 +43,7 @@ Page({
     }
 
     if (detail.key == "cart") {
-      wx.setNavigationBarTitle({ title: "我的购物车" });
+      wx.setNavigationBarTitle({ title: "购物车" });
     }
     this.setData({
       current: detail.key,
@@ -355,35 +362,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {},
-  // 这个onload与上面的onload冲突，导致我拿不到数据，先注释掉-zy
-  // onLoad() {
-  //   if (app.globalData.userInfo) {
-  //     this.setData({
-  //       userInfo: app.globalData.userInfo,
-  //       hasUserInfo: true,
-  //     });
-  //   } else if (this.data.canIUse) {
-  //     app.userInfoReadyCallback = (res) => {
-  //       this.setData({
-  //         userInfo: res.userInfo,
-  //         hasUserInfo: true,
-  //       });
-  //     };
-  //   } else {
-  //     wx.getUserInfo({
-  //       success: (res) => {
-  //         app.globalData.userInfo = res.userInfo;
-  //         this.setData({
-  //           userInfo: res.userInfo,
-  //           hasUserInfo: true,
-  //         });
-  //       },
-  //     });
-  //   }
-
-  //   this.register();
-  //   console.log(this.data.registerStatus, "r");
-  // },
   getUserInfo(e) {
     app.globalData.userInfo = e.detail.userInfo;
     this.setData({
@@ -425,15 +403,6 @@ Page({
         });
       },
     });
-
-    // wx.request({
-    //   url: "http://api_devs.wanxikeji.cn/api/goodList",
-    //   data: {},
-    //   header: { "content-type": "application/json" },
-    //   success: (result) => {
-    //     console.log(result, "cart");
-    //   },
-    // });
   },
   addToCart() {
     wx.request({
@@ -520,6 +489,7 @@ Page({
           console.log(result, "cart");
           this.setData({
             cartList: result.data.data.data,
+            cartTotal: result.data.data.data.length,
           });
         },
         fail: () => {},
@@ -559,12 +529,130 @@ Page({
     });
   },
   checkOut() {
-    wx.setStorageSync("checkList", this.data.cartList[0]);
-    wx.navigateTo({
-      url: "/pages/order/order",
-      success: (result) => {},
-      fail: () => {},
-      complete: () => {},
+    if (this.data.checkList.length > 0) {
+      wx.setStorageSync("checkList", this.data.checkList);
+      wx.navigateTo({
+        url: "/pages/order/order",
+        success: (result) => {},
+        fail: () => {},
+        complete: () => {},
+      });
+    } else {
+      $Toast({
+        content: "未选择结算物品",
+        type: "warning",
+        duration: 0,
+        mask: false,
+      });
+      setTimeout(() => {
+        $Toast.hide();
+      }, 1500);
+    }
+  },
+  selectItem(e) {
+    // console.log(e.currentTarget.dataset.type);
+    let dataList = this.data.cartList;
+    let counts = this.data.cartItemCount;
+    let check = this.data.checkList;
+    let price = 0;
+    if (e.currentTarget.dataset.type == "single") {
+      if (dataList[e.currentTarget.dataset.set].remark == true) {
+        dataList[e.currentTarget.dataset.set].remark = false;
+        counts--;
+        for (let a = 0; a < check.length; a++) {
+          if (
+            check[a].shopping_car_id ==
+            dataList[e.currentTarget.dataset.set].shopping_car_id
+          ) {
+            check.splice(a, 1);
+            a--;
+          }
+        }
+        for (let b = 0; b < check.length; b++) {
+          price += Number(check[b].money) * Number(check[b].num);
+        }
+        this.setData({
+          checkList: check,
+        });
+      } else {
+        dataList[e.currentTarget.dataset.set].remark = true;
+        counts++;
+        check.push(dataList[e.currentTarget.dataset.set]);
+        for (let b = 0; b < check.length; b++) {
+          price += Number(check[b].money) * Number(check[b].num);
+        }
+        this.setData({
+          checkList: check,
+        });
+      }
+
+      console.log(this.data.checkList, "check");
+      this.setData({
+        cartList: dataList,
+        cartItemCount: counts,
+        totalPrice: price,
+      });
+    } else {
+      // console.log("all");
+      let show = this.data.iconShow;
+      this.setData({
+        iconShow: !show,
+      });
+      check = [];
+      price = 0;
+      for (let i = 0; i < dataList.length; i++) {
+        if (this.data.iconShow == true) {
+          dataList[i].remark = true;
+          price += Number(dataList[i].money) * Number(dataList[i].num);
+          // console.log(dataList[i].money++);
+          this.setData({
+            cartItemCount: dataList.length,
+          });
+          check.push(dataList[i]);
+        } else {
+          dataList[i].remark = false;
+          this.setData({
+            cartItemCount: 0,
+          });
+          check = [];
+          price = 0;
+        }
+      }
+      console.log(price, "$");
+      this.setData({
+        cartList: dataList,
+        checkList: check,
+        totalPrice: price,
+      });
+      // console.log(this.data.checkList, "check");
+    }
+  },
+  manageCart() {
+    let tmp = this.data.manageCart;
+    let dataList = this.data.cartList;
+
+    console.log(tmp);
+    this.setData({
+      manageCart: !tmp,
+    });
+    console.log(this.data.ma);
+    if (this.data.manageCart == true) {
+      this.setData({
+        manageText: "管理",
+      });
+    } else if (this.data.manageCart == false) {
+      this.setData({
+        manageText: "完成",
+      });
+    }
+    for (let i = 0; i < dataList.length; i++) {
+      dataList[i].remark = false;
+    }
+    // console.log(price, "$");
+    this.setData({
+      cartList: dataList,
+      cartItemCount: 0,
+      totalPrice: 0,
     });
   },
 });
