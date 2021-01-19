@@ -26,9 +26,7 @@ Page({
         wx.setStorageSync("selectAddress", JSON.stringify(element));
         wx.navigateTo({
           url: '../order/order',
-          success: (result) => {
-          },
-        });
+        })
       }
     });
 

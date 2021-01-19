@@ -3,9 +3,12 @@
         <view class="address-text-content">
             <text class="address-name">{{address.name}}</text>
             <text class="address-phone">{{address.phone}}</text>
-            <text class="address-detailed">{{address.procince+address.city+address.area+address.detailed}}</text>
+            <view><text class="address-detailed">{{address.procince+address.city+address.area+address.detailed}}</text>
+            </view>
         </view>
-        <i-icon type="enter" size="24" color="#C3C3C3" />
+        <view>
+            <i-icon type="enter" size="24" color="#C3C3C3" />
+        </view>
     </view>
     <view class="address_btn" wx:else>
         <button type="primary" bindtap="handleChooseAdd" plain="{{true}}">获取收货地址</button>
@@ -18,17 +21,13 @@
     </i-notice-bar>
 </view>
 <view class="goods">
-    <view class="goods-msg">
-        <image src="{{goodsMsg.img}}" mode="widthFix"></image>
+    <view class="goods-msg" wx:for="{{goodsMsg}}" wx:key="good_id">
+        <image src="{{item.img}}" mode="widthFix"></image>
         <view class="goods-text">
-            <view class="good-name">{{goodsMsg.good_name}}</view>
+            <view class="good-name">{{item.good_name}}</view>
             <view class="price">
-                <view class="money-show"><text>￥{{goodsMsg.promotion_price}}</text>
-                    <view class="money-btn">
-                        <view class="money-btn-sty" bindtap="handletap" data-operation="{{1}}">+</view>
-                        <view>{{goodsNumber}}</view>
-                        <view class="money-btn-sty" bindtap="handletap" data-operation="{{-1}}">-</view>
-                    </view>
+                <view class="money-show"><text>￥{{item.promotion_price}}</text>
+                    <view>x{{goodsNumber}}</view>
                 </view>
                 <view class="price-description">
                     <i-icon type="prompt" size="16" color="#a6a6a6" /> 支持7天无理由退货（拆封后不支持）
@@ -79,5 +78,5 @@
 <view class="block"></view>
 <view class="order-buttom">
     <view class="order-buttom-size">总计：<text class="delivery-color2">￥{{original_price}}</text></view>
-    <view class="pay-btn">微信支付</view>
+    <view class="pay-btn" bindtap="handleOrderPay">微信支付</view>
 </view>

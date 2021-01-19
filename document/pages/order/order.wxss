@@ -6,7 +6,8 @@
 .address-text {
   display: flex;
   align-items: center;
-  padding: 19rpx;
+  justify-content: space-between;
+  padding: 19rpx 25rpx;
 }
 
 .block {
@@ -14,13 +15,8 @@
   height: 30rpx;
 }
 
-.address-text-content {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .address-phone {
-  padding-left: 49rpx;
+  padding-left: 89rpx;
 }
 
 .address-phone,
@@ -75,30 +71,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 10rpx;
 }
 
 .money-show text {
   color: #f00;
-}
-
-.money-btn {
-  width: 180rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
-}
-
-.money-btn view {
-  width: 60rpx;
-  height: 60rpx;
-  text-align: center;
-  line-height: 60rpx;
-}
-
-.money-btn-sty {
-  border-radius: 3px;
-  background: #f3f3f3;
 }
 
 .goods-delivery {
@@ -149,11 +126,12 @@
   bottom: 0;
   align-items: center;
   justify-content: space-between;
-  padding: 10rpx 20rpx 25rpx;
+  padding: 30rpx 20rpx 45rpx;
   box-shadow: 0px -1px 5px #d6d6d6;
 }
 .pay-btn{
   background: #48B92B;
+  /* background: #14fba4; */
   width: 280rpx;
   display: flex;
   align-items: center;
