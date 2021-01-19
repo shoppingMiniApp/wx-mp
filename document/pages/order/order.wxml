@@ -6,6 +6,7 @@
             <view><text class="address-detailed">{{address.procince+address.city+address.area+address.detailed}}</text>
             </view>
         </view>
+
         <view>
             <i-icon type="enter" size="24" color="#C3C3C3" />
         </view>
@@ -26,8 +27,8 @@
         <view class="goods-text">
             <view class="good-name">{{item.good_name}}</view>
             <view class="price">
-                <view class="money-show"><text>￥{{item.promotion_price}}</text>
-                    <view>x{{goodsNumber}}</view>
+                <view class="money-show"><text>￥{{item.money}}</text>
+                    <view>x{{item.num}}</view>
                 </view>
                 <view class="price-description">
                     <i-icon type="prompt" size="16" color="#a6a6a6" /> 支持7天无理由退货（拆封后不支持）
@@ -78,5 +79,7 @@
 <view class="block"></view>
 <view class="order-buttom">
     <view class="order-buttom-size">总计：<text class="delivery-color2">￥{{original_price}}</text></view>
+    <view class="pay-btn" bindtap="handleOrderList">查看订单</view>
     <view class="pay-btn" bindtap="handleOrderPay">微信支付</view>
 </view>
+<view class="buttom-block"></view>

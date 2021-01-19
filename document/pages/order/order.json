@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "i-icon": "../../dist/icon/index",
-    "i-notice-bar": "../../dist/notice-bar/index"
+    "i-notice-bar": "../../dist/notice-bar/index",
+    "i-toast": "../../dist/toast/index"
   },
   "navigationBarTitleText": "确认订单"
 }

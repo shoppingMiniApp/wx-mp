@@ -140,3 +140,6 @@
   color: #FFF;
   border-radius: 50px;
 }
+.buttom-block{
+  height: 160rpx;
+}
