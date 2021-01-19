@@ -23,7 +23,7 @@ Page({
     classify: [],
     alert: "",
     fix: false,
-    top:false,
+    top: false,
     message:
       "2021年7月-8月，将会在成都举办大运会，2022年将会在日本东京举办奥运会",
   },
@@ -177,31 +177,31 @@ Page({
   onPageScroll(e) {
     // console.log(e.scrollTop);
     // nav固定
-    if(e.scrollTop >= 83){
+    if (e.scrollTop >= 83) {
       this.setData({
-        fix: true
-      })
-    }else{
+        fix: true,
+      });
+    } else {
       this.setData({
-        fix: false
-      })
+        fix: false,
+      });
     }
     // 回到顶部
-    if(e.scrollTop >= 300){
+    if (e.scrollTop >= 300) {
       this.setData({
-        top: true
-      })
-    }else{
+        top: true,
+      });
+    } else {
       this.setData({
-        top: false
-      })
+        top: false,
+      });
     }
   },
   // 回到顶部
-  top(){
+  top() {
     wx.pageScrollTo({
       scrollTop: 0,
-      duration: 300
+      duration: 300,
     });
   },
 
@@ -520,26 +520,6 @@ Page({
           console.log(result, "cart");
           this.setData({
             cartList: result.data.data.data,
-        console.log(result.data, "!");
-        this.setData({ registerStatus: result.data });
-        if (result.data == false) {
-          console.log(this.data.userInfo, "ewqewqeqweqweq");
-          // this.getUserInfo();
-          wx.getStorage({
-            key: "openid",
-            success: (result) => {
-              wx.request({
-                url: "http://api_devs.wanxikeji.cn/api/register",
-                data: {
-                  openid: result.data,
-                  nick_name: this.data.userInfo.nickName,
-                  icon: this.data.userInfo.avatarUrl,
-                },
-                success(res) {
-                  console.log(res.data.data, "eqeq");
-                },
-              });
-            },
           });
         },
         fail: () => {},
