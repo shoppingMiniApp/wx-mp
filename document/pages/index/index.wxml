@@ -3,53 +3,61 @@
 <!-- 首页 -->
 <view class="homepage" wx:if="{{ current == 'homepage'}}">
   <!-- 搜索栏 -->
-  <navigator class="" target="" url="/pages/search/search" open-type="navigateTo">跳转</navigator>
+  <view class="search-part">
+    <i-icon type="search" i-class="search-icon" size="20" color="#666" />
+    <input type="text" placeholder="输入商品名称" class="search-input" bindtap="jump" />
+  </view>
   <view class="searchBar"></view>
   <view class="homepageContent">
     <!-- content -->
     <view class="homepageContent">
+      <!-- promise -->
+      <view class="promise">
+        <i-notice-bar icon="systemprompt" loop closable>{{message}}</i-notice-bar>
+      </view>
+      <!-- 回到顶部 -->
+      <view class="top" catchtap="top" wx:if="{{top}}">
+        <i-icon type="packup" size="28" color="#80848f" />
+      </view>
       <!-- 分类 -->
-      <scroll-view class="nav" scroll-x="true" scroll-left="0" scroll-into-view="">
-        <view class="{{ num == index ? 'navborder' : 'navbordernone' }}" wx:for="{{recommendData}}" wx:key="index" bindtap="handleChangeScroll" data-index="{{index}}" data-title="{{recommendData[index].type_name}}">
+      <scroll-view class="nav {{fix?'fixed':'fff'}}" scroll-x="true" scroll-left="0" scroll-into-view="">
+        <view class="{{ num == index ? 'navborder' : 'navbordernone' }} nav_view" wx:for="{{recommendData}}" wx:key="index" bindtap="handleChangeScroll" data-index="{{index}}" data-title="{{recommendData[index].type_name}}">
           {{recommendData[index].type_name}}
         </view>
       </scroll-view>
       <!-- 推荐 -->
       <view class="" wx:if="{{ current_scroll == '推荐'}}">
         <!-- swiper -->
-        <swiper class="" indicator-dots="false" indicator-color="#fba414" autoplay="false" current="0" current-item-id="" interval="3000" duration="1000" circular="false" display-multiple-items="1" bindchange="">
-          <swiper-item class="" item-id="" wx:for="{{swiperSrc}}" wx:key="index">
-            <image class="" src="{{swiperSrc[index].pic}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+        <swiper class="swiper" indicator-dots="false" indicator-color="#fba414" autoplay="false" current="0" current-item-id="" interval="3000" duration="1000" circular="false" display-multiple-items="1" bindchange="">
+          <swiper-item class="swiper-item" item-id="" wx:for="{{swiperSrc}}" wx:key="index">
+            <image class="swiper-item-image" src="{{swiperSrc[index].pic}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
           </swiper-item>
         </swiper>
-        <!-- promise -->
-        <view class="promise">
-          <text>正品保证</text>
-          <text>逐件检查</text>
-          <text>多重鉴别</text>
-        </view>
         <!-- recommended -->
         <view class="recommended">
-          <view class="" wx:for="{{recommenMain}}" wx:key="index" data-index="{{index}}" bindtap="handleRecommend">
-            <image class="" src="{{recommenMain[index].img}}" mode="aspectFit|aspectFill|widthFix"></image>
-            <text class="retext" selectable="false" space="false" decode="false">
+          <view class="re-v" wx:for="{{recommenMain}}" wx:key="index" data-index="{{index}}" bindtap="handleRecommend">
+            <image class="re-v-image" src="{{recommenMain[index].img}}" mode="aspectFit|aspectFill|widthFix"></image>
+            <text class="retext" space="false" decode="false">
               {{recommenMain[index].good_name}}
             </text>
           </view>
         </view>
         <!-- main -->
         <view class="main" id="main">
-          <view wx:for="{{swiperSrc}}" wx:key="index" bindtap="detail" data-index="{{index}}">
+          <view class="main-view" wx:for="{{list}}" wx:key="index" bindtap="detail" data-index="{{index}}">
             <view class="img">
-              <image src="{{swiperSrc[index].pic}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
+              <image class="img-image" src="{{list[index].img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
             </view>
-            <view class="">
-              <text class="info" decode="false">这里是简介这里是简介这里是简介这里是简介这里是简介这里是简介</text>
-              <view class="">
-                <b class="price"><sup>￥</sup>132</b>
+            <view class="text">
+              <text class="info" decode="false">{{list[index].good_name}}</text>
+              <view class="main-vvvv">
+                <b class="price">
+                  <sup class="price-sup">￥</sup>
+                  {{list[index].price}}
+                </b>
                 <text class="hide" decode="false" catchtap="care" data-hide="{{index}}">...</text>
-                <view class="redece" wx:if="{{ care == index}}" data-hide="{{index}}" bindtap="del">
-                  不感兴趣
+                <view class="main-vvvvv" wx:if="{{ list[index].isactive}}" data-hide="{{index}}" catchtap="cancel">
+                  <text catchtap="del" data-hide="{{index}}">不感兴趣</text>
                 </view>
               </view>
             </view>
@@ -57,16 +65,19 @@
         </view>
       </view>
       <!-- 其他分类 -->
-      <view class="" wx:if="{{current_scroll == navName}}">
-        <!-- {{navName}} -->
-        <view class="classify" >
-          <view class="" wx:for="{{classify}}" wx:key="index" bindtap="detailmore" data-index="{{index}}">
+      <view class="more" wx:if="{{current_scroll == navName}}">
+        <view class="nodata">{{alert}}</view>
+        <view class="classify">
+          <view class="classify-view" wx:for="{{classify}}" wx:key="index" bindtap="detailmore" data-index="{{index}}">
             <view class="">
-              <image class="" src="{{classify[index].img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
+              <image class="classify-view-image" src="{{classify[index].img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="true"></image>
             </view>
             <view class="infos">
               <text class="info">{{classify[index].good_name}}</text>
-              <b class="price"><sup>￥</sup>{{classify[index].price}}</b>
+              <b class="price">
+                <sup>￥</sup>
+                {{classify[index].price}}
+              </b>
             </view>
           </view>
         </view>
@@ -79,7 +90,7 @@
   <!-- <block wx:for="{{}}">
     
   </block> -->
-    <button bindtap="change">cart</button>
+  <button bindtap="change">cart</button>
 </view>
 <!-- 我的 -->
 <view class="mine" wx:if="{{ current == 'mine'}}">

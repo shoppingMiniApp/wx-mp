@@ -8,6 +8,7 @@
     "i-button": "../../dist/button/index",
     "i-avatar": "../../dist/avatar/index",
     "i-radio-group": "../../dist/radio-group/index",
-    "i-radio": "../../dist/radio/index"
+    "i-radio": "../../dist/radio/index",
+    "i-notice-bar": "../../dist/notice-bar/index"
   }
 }

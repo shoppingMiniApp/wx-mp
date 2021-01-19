@@ -20,6 +20,10 @@ Page({
     recommenMain: [],
     classify: [],
     alert: "",
+    fix: false,
+    top:false,
+    message:
+      "2021年7月-8月，将会在成都举办大运会，2022年将会在日本东京举办奥运会",
   },
   handleChange: function ({ detail }) {
     if (detail.key == "homepage") {
@@ -90,16 +94,19 @@ Page({
     }
     // console.log(this.data.navName);
   },
+  // 跳search页面-zy
+  jump() {
+    wx.navigateTo({
+      url: "/pages/search/search",
+    });
+  },
   //点击其他分类的商品，跳转详情页-zy
   detailmore(e) {
     let id = this.data.classify[e.currentTarget.dataset.index].good_id;
     console.log(id);
     // 带着id跳转商品详情页
     wx.navigateTo({
-      url: "",
-      success: (result) => {},
-      fail: () => {},
-      complete: () => {},
+      url: "../product/product?good_id=" + id,
     });
   },
   //点击推荐的4个商品-zy
@@ -109,13 +116,9 @@ Page({
     console.log(id);
     // 带着id跳转商品详情页
     wx.navigateTo({
-      url: "",
-      success: (result) => {},
-      fail: () => {},
-      complete: () => {},
+      url: "../product/product?good_id=" + id,
     });
   },
-  
   //推荐列表点击跳转商品详情-zy
   detail(e) {
     // console.log(e.currentTarget.dataset.index);
@@ -123,10 +126,7 @@ Page({
     console.log(id);
     // 带着id跳转商品详情页
     wx.navigateTo({
-      url: "",
-      success: (result) => {},
-      fail: () => {},
-      complete: () => {},
+      url: "../product/product?good_id=" + id,
     });
   },
   //点击三个小点-zy
@@ -139,9 +139,9 @@ Page({
         list: arr,
       });
     } else {
-      arr.forEach((item,index,arr)=>{
-        item.isactive = false
-      })
+      arr.forEach((item, index, arr) => {
+        item.isactive = false;
+      });
       arr[index].isactive = true;
       this.setData({
         list: arr,
@@ -151,11 +151,55 @@ Page({
   //不感兴趣删除-zy
   del(e) {
     let number = e.currentTarget.dataset.hide;
+    // console.log(number);
     let arr = this.data.list;
     arr.splice(number, 1);
+    arr.forEach((item, index, arr) => {
+      item.isactive = false;
+    });
     this.setData({
       list: arr,
       care: -1,
+    });
+  },
+  // 取消不感兴趣-zy
+  cancel(e) {
+    let index = e.currentTarget.dataset.hide;
+    let arr = this.data.list;
+    arr[index].isactive = false;
+    this.setData({
+      list: arr,
+    });
+  },
+  // 页面滚动事件-zy
+  onPageScroll(e) {
+    // console.log(e.scrollTop);
+    // nav固定
+    if(e.scrollTop >= 83){
+      this.setData({
+        fix: true
+      })
+    }else{
+      this.setData({
+        fix: false
+      })
+    }
+    // 回到顶部
+    if(e.scrollTop >= 300){
+      this.setData({
+        top: true
+      })
+    }else{
+      this.setData({
+        top: false
+      })
+    }
+  },
+  // 回到顶部
+  top(){
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
     });
   },
 
@@ -266,9 +310,9 @@ Page({
       dataType: "json",
       responseType: "text",
       success: (result) => {
-        result.data.data.data.forEach( (item,index,arr)=>{
-          item.isactive = false
-        })
+        result.data.data.data.forEach((item, index, arr) => {
+          item.isactive = false;
+        });
         this.setData({
           list: result.data.data.data,
         });
