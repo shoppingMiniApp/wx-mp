@@ -299,7 +299,7 @@ Page({
     // app.globalData.userInfo = false;
   },
   toAddress(e) {
-    console.log(e.currentTarget, "tiao");
+    // console.log(e.currentTarget, "tiao");
     let tag = e.currentTarget.dataset.set;
     if (tag == "address") {
       wx.navigateTo({
