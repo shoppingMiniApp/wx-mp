@@ -381,13 +381,24 @@ Page({
     // app.globalData.userInfo = false;
     wx.setStorageSync("token", "");
   },
-  toAddress() {
-    wx.navigateTo({
-      url: "/pages/address/address",
-      success: (result) => {},
-      fail: () => {},
-      complete: () => {},
-    });
+  toAddress(e) {
+    // console.log(e.currentTarget, "tiao");
+    let tag = e.currentTarget.dataset.set;
+    if (tag == "address") {
+      wx.navigateTo({
+        url: "/pages/address/address",
+        success: (result) => {},
+        fail: () => {},
+        complete: () => {},
+      });
+    } else if (tag == "order") {
+      wx.navigateTo({
+        url: "/pages/orderList/orderList",
+        success: (result) => {},
+        fail: () => {},
+        complete: () => {},
+      });
+    }
   },
   change() {
     wx.getStorage({
