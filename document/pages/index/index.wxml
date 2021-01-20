@@ -184,7 +184,7 @@
   <!-- <view class="shopHistory"></view> -->
   <i-panel title="dw" i-class="shopHistory">
     <view style="padding-left:50rpx;padding-right:50rpx;background:#fef5e780;margin-bottom:25rpx;">
-      <view class="historyHeader">
+      <view class="historyHeader" bindtap="toAddress" data-set="order">
         <view class="headeright">
           <i-icon type="activity" size="23" i-class="icon" style="line-height:0;padding-right:10rpx;" />
           <view style="padding:0">购买记录</view>
@@ -194,7 +194,7 @@
           <i-icon type="enter" size="14" i-class="icon" style="line-height:0;padding-left:10rpx; color:#666;" />
         </view>
       </view>
-      <view class="shopStatus">
+      <view class="shopStatus" bindtap="toAddress" data-set="order">
         <view class="shopStatusIcon">
           <i-icon type="redpacket" size="25" style="line-height:0;" />
           <view style="font-size:26rpx">待付款</view>
