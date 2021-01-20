@@ -53,7 +53,7 @@ Page({
       })
       //支付成功后删除购物车数据
       shopping_car_Id.forEach(ele => {
-        await request({
+        request({
           url: "/api/shoppingCarDelete",
           data: {
             token,
