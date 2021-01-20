@@ -310,7 +310,7 @@ Page({
       });
     } else if (tag == "order") {
       wx.navigateTo({
-        url: "/pages/orderList/orderList",
+        url: "/pages/orderList/orderList?index=0",
         success: (result) => {},
         fail: () => {},
         complete: () => {},
