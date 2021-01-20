@@ -92,7 +92,7 @@
 <!-- 购物车 -->
 <view class="cart" wx:if="{{ current == 'cart'}}">
   <!-- <block wx:for="{{}}">
-    
+  
   </block> -->
   <button bindtap="change">cart</button>
 </view>
