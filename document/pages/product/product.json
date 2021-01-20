@@ -2,6 +2,8 @@
   "usingComponents": {
     "i-icon": "../../dist/icon/index",
     "i-tabs": "../../dist/tabs/index",
-    "i-tab": "../../dist/tab/index"
+    "i-tab": "../../dist/tab/index",
+    "i-toast": "../../dist/toast/index"
+   
   }
 }

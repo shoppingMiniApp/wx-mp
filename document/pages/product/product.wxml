@@ -15,7 +15,10 @@
             <view class="discount">
                 <span>用户积分可抵2.53元起</span>
                 <span>店铺满150减5</span>
-                <b class="toDiscount">领券 ></b>
+                <b class="toDiscount">
+                    领券
+                    <i-icon type="enter" size="16" i-class="enter-icon" />
+                </b>
             </view>
             <!-- *商品标题 -->
             <view class="title">{{goodTitle}}</view>
@@ -38,12 +41,13 @@
         <!-- *SKU 地址 活动 保障 -->
         <view class="SKU-part">
             <!-- *sku -->
-            <view class="SKU-choose">
+            <view class="SKU-choose" catchtap='clickPup'>
                 <view class="block">
                     <span>选择</span>
-                    <view class="">颜色分类</view>
+                    <view class="" wx:if="{{unselect}}">颜色分类</view>
+                    <view class="" wx:if="{{isselect}}">已选：{{isselectSku}}</view>
                 </view>
-                <b class="arrow">></b>
+                <i-icon type="enter" size="16" i-class="enter-icon" />
             </view>
             <!-- *地址 -->
             <view class="address-choose">
@@ -55,7 +59,10 @@
                         快递：快递包邮
                     </view>
                 </view>
-                <b class="arrow">月销3 ></b>
+                <b class="arrow">
+                    月销3
+                    <i-icon type="enter" size="16" i-class="enter-icon" />
+                </b>
             </view>
             <!-- *保障 -->
             <view class="safeguard">
@@ -63,7 +70,7 @@
                     <span>保障</span>
                     <view class="">订单险 · 7天无理由 · 公益宝贝</view>
                 </view>
-                <b class="arrow">></b>
+                <i-icon type="enter" size="16" i-class="enter-icon" />
             </view>
             <!-- *活动 -->
             <view class="activity">
@@ -71,7 +78,7 @@
                     <span>活动</span>
                     <view class="">开卡领5元通用红包！</view>
                 </view>
-                <b class="arrow">></b>
+                <i-icon type="enter" size="16" i-class="enter-icon" />
             </view>
             <!-- 参数 -->
             <view class="parameter">
@@ -79,7 +86,7 @@
                     <span>参数</span>
                     <view class="">品牌 型号...</view>
                 </view>
-                <b class="arrow">></b>
+                <i-icon type="enter" size="16" i-class="enter-icon" />
             </view>
         </view>
         <!-- *评价 -->
@@ -90,7 +97,10 @@
                     宝贝评价
                     <i>(34)</i>
                 </b>
-                <span class="look-all">查看全部 ></span>
+                <span class="look-all">
+                    查看全部
+                    <i-icon type="enter" size="16" i-class="enter-icon" />
+                </span>
             </view>
             <!-- *评价展示 -->
             <view class="evaluate-list">
@@ -135,7 +145,10 @@
                         买家秀
                         <i>(25)</i>
                     </b>
-                    <span class="look-all">查看全部 ></span>
+                    <span class="look-all">
+                        查看全部
+                        <i-icon type="enter" size="16" i-class="enter-icon" />
+                    </span>
                 </view>
                 <!-- *预览图 -->
                 <view class="preview">
@@ -150,7 +163,10 @@
                 <!-- *标题=按钮 -->
                 <view class="tit-btn">
                     <b>问大家</b>
-                    <span class="look-all">查看全部 ></span>
+                    <span class="look-all">
+                        查看全部
+                        <i-icon type="enter" size="16" i-class="enter-icon" />
+                    </span>
                 </view>
                 <!-- *问题展示 -->
                 <view class="question">
@@ -182,9 +198,9 @@
                 <i-icon type="emoji" size="23" />
                 <p>客服</p>
             </span>
-            <span>
-                <i-icon type="collection" size="23" />
-                <p>收藏</p>
+            <span bindtap="collection">
+                <i-icon type="{{collectionIcon}}" size="23" color="{{collectionColor}}" />
+                <p>{{collectionTxt}}</p>
             </span>
             <view class="shopping-btn">
                 <view class="add-shoppingCar" catchtap='clickPup'>加入购物车</view>
@@ -282,10 +298,12 @@
                     </view>
                 </view>
             </view>
+            <loading hidden="{{loadingHidden}}">加载中...</loading>
             <!-- *确定 -->
             <view class="ok-btn" bindtap="addOkBtn">加入购物车</view>
         </view>
     </view>
     <!-- 固定的背景 -->
     <view class='pupContentBG {{click?"showBG":"hideBG"}} {{option?"openBG":"closeBG"}}' catchtap='clickPup'></view>
+    <i-toast id="toast" />
 </view>
