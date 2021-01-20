@@ -1,7 +1,7 @@
 <!-- pages/product/product.wxml 222222222222222 -->
 <view class="product-detail">
     <view class="goods-img">
-        <image class="" src="{{goodImg}}"></image>
+        <image class="goodimgimg" src="{{goodImg}}"></image>
     </view>
     <!-- *版心 -->
     <view class="product-wrap">
@@ -204,7 +204,7 @@
             </span>
             <view class="shopping-btn">
                 <view class="add-shoppingCar" catchtap='clickPup'>加入购物车</view>
-                <view class="buy-now">立即购买</view>
+                <view class="buy-now" catchtap="buyNow">立即购买</view>
             </view>
         </view>
     </view>
@@ -235,7 +235,6 @@
     </view>
     <!-- <button catchtap='clickPup'>点击底部动画弹窗</button> -->
     <!-- 底部弹窗动画的内容 -->
-    <!-- <view class='pupContent {{click? "showContent": "hideContent"}} {{option? "open": "close"}}' hover-stop-propagation='true'> -->
     <view class='pupContent {{click? "showContent": "hideContent"}} {{option? "open": "close"}}' hover-stop-propagation='true'>
         <view class="pupContent-wrap">
             <view class="">
@@ -289,7 +288,7 @@
                                 -
                             </button>
                             <view class="itemNum">
-                                <input value="{{itemNum}}" />
+                                <input value="{{itemNum}}" disabled="true" />
                             </view>
                             <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{1}}" style="width:50rpx;height:40rpx;padding:0px;line-height:1;color:#555" bingt>
                                 +

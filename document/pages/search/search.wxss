@@ -80,19 +80,21 @@
   width: auto !important;
 }
 .search-goods-list {
-  width: 100%;
+  /* width: 100%; */
   position: absolute;
   top: 75rpx;
-  padding: 0 12rpx;
+  padding: 20rpx 12rpx 20rpx;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background: #ddd5;
 }
 .search-goods-list-item {
   width: 49%;
   box-shadow: 0 0 6rpx #ccc7;
   border-radius: 10rpx;
   margin-top: 16rpx;
+  background: #fff;
 }
 .search-goods-list-item image {
   width: 100%;
@@ -114,6 +116,7 @@ sup {
 }
 .goods-items-bottom b {
   font-weight: bold;
+  color: #f00;
 }
 .goods-items-bottom span {
   font-size: 20rpx;
