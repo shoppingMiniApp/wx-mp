@@ -32,7 +32,7 @@ Page({
     userInfo: "",
     hasUserInfo: false,
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
-    current: "cart",
+    current: "mine",
     visible: false,
   },
   handleChange: function ({ detail }) {
@@ -247,7 +247,6 @@ Page({
       duration: 300,
     });
   },
-
   onLoad() {
     this.star();
 
@@ -276,10 +275,10 @@ Page({
       }
     } else {
       console.log("4");
-      console.log(this.data.registerStatus);
-      this.setData({
-        visible: true,
-      });
+      // console.log(this.data.registerStatus);
+      // this.setData({
+      //   visible: true,
+      // });
     }
   },
   getUserInfo(e) {
@@ -309,8 +308,9 @@ Page({
         complete: () => {},
       });
     } else if (tag == "order") {
+      let index = e.currentTarget.dataset.index;
       wx.navigateTo({
-        url: "/pages/orderList/orderList?index=0",
+        url: "/pages/orderList/orderList?index=" + index,
         success: (result) => {},
         fail: () => {},
         complete: () => {},
@@ -325,38 +325,26 @@ Page({
       });
     }
   },
-  change() {
-    wx.getStorage({
-      key: "token",
-      success: (result) => {
-        wx.request({
-          url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
-          data: {
-            token: result.data,
-          },
-          header: { "content-type": "application/json" },
-          success: (result) => {
-            console.log(result, "cart");
-          },
+  okRegister() {
+    wx.getUserInfo({
+      success: (res) => {
+        console.log("7");
+        app.globalData.userInfo = res.userInfo;
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true,
+        });
+        this.register();
+        this.setData({
+          visible: false,
         });
       },
     });
   },
-  change() {
-    var reqTask = wx.request({
-      url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
-      data: {},
-      header: { "content-type": "application/json" },
-      method: "GET",
-      dataType: "json",
-      responseType: "text",
-      success: (result) => {
-        console.log(result, "cart");
-      },
-      fail: () => {},
-      complete: () => {},
+  cancelRegister() {
+    this.setData({
+      visible: false,
     });
-    return reqTask;
   },
   register() {
     if (this.data.registerStatus == false) {
@@ -510,9 +498,19 @@ Page({
         cartItemCount: counts,
         totalPrice: price,
       });
+      if (this.data.checkList.length == this.data.cartList.length) {
+        this.setData({
+          iconShow: true,
+        });
+      } else if (this.data.checkList.length < this.data.cartList.length) {
+        this.setData({
+          iconShow: false,
+        });
+      }
     } else {
-      // console.log("all");
+      console.log("all");
       let show = this.data.iconShow;
+      console.log(show, !show);
       this.setData({
         iconShow: !show,
       });
@@ -526,24 +524,22 @@ Page({
           this.setData({
             cartItemCount: dataList.length,
           });
+          check.push(dataList[i]);
+        } else {
+          dataList[i].remark = false;
+          this.setData({
+            cartItemCount: 0,
+          });
+          check = [];
+          price = 0;
         }
       }
-
       this.setData({
         cartList: dataList,
         checkList: check,
         totalPrice: price,
       });
-      // console.log(this.data.checkList, "check");
-    }
-    if (this.data.checkList.length == this.data.cartList.length) {
-      this.setData({
-        iconShow: true,
-      });
-    } else if (this.data.checkList.length < this.data.cartList.length) {
-      this.setData({
-        iconShow: false,
-      });
+      console.log(this.data.checkList, "check");
     }
   },
   manageCart() {
@@ -589,6 +585,7 @@ Page({
           k--;
         }
       }
+
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/shoppingCarDelete",
         data: {
@@ -605,10 +602,14 @@ Page({
       this.setData({
         cartList: cart,
         showEmpty: true,
+        cartTotal: 0,
+        cartItemCount: 0,
       });
     } else {
       this.setData({
         cartList: cart,
+        cartTotal: cart.length,
+        cartItemCount: 0,
       });
     }
   },
