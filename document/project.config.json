@@ -77,6 +77,12 @@
           "pathName": "pages/product/product",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "订单列表",
+          "pathName": "pages/orderList/orderList",
+          "query": "",
+          "scene": null
         }
       ]
     }

@@ -1,1 +1,87 @@
 /* pages/orderList/orderList.wxss */
+.banner {
+  background: #F6F6F6;
+  padding: 1rpx 20rpx;
+}
+
+.oneOrder {
+  background: #fff;
+  border-radius: 10px;
+  margin-top: 25rpx;
+  box-shadow: 0 4rpx 2px #e5e5e5;
+  padding: 0 10rpx;
+}
+
+.pay_status {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 28rpx;
+  color: #828282;
+  padding: 15rpx 0;
+}
+
+.money {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 28rpx;
+  padding: 12rpx 0;
+  border-bottom: 2px solid #F5F5F5;
+}
+
+.money-text {
+  font-weight: bold;
+}
+
+.buyAgain {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 15rpx;
+}
+
+.buyAgain-btn {
+  padding: 8rpx 28rpx;
+  border: 4rpx solid #f08970;
+  border-radius: 50px;
+  font-size: 28rpx;
+  color: #f08970;
+}
+
+.goods-msg {
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.goods-img {
+  width: 180rpx;
+  height: 160rpx;
+  flex-shrink: 0;
+}
+
+.goods-text {
+  font-size: 28rpx;
+  line-height: 1.4rem;
+}
+
+.goods-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.goods-num {
+  width: 40rpx;
+  font-size: 28rpx;
+  color: #828282;
+  text-align: center;
+  flex-shrink: 0;
+}
+.hint-text{
+  height: 400rpx;
+  font-size: 28rpx;
+  color: #828282;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
