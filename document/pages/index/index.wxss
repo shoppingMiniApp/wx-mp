@@ -1,18 +1,8 @@
-/* 重置样式 */
-view,
-image,
-text {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 .mine {
   width: 100%;
   margin: 0;
 }
-.navTabBar {
-  margin-bottom: 25rpx;
-}
+
 .loginPanel {
   width: 100%;
   margin-bottom: 20rpx;
@@ -117,7 +107,7 @@ text {
 
 /* search */
 .search-part {
-  width: 725rpx;
+  width: 722rpx;
   padding: 15rpx;
   z-index: 55;
   background-color: #fff;
@@ -137,32 +127,42 @@ text {
   z-index: 5;
   padding: 31rpx 10rpx;
 }
+
 /* 回到顶部 */
-.top {
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 55px;
-  border-radius: 50%;
-  background-color: #fba414;
-  color: #fff;
+.goTopBtn {
+  width: 90rpx;
+  height: 90rpx;
+  background: #fba414;
   position: fixed;
-  bottom: 60px;
-  right: 20px;
+  bottom: 210rpx;
+  right: 30rpx;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: #666;
   z-index: 10;
 }
+
+.goTopBtn b {
+  font-size: 25rpx;
+  color: #fff;
+}
+
 /* 分类样式 */
 .nav {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
 }
+
 .fixed {
   position: fixed;
   top: 0;
   z-index: 10;
   background-color: #fff;
 }
+
 .nav_view {
   display: inline-block;
   padding: 10rpx 16rpx;
@@ -179,6 +179,11 @@ text {
 .navbordernone {
   border: none;
   color: #000;
+}
+
+.promise .message {
+  height: 50rpx;
+  line-height: 50rpx;
 }
 
 /* 轮播 */
@@ -201,12 +206,12 @@ text {
   flex-wrap: wrap;
   justify-content: space-between;
   padding-bottom: 16rpx;
-  border-bottom: 1rpx solid #999;
+  /* border-bottom: 1rpx solid #9998; */
 }
 
 .re-v {
   width: 25%;
-  height: 200rpx;
+  height: 218rpx;
   overflow: hidden;
   padding: 16rpx 8rpx 0rpx 8rpx;
   display: flex;
@@ -234,7 +239,8 @@ text {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 0 12rpx 115rpx 12rpx;
+  padding: 0rpx 12rpx 115rpx 12rpx;
+  background-color: #ddd5;
 }
 
 .main-view {
@@ -243,7 +249,7 @@ text {
   margin-top: 16rpx;
   box-shadow: 0 0 6rpx #ccc7;
   position: relative;
-  padding: 0 1px;
+  /* padding: 0 1px; */
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -256,14 +262,16 @@ text {
 }
 
 .img-image {
+  display: block;
   width: 100%;
-  height: 340rpx;
+  height: 352rpx;
   object-fit: cover;
 }
 
 .text {
   padding: 0 4rpx 10rpx 0;
   margin-top: -20rpx;
+  background-color: #fff;
 }
 
 .info {
@@ -275,7 +283,7 @@ text {
   -webkit-line-clamp: 2;
   overflow: hidden;
   color: #555;
-  height: 80rpx;
+  height: 90rpx;
   box-sizing: border-box;
 }
 
@@ -311,6 +319,8 @@ text {
 
 .hide {
   padding: 0 20rpx;
+  font-weight: bold;
+  margin-top: -4px;
 }
 
 /* 其他分类 商品列表样式*/
@@ -387,7 +397,7 @@ text {
   align-items: center;
   background: #eeeeee70;
   border-radius: 10rpx;
-  padding: 15rpx 0;
+  padding: 25rpx 0;
   margin: 25rpx 0;
   box-sizing: border-box;
 }
@@ -427,7 +437,7 @@ text {
   flex-direction: column;
   justify-content: space-between;
   /* background: coral; */
-  padding: 0 25rpx;
+  padding: 0 40rpx;
   box-sizing: border-box;
 }
 .cartItem_bottom {
@@ -436,8 +446,12 @@ text {
   width: 100%;
   box-sizing: border-box;
 }
+.cartItem_right .cartItem_sku {
+  margin: 0;
+  width: 200rpx;
+}
 .cartItem_name {
-  width: 360rpx;
+  width: 340rpx;
   font-size: 32rpx;
   overflow: hidden;
   text-overflow: ellipsis;
