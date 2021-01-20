@@ -18,7 +18,6 @@ App({
             },
             success(res) {
               wx.setStorageSync("openid", res.data.data.openid);
-
               if (res.data.data.info) {
                 wx.setStorageSync("registered", true);
                 wx.setStorageSync("token", res.data.data.info.token);
@@ -28,7 +27,8 @@ App({
                 wx.setStorageSync("registered", false);
                 console.log("2");
               }
-              console.log(res, "code", tmp);
+
+              console.log(res, "code");
             },
           });
         }
