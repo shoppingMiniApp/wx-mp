@@ -51,7 +51,20 @@ Page({
         title: '支付成功',
         icon: 'success'
       })
-
+      //支付成功后删除购物车数据
+      shopping_car_Id.forEach(ele => {
+        await request({
+          url: "/api/shoppingCarDelete",
+          data: {
+            token,
+            shopping_car_id: ele
+          }
+        })
+      });
+      //支付成功后跳往的页面
+      // wx.navigateTo({
+      //   url: '',
+      // })
     } catch (error) {
       await showToast({
         title: '支付失败',
@@ -77,7 +90,7 @@ Page({
     let LocalAddress = wx.getStorageSync('selectAddress');
     let address = {}
     if (!LocalAddress) {
-      console.log(2)
+      // console.log(2)
       let token = wx.getStorageSync('token')
       const addressList = await request({
         url: "/api/userAddressList",
@@ -98,7 +111,7 @@ Page({
         });
       }
     } else {
-      console.log(1)
+      // console.log(1)
       this.setData({
         address: JSON.parse(LocalAddress),
         addressShow: true
