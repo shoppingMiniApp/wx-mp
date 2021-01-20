@@ -514,3 +514,15 @@ text {
 .cartButtonRightPrice .cartMoneyIcon {
   color: #f00;
 }
+.cartButtonRight .cartDelete {
+  background: #f06441 !important;
+}
+.empty {
+  width: 100%;
+  padding: 400rpx 0;
+  text-align: center;
+  color: #666;
+  /* height: 100%; */
+  /* display: flex;
+  align-items: center; */
+}

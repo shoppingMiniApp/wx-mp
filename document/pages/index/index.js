@@ -4,6 +4,7 @@ const app = getApp();
 const { $Toast } = require("../../dist/base/index");
 Page({
   data: {
+    showEmpty: false,
     manageText: "管理",
     manageCart: true,
     cartTotal: 0,
@@ -215,6 +216,7 @@ Page({
   onLoad() {
     // let resisterStatus = ;
     // console.log(tmp);
+    wx.setStorageSync("checkList", "");
     this.setData({
       registerStatus: wx.getStorageSync("registered"),
       openid: wx.getStorageSync("openid"),
@@ -448,11 +450,7 @@ Page({
     if (this.data.registerStatus == false) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/register",
-        data: {
-          openid: this.data.openid,
-          nick_name: this.data.userInfo.nickName,
-          icon: this.data.userInfo.avatarUrl,
-        },
+        data: {},
         success(res) {
           console.log("5", res);
 
@@ -487,10 +485,16 @@ Page({
         header: { "content-type": "application/json" },
         success: (result) => {
           console.log(result, "cart");
+          let tmp = result.data.data.data;
           this.setData({
-            cartList: result.data.data.data,
-            cartTotal: result.data.data.data.length,
+            cartList: tmp,
+            cartTotal: tmp.length,
           });
+          if (tmp.length <= 0) {
+            this.setData({
+              showEmpty: true,
+            });
+          }
         },
         fail: () => {},
         complete: () => {},
@@ -654,5 +658,39 @@ Page({
       cartItemCount: 0,
       totalPrice: 0,
     });
+  },
+  deleteCart() {
+    let dataList = this.data.checkList;
+    let cart = this.data.cartList;
+    console.log(cart);
+    for (let i = 0; i < dataList.length; i++) {
+      for (let k = 0; k < cart.length; k++) {
+        if (dataList[i].shopping_car_id == cart[k].shopping_car_id) {
+          cart.splice(k, 1);
+          k--;
+        }
+      }
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/shoppingCarDelete",
+        data: {
+          token: wx.getStorageSync("token"),
+          shopping_car_id: dataList[i].shopping_car_id,
+        },
+        header: { "content-type": "application/json" },
+        success: (result) => {
+          console.log(result, "DEL");
+        },
+      });
+    }
+    if (cart.length <= 0) {
+      this.setData({
+        cartList: cart,
+        showEmpty: true,
+      });
+    } else {
+      this.setData({
+        cartList: cart,
+      });
+    }
   },
 });

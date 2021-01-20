@@ -92,7 +92,6 @@
 <!-- 购物车 -->
 <view class="cart" wx:if="{{ current == 'cart'}}">
   <i-toast id="toast" />
-  <view></view>
   <view wx:if="{{registerStatus}}" class="cartListContent">
     <view class="cartTop">
       <view class="topTitle">
@@ -133,9 +132,10 @@
       </view>
     </view>
   </view>
-  <i-load-more tip="您的购物车已经到底拉！" loading="{{ false }}" />
-  <!-- <button bindtap="change">cart</button>
-  <button bindtap="addToCart">Add to Cart</button> -->
+  <view wx:if="{{registerStatus & showEmpty}}" class="empty">-您的购物车空空如也，快去选购宝贝吧-</view>
+  <i-load-more wx:else tip="您的购物车已经到底拉！" loading="{{ false }}" />
+  <!-- <button bindtap="change">cart</button> -->
+  <!-- <button bindtap="addToCart">Add to Cart</button> -->
   <view class="cartButton">
     <view class="cartButtonLeft">
       <view class="checkIcon" bindtap="selectItem" data-type="all">
@@ -157,7 +157,7 @@
         <view>已选中：</view>
         <view class="cartMoneyIcon">{{cartItemCount}}件</view>
       </view>
-      <i-button bind:click="checkOut" color="#fba414" shape="circle" size="small" i-class="checkOut">
+      <i-button bind:click="deleteCart" type="warning" shape="circle" size="small" i-class="checkOut cartDelete">
         删除
       </i-button>
     </view>
