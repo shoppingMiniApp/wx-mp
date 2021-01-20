@@ -1,4 +1,4 @@
-<!-- pages/product/product.wxml 222222222222222 -->
+<!-- pages/product/product.wxml -->
 <view class="product-detail">
     <view class="goods-img">
         <image class="goodimgimg" src="{{goodImg}}"></image>
