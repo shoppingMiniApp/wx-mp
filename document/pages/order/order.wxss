@@ -50,7 +50,9 @@
 }
 
 .goods-msg image {
-  width: 500rpx;
+  width: 200rpx;
+  height: 180rpx;
+  flex-shrink: 0;
 }
 
 .goods-text {

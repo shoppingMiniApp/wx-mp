@@ -23,7 +23,7 @@
 </view>
 <view class="goods">
     <view class="goods-msg" wx:for="{{goodsMsg}}" wx:key="good_id">
-        <image src="{{item.img}}" mode="widthFix"></image>
+        <image src="{{item.img}}" mode="aspectFit"></image>
         <view class="goods-text">
             <view class="good-name">{{item.good_name}}</view>
             <view class="price">
