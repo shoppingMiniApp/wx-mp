@@ -1,6 +1,10 @@
 <!-- index.wxml -->
 <!-- 页面显示 -->
 <!-- 首页 -->
+<i-modal visible="{{ visible }}" bind:ok="okRegister" bind:cancel="cancelRegister" i-class="register">
+  <view>用户您好，您未注册，需要帮您注册嘛？</view>
+  <view>(未注册无法使用所用功能)</view>
+</i-modal>
 <view class="homepage" wx:if="{{ current == 'homepage'}}">
   <!-- 搜索栏 -->
   <view class="search-part">
@@ -184,7 +188,7 @@
   <!-- <view class="shopHistory"></view> -->
   <i-panel title="dw" i-class="shopHistory">
     <view style="padding-left:50rpx;padding-right:50rpx;background:#fef5e780;margin-bottom:25rpx;">
-      <view class="historyHeader" bindtap="toAddress" data-set="order">
+      <view class="historyHeader" bindtap="toAddress" data-set="order" data-index="0">
         <view class="headeright">
           <i-icon type="activity" size="23" i-class="icon" style="line-height:0;padding-right:10rpx;" />
           <view style="padding:0">购买记录</view>
@@ -194,18 +198,18 @@
           <i-icon type="enter" size="14" i-class="icon" style="line-height:0;padding-left:10rpx; color:#666;" />
         </view>
       </view>
-      <view class="shopStatus" bindtap="toAddress" data-set="order">
-        <view class="shopStatusIcon">
+      <view class="shopStatus">
+        <view class="shopStatusIcon" bindtap="toAddress" data-set="order" data-index="0">
+          <i-icon type="task" size="25" style="line-height:0;" />
+          <view style="font-size:26rpx">全部订单</view>
+        </view>
+        <view class="shopStatusIcon" bindtap="toAddress" data-set="order" data-index="1">
           <i-icon type="redpacket" size="25" style="line-height:0;" />
           <view style="font-size:26rpx">待付款</view>
         </view>
-        <view class="shopStatusIcon">
+        <view class="shopStatusIcon" bindtap="toAddress" data-set="order" data-index="2">
           <i-icon type="editor" size="25" style="line-height:0;" />
-          <view style="font-size:26rpx">待发货</view>
-        </view>
-        <view class="shopStatusIcon">
-          <i-icon type="task" size="25" style="line-height:0;" />
-          <view style="font-size:26rpx">待收货</view>
+          <view style="font-size:26rpx">已付款</view>
         </view>
       </view>
       <view class="generalPanel" bindtap="toAddress">
@@ -255,3 +259,4 @@
   <i-tab-bar-item key="cart" icon="publishgoods_fill" current-icon="publishgoods_fill" title="购物车"></i-tab-bar-item>
   <i-tab-bar-item key="mine" icon="mine" current-icon="mine_fill" title="我的"></i-tab-bar-item>
 </i-tab-bar>
+<view class="bottomBox"></view>
