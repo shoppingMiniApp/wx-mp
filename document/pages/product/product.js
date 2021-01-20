@@ -5,8 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goodImg:
-      "http://api_devs.wanxikeji.cn/app/pic/20201229/20201229025344643.jpg",
+    goodImg: "",
     goodTitle:
       "美国正品BILTWEL姑姑头盔摩托车人头盔哈雷印第安姑姑头盔摩托车人头盔哈雷印第安姑姑头盔摩托车人头盔哈雷印第安",
     goodPrice: "",
@@ -104,7 +103,6 @@ Page({
         "content-type": "application/json",
       },
       success: function (res) {
-        console.log(res.data, "商品详情151515");
         that.setData({
           goods_id: res.data.data.good_id,
           goodImg: res.data.data.img,
@@ -178,7 +176,6 @@ Page({
     this.setData({
       scrollTop: e.scrollTop,
     });
-
     // 页面滚动监听
     if (e.scrollTop >= 0 && e.scrollTop < 696) {
       this.setData({
@@ -216,8 +213,9 @@ Page({
       $Toast({
         content: "已成功添加购物车",
         type: "success",
+        duration: 1,
       });
-    }, 1000);
+    }, 800);
   },
   // *回到顶部
   goTopBtn() {
@@ -228,9 +226,7 @@ Page({
   },
   // *sku
   skuChoose(e) {
-    console.log(e);
     let index = e.currentTarget.dataset.index;
-    // console.log('每个index',index)
     this.setData({
       idx: index,
       unselect: false,
@@ -240,7 +236,6 @@ Page({
   },
   // *加入购物车借口
   addToCart() {
-    // var that=this;
     wx.request({
       url: "http://api_devs.wanxikeji.cn/api/shoppingCarAddModify",
       data: {
@@ -259,18 +254,35 @@ Page({
   },
   // *收藏
   collection() {
-    console.log(11);
     if (this.data.collectionIcon == "collection") {
       this.setData({
         collectionIcon: "collection_fill",
         collectionColor: "#f00",
+      });
+      $Toast({
+        content: "收藏成功！",
+        icon: "collection_fill",
+        duration: 1,
       });
     } else {
       this.setData({
         collectionIcon: "collection",
         collectionColor: "",
       });
+      $Toast({
+        content: "取消收藏",
+        icon: "collection",
+        duration: 1,
+      });
     }
+  },
+  // *立即购买按钮
+  buyNow() {
+    $Toast({
+      content: "该功能暂未开放！",
+      type: "error",
+      duration: 1,
+    });
   },
 
   /**
