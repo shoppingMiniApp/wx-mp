@@ -401,6 +401,7 @@ Page({
       cartItemCount: 0,
       checkList: [],
     });
+
     if (this.data.registerStatus == true) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
@@ -429,6 +430,9 @@ Page({
         complete: () => {},
       });
     } else {
+    }
+    if (this.data.manageCart == false) {
+      this.manageCart();
     }
   },
   modifyNum(e) {
@@ -595,6 +599,7 @@ Page({
       cartList: dataList,
       cartItemCount: 0,
       totalPrice: 0,
+      checkList: [],
     });
   },
   deleteCart() {
