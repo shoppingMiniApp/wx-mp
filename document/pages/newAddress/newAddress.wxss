@@ -54,6 +54,7 @@ color: #999;
   justify-content: center;
   padding: 30rpx 30rpx;
   box-sizing: border-box;
+  flex-direction: column;
 }
 .save-btn{
   background: #F13321;
@@ -62,9 +63,20 @@ color: #999;
   padding: 18rpx 0;
   color: #eaeaea;
   border-radius: 50px;
+  margin-bottom: 20rpx;
+}
+.del{
+  background: #fff;
+  color: #333;
+  border: 1px solid #bbb;
 }
 .hint-show{
   font-size: 28rpx;
   color: #f22;
   padding: 10rpx;
+}
+.ok button {
+  color: #fba414 !important;
+  padding: 0;
+  width: auto !important;
 }

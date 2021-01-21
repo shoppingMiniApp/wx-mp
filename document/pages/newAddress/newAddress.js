@@ -5,6 +5,9 @@ import {
 const {
   $Toast
 } = require('../../dist/base/index');
+const {
+  $Message
+} = require('../../dist/base/index');
 Page({
   data: {
     address: "",
@@ -18,12 +21,13 @@ Page({
     hintShow: false,
     address_ids: {
       address_id: ""
-    }
+    },
+    delbtn: false,
+    visible1: false
   },
   onLoad: function (options) {
     if (options.data) {
       let addressce = JSON.parse(options.data);
-      console.log(addressce)
       let address_ids = {}
       address_ids.address_id = addressce.address_id;
       let area = addressce.area;
@@ -40,7 +44,8 @@ Page({
         phone,
         procince,
         address_ids,
-        address: addressce.procince + addressce.city + addressce.area
+        address: addressce.procince + addressce.city + addressce.area,
+        delbtn: true
       });
       if (addressce.default) {
         this.setData({
@@ -55,9 +60,46 @@ Page({
       'switch1': detail.value
     })
   },
+  //删除地址按钮
+  delAddress() {
+    this.setData({
+      visible1: true
+    });
+  },
+  //模态框确定按钮回调
+  async handleClose() {
+    const token = wx.getStorageSync('token');
+    const res = await request({
+      url: "/api/userAddressDelete",
+      data: {
+        token,
+        id: this.data.address_ids.address_id
+      }
+    })
+    this.setData({
+      visible1: false
+    });
+    $Toast({
+      content: '删除成功',
+      type: 'success',
+      duration: 0
+    });
+    setTimeout(() => {
+      $Toast.hide();
+      wx.navigateTo({
+        url: '../address/address',
+      })
+    }, 2000);
+  },
+  //模态框取消按钮回调
+  handleClose1() {
+    this.setData({
+      visible1: false
+    });
+  },
+  //保存地址按钮
   async saveAddress() {
     const addressMsg = this.data;
-    console.log(addressMsg);
     let temp = true;
     for (const key in addressMsg) {
       if (addressMsg[key] === "") {
@@ -79,14 +121,40 @@ Page({
       if (this.data.address_ids.address_id != "") {
         datas.address_id = this.data.address_ids.address_id
       }
-      // const res = await request({
-      //   url: "/api/userAddressAddModify",
-      //   data: datas
-      // });
-      console.log(datas)
-      if (this.data.switch1) {
-        console.log(1)
+      const res = await request({
+        url: "/api/userAddressAddModify",
+        data: datas
+      });
+
+      if (res.data.code === 2000) {
+        if (this.data.switch1) {
+          let id = ""
+          if (this.data.address_ids.address_id === "") {
+            id = res.data.other.add_address_id;
+          } else {
+            id = this.data.address_ids.address_id;
+          }
+          const resl = await request({
+            url: "/api/userAddressDfault",
+            data: {
+              token,
+              id
+            }
+          })
+        }
+        $Toast({
+          content: '操作成功',
+          type: 'success',
+          duration: 0
+        });
+        setTimeout(() => {
+          $Toast.hide();
+          wx.navigateTo({
+            url: '../address/address',
+          })
+        }, 2000);
       }
+
     } else {
       $Toast({
         content: '有信息填写错误或为空请重新填写',

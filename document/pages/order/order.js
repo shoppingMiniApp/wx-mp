@@ -16,8 +16,11 @@ Page({
 
   //更换地址
   handleChooseAdd() {
+    const {
+      address_id
+    } = this.data.address;
     wx.navigateTo({
-      url: '../address/address?index=order'
+      url: '../address/address?index=order&address_id=' + address_id
     });
   },
   //支付按钮

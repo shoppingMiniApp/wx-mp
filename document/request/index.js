@@ -5,10 +5,8 @@ export const request = (promise) => {
       ...promise,
       url: baseUrl + promise.url,
       success: (result) => {
-        console.log(result)
         if (result.data.code > 2999) {
           const openid = wx.getStorageSync('openid')
-          console.log("token过期,重新更新token")
           wx.request({
             url: baseUrl + "/api/refreshToken",
             data: {
@@ -33,7 +31,6 @@ export const request = (promise) => {
             },
           })
         } else {
-          console.log("token未过期,正常请求")
           resolve(result);
         }
 

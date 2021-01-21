@@ -37,6 +37,11 @@
   </view>
   <view class="save">
     <view class="save-btn" bindtap="saveAddress">保存并使用该地址</view>
+    <view class="save-btn del" bindtap="delAddress" wx:if="{{delbtn}}">删除该地址</view>
   </view>
 </view>
 <i-toast id="toast" />
+<i-modal title="确认删除" visible="{{ visible1 }}" bind:ok="handleClose" bind:cancel="handleClose1" i-class="ok">
+  <view>删除后无法恢复哦</view>
+</i-modal>
+<i-message id="message" />

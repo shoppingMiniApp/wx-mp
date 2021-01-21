@@ -98,14 +98,19 @@ Page({
   },
 
   onLoad: function (options) {
-    if(options.index == "order"){
+    if (options.index == "order") {
       this.setData({
-        addressListShow:true
+        addressListShow: true
       })
-    }else{
+    } else {
       this.setData({
-        addressListShow:false
+        addressListShow: false
       })
+    }
+    if (options.address_id) {
+      this.setData({
+        current: options.address_id,
+      });
     }
     this.getAddress();
   },
