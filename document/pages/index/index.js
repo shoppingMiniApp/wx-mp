@@ -16,7 +16,7 @@ Page({
     fix: false,
     top: false,
     message:
-      "2021年7月-8月，将会在成都举办大运会，2022年将会在日本东京举办奥运会",
+      "国家卫生健康委权威回应: 返乡人员需持7天内有效新冠病毒核酸检测阴性结果返乡，返乡后实行14天居家健康监测，期间不聚集、不流动，每7天开展一次核酸检测。",
     showEmpty: false,
     manageText: "管理",
     manageCart: true,
@@ -255,6 +255,7 @@ Page({
       registerStatus: wx.getStorageSync("registered"),
       openid: wx.getStorageSync("openid"),
     });
+    console.log(this.data.registerStatus);
     if (wx.getStorageSync("registered") == true) {
       console.log("3");
       if (app.globalData.userInfo) {
@@ -276,9 +277,9 @@ Page({
     } else {
       console.log("4");
       // console.log(this.data.registerStatus);
-      // this.setData({
-      //   visible: true,
-      // });
+      this.setData({
+        visible: true,
+      });
     }
   },
   getUserInfo(e) {
@@ -347,25 +348,30 @@ Page({
     });
   },
   register() {
-    if (this.data.registerStatus == false) {
+    if (wx.getStorageSync("registered") == false) {
+      console.log("5");
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/register",
-        data: {},
+        data: {
+          openid: wx.getStorageSync("openid"),
+          nick_name: this.data.userInfo.nickName,
+          icon: this.data.userInfo.avatarUrl,
+        },
         success(res) {
-          console.log("5", res);
-
+          console.log(res, 5);
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
       });
     } else {
+      console.log("6");
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/refreshToken",
         data: {
-          openid: this.data.openid,
+          openid: wx.getStorageSync("openid"),
         },
         success(res) {
-          console.log("6");
+          console.log(res, "6");
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
@@ -376,7 +382,10 @@ Page({
     }
   },
   getCartList() {
-    if (this.data.registerStatus == true) {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+    });
+    if (wx.getStorageSync("registered") == true) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
         data: {
@@ -386,10 +395,12 @@ Page({
         success: (result) => {
           console.log(result, "cart");
           let tmp = result.data.data.data;
+
           this.setData({
             cartList: tmp,
             cartTotal: tmp.length,
           });
+          console.log("tmp", this.data.cartList);
           if (tmp.length <= 0) {
             this.setData({
               showEmpty: true,
