@@ -249,12 +249,17 @@ Page({
   },
   onLoad() {
     this.star();
-
+    this.baseInfo();
+  },
+  baseInfo() {
     wx.setStorageSync("checkList", "");
     this.setData({
       registerStatus: wx.getStorageSync("registered"),
       openid: wx.getStorageSync("openid"),
     });
+    console.log(wx.getStorageSync("registered"), "00");
+    console.log(typeof wx.getStorageSync("registered"), "11");
+
     if (wx.getStorageSync("registered") == true) {
       console.log("3");
       if (app.globalData.userInfo) {
@@ -273,9 +278,15 @@ Page({
           },
         });
       }
+    } else if (wx.getStorageSync("registered") == "") {
+      console.log("1!!!");
+      let _this = this;
+      setTimeout(() => {
+        _this.okRegister();
+      }, 500);
     } else {
       console.log("4");
-      // console.log(this.data.registerStatus);
+      // console.log(_this.data.registerStatus);
       this.setData({
         visible: true,
       });
@@ -347,6 +358,10 @@ Page({
     });
   },
   register() {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      openid: wx.getStorageSync("openid"),
+    });
     if (wx.getStorageSync("registered") == false) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/register",

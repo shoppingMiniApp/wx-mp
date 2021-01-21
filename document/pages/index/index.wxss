@@ -382,7 +382,7 @@
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  z-index: 2;
+  z-index: 3;
   padding: 0 25rpx;
 }
 .topTitle {
@@ -502,9 +502,9 @@
   width: 100%;
   background: #fff;
   position: fixed;
-  bottom: 124rpx;
+  bottom: 123rpx;
   z-index: 2;
-  padding: 15rpx 25rpx;
+  padding: 15rpx 26rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
