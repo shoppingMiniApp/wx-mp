@@ -17,7 +17,7 @@ Page({
   //更换地址
   handleChooseAdd() {
     wx.navigateTo({
-      url: '../address/address'
+      url: '../address/address?index=order'
     });
   },
   //支付按钮
@@ -73,24 +73,12 @@ Page({
     }
 
   },
-  //查看订单
-  handleOrderList() {
-    const token = wx.getStorageSync('token');
-    const addressList = request({
-      url: "/api/orderList",
-      method: "POST",
-      data: {
-        token
-      }
-    })
-    console.log(addressList);
-  },
   //初始化
   async init() {
+    //获取缓存地址
     let LocalAddress = wx.getStorageSync('selectAddress');
     let address = {}
     if (!LocalAddress) {
-      // console.log(2)
       let token = wx.getStorageSync('token')
       const addressList = await request({
         url: "/api/userAddressList",
@@ -98,12 +86,13 @@ Page({
           token
         }
       })
-      console.log(addressList);
+      //取出默认地址
       addressList.data.data.forEach(element => {
         if (element.default) {
           address = element;
         }
       });
+      //如果默认地址存在，显示默认地址
       if (address.name) {
         this.setData({
           address,
@@ -111,21 +100,21 @@ Page({
         });
       }
     } else {
-      // console.log(1)
       this.setData({
         address: JSON.parse(LocalAddress),
         addressShow: true
       });
     }
-    console.log(this.data.address)
-
+    //情况商品列表
     let goodsMsgs = this.data.goodsMsg;
     goodsMsgs = [];
+    //获取购物车传来的缓存商品列表
     let checkList = wx.getStorageSync('checkList');
+    //更新商品列表
     checkList.forEach((element, index) => {
       goodsMsgs[index] = element;
     });
-    console.log(checkList)
+
     let sumMoney = 0
     checkList.forEach((ele) => {
       sumMoney += Number(ele.money) * ele.num;

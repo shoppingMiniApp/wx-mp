@@ -83,6 +83,11 @@
           "pathName": "pages/orderList/orderList",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "添加地址",
+          "pathName": "pages/newAddress/newAddress",
+          "scene": null
         }
       ]
     }

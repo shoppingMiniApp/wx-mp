@@ -79,7 +79,6 @@
 <view class="block"></view>
 <view class="order-buttom">
     <view class="order-buttom-size">总计：<text class="delivery-color2">￥{{original_price}}</text></view>
-    <view class="pay-btn" bindtap="handleOrderList">查看订单</view>
     <view class="pay-btn" bindtap="handleOrderPay">微信支付</view>
 </view>
 <view class="buttom-block"></view>

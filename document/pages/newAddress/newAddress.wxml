@@ -1,0 +1,42 @@
+<view class="address-body">
+  <view class="new-address">
+    <view class="address-row row-buttom">
+      <view class="address-row-hint">收货人</view>
+      <input placeholder-class="address-row-input2" class="address-row-input" placeholder="姓名" type="text"
+        bindinput="bindNameInput" value="{{name}}" />
+    </view>
+    <view class="address-row row-buttom">
+      <view class="address-row-hint">联系方式</view>
+      <view>+86<text decode>&nbsp;&nbsp;</text></view>
+      <input placeholder-class="address-row-input2" class="address-row-input" placeholder="手机号码" type="number"
+        bindinput="bindPhoneInput" value="{{phone}}" />
+    </view>
+    <view class="address-row row-buttom">
+      <view class="address-row-hint">所在地区</view>
+      <input placeholder-class="address-row-input2" class="address-row-input" placeholder="省市区县、乡镇等" type="text"
+        bindinput="bindAddressInput" value="{{address}}" />
+      <view class="icon" bindtap="handeLocation">
+        <i-icon type="coordinates" size="18" color="#80848f" />定位
+      </view>
+    </view>
+    <view class="address-row">
+      <view class="address-row-hint">详细地址</view>
+      <input placeholder-class="address-row-input2 detailed" class="address-row-input" placeholder="街道、楼牌号等" type="text"
+        bindinput="bindDetailedInput" value="{{detailed}}" />
+    </view>
+  </view>
+  <view class="block">
+    <view class="hint-show" wx:if="{{hintShow}}">所在地区格式不正确（必须包含省、市、区）</view>
+  </view>
+  <view class="switch">
+    <view>
+      <view>设置默认地址</view>
+      <view class="alert">提醒：每次下单会默认推荐使用该地址</view>
+    </view>
+    <i-switch value="{{switch1}}" bind:change="onChange" slot="footer"></i-switch>
+  </view>
+  <view class="save">
+    <view class="save-btn" bindtap="saveAddress">保存并使用该地址</view>
+  </view>
+</view>
+<i-toast id="toast" />
