@@ -265,7 +265,7 @@ Page({
       },
       header: { "content-type": "application/json" },
       success: (result) => {
-        console.log(result, "Addcart");
+        console.log(result);
       },
     });
   },
