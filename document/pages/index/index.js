@@ -1,7 +1,7 @@
 // index.js
 // 获取应用实例
 const app = getApp();
-
+const { $Toast } = require("../../dist/base/index");
 Page({
   data: {
     num: 0,
@@ -276,9 +276,9 @@ Page({
     } else {
       console.log("4");
       // console.log(this.data.registerStatus);
-      // this.setData({
-      //   visible: true,
-      // });
+      this.setData({
+        visible: true,
+      });
     }
   },
   getUserInfo(e) {
@@ -347,25 +347,28 @@ Page({
     });
   },
   register() {
-    if (this.data.registerStatus == false) {
+    if (wx.getStorageSync("registered") == false) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/register",
-        data: {},
+        data: {
+          openid: wx.getStorageSync("openid"),
+          nick_name: this.data.userInfo.nickName,
+          icon: this.data.userInfo.avatarUrl,
+        },
         success(res) {
           console.log("5", res);
-
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
       });
     } else {
+      console.log("6");
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/refreshToken",
         data: {
-          openid: this.data.openid,
+          openid: wx.getStorageSync("openid"),
         },
         success(res) {
-          console.log("6");
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
@@ -376,6 +379,13 @@ Page({
     }
   },
   getCartList() {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      iconShow: false,
+      totalPrice: 0,
+      cartItemCount: 0,
+      checkList: [],
+    });
     if (this.data.registerStatus == true) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
