@@ -382,7 +382,7 @@
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  z-index: 2;
+  z-index: 3;
   padding: 0 25rpx;
 }
 .topTitle {
@@ -411,18 +411,23 @@
   box-sizing: border-box;
 }
 .checkIcon {
-  width: 50rpx;
-  height: 50rpx;
+  width: 25px;
+  height: 25px;
   /* background: #000; */
   border-radius: 50%;
   flex-shrink: 0;
-  border: 2rpx solid #fba414;
-  display: flex;
+  border: 4rpx solid #fba414;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   margin: 0 25rpx;
+  position: relative;
 }
-
+.checkIcon .checks {
+  position: absolute !important;
+  top: -5px !important;
+  left: -4.5px !important;
+}
 .cartItem {
   display: flex;
   width: 100%;
@@ -497,9 +502,9 @@
   width: 100%;
   background: #fff;
   position: fixed;
-  bottom: 124rpx;
+  bottom: 123rpx;
   z-index: 2;
-  padding: 15rpx 25rpx;
+  padding: 15rpx 26rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;

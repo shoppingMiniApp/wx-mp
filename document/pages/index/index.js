@@ -1,7 +1,7 @@
 // index.js
 // 获取应用实例
 const app = getApp();
-
+const { $Toast } = require("../../dist/base/index");
 Page({
   data: {
     num: 0,
@@ -16,7 +16,7 @@ Page({
     fix: false,
     top: false,
     message:
-      "2021年7月-8月，将会在成都举办大运会，2022年将会在日本东京举办奥运会",
+      "国家卫生健康委权威回应: 返乡人员需持7天内有效新冠病毒核酸检测阴性结果返乡，返乡后实行14天居家健康监测，期间不聚集、不流动，每7天开展一次核酸检测。",
     showEmpty: false,
     manageText: "管理",
     manageCart: true,
@@ -249,12 +249,17 @@ Page({
   },
   onLoad() {
     this.star();
-
+    this.baseInfo();
+  },
+  baseInfo() {
     wx.setStorageSync("checkList", "");
     this.setData({
       registerStatus: wx.getStorageSync("registered"),
       openid: wx.getStorageSync("openid"),
     });
+    console.log(wx.getStorageSync("registered"), "00");
+    console.log(typeof wx.getStorageSync("registered"), "11");
+
     if (wx.getStorageSync("registered") == true) {
       console.log("3");
       if (app.globalData.userInfo) {
@@ -273,12 +278,18 @@ Page({
           },
         });
       }
+    } else if (wx.getStorageSync("registered") == "") {
+      console.log("1!!!");
+      let _this = this;
+      setTimeout(() => {
+        _this.okRegister();
+      }, 500);
     } else {
       console.log("4");
-      // console.log(this.data.registerStatus);
-      // this.setData({
-      //   visible: true,
-      // });
+      // console.log(_this.data.registerStatus);
+      this.setData({
+        visible: true,
+      });
     }
   },
   getUserInfo(e) {
@@ -347,25 +358,32 @@ Page({
     });
   },
   register() {
-    if (this.data.registerStatus == false) {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      openid: wx.getStorageSync("openid"),
+    });
+    if (wx.getStorageSync("registered") == false) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/register",
-        data: {},
+        data: {
+          openid: wx.getStorageSync("openid"),
+          nick_name: this.data.userInfo.nickName,
+          icon: this.data.userInfo.avatarUrl,
+        },
         success(res) {
           console.log("5", res);
-
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
       });
     } else {
+      console.log("6");
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/refreshToken",
         data: {
-          openid: this.data.openid,
+          openid: wx.getStorageSync("openid"),
         },
         success(res) {
-          console.log("6");
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
@@ -376,6 +394,14 @@ Page({
     }
   },
   getCartList() {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      iconShow: false,
+      totalPrice: 0,
+      cartItemCount: 0,
+      checkList: [],
+    });
+
     if (this.data.registerStatus == true) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
@@ -386,10 +412,12 @@ Page({
         success: (result) => {
           console.log(result, "cart");
           let tmp = result.data.data.data;
+
           this.setData({
             cartList: tmp,
             cartTotal: tmp.length,
           });
+          console.log("tmp", this.data.cartList);
           if (tmp.length <= 0) {
             this.setData({
               showEmpty: true,
@@ -404,6 +432,9 @@ Page({
         complete: () => {},
       });
     } else {
+    }
+    if (this.data.manageCart == false) {
+      this.manageCart();
     }
   },
   modifyNum(e) {
@@ -570,6 +601,7 @@ Page({
       cartList: dataList,
       cartItemCount: 0,
       totalPrice: 0,
+      checkList: [],
     });
   },
   deleteCart() {
