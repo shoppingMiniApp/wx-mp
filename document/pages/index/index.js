@@ -1,7 +1,7 @@
 // index.js
 // 获取应用实例
 const app = getApp();
-
+const { $Toast } = require("../../dist/base/index");
 Page({
   data: {
     num: 0,
@@ -249,13 +249,17 @@ Page({
   },
   onLoad() {
     this.star();
-
+    this.baseInfo();
+  },
+  baseInfo() {
     wx.setStorageSync("checkList", "");
     this.setData({
       registerStatus: wx.getStorageSync("registered"),
       openid: wx.getStorageSync("openid"),
     });
-    console.log(this.data.registerStatus);
+    console.log(wx.getStorageSync("registered"), "00");
+    console.log(typeof wx.getStorageSync("registered"), "11");
+
     if (wx.getStorageSync("registered") == true) {
       console.log("3");
       if (app.globalData.userInfo) {
@@ -274,9 +278,15 @@ Page({
           },
         });
       }
+    } else if (wx.getStorageSync("registered") == "") {
+      console.log("1!!!");
+      let _this = this;
+      setTimeout(() => {
+        _this.okRegister();
+      }, 500);
     } else {
       console.log("4");
-      // console.log(this.data.registerStatus);
+      // console.log(_this.data.registerStatus);
       this.setData({
         visible: true,
       });
@@ -299,7 +309,7 @@ Page({
     // app.globalData.userInfo = false;
   },
   toAddress(e) {
-    console.log(e.currentTarget, "tiao");
+    // console.log(e.currentTarget, "tiao");
     let tag = e.currentTarget.dataset.set;
     if (tag == "address") {
       wx.navigateTo({
@@ -348,8 +358,11 @@ Page({
     });
   },
   register() {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      openid: wx.getStorageSync("openid"),
+    });
     if (wx.getStorageSync("registered") == false) {
-      console.log("5");
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/register",
         data: {
@@ -358,7 +371,7 @@ Page({
           icon: this.data.userInfo.avatarUrl,
         },
         success(res) {
-          console.log(res, 5);
+          console.log("5", res);
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
@@ -371,7 +384,6 @@ Page({
           openid: wx.getStorageSync("openid"),
         },
         success(res) {
-          console.log(res, "6");
           wx.setStorageSync("token", res.data.data.token);
           wx.setStorageSync("registered", true);
         },
@@ -384,8 +396,12 @@ Page({
   getCartList() {
     this.setData({
       registerStatus: wx.getStorageSync("registered"),
+      iconShow: false,
+      totalPrice: 0,
+      cartItemCount: 0,
+      checkList: [],
     });
-    if (wx.getStorageSync("registered") == true) {
+    if (this.data.registerStatus == true) {
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
         data: {

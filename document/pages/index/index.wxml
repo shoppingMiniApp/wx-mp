@@ -107,7 +107,7 @@
     </view>
     <view wx:for="{{cartList}}" class="cartList" wx:key="shopping_car_id">
       <view class="checkIcon" bindtap="selectItem" data-set="{{index}}" data-type="single">
-        <i-icon type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="34" wx:if="{{item.remark}}" />
+        <i-icon i-class="checks" type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="35" wx:if="{{item.remark}}" />
       </view>
       <view class="cartItem">
         <image class="" src="{{item.img}}" mode="aspectFit" bindtap="toAddress" data-set="product" data-mark="{{item}}" />
@@ -144,7 +144,7 @@
   <view class="cartButton">
     <view class="cartButtonLeft">
       <view class="checkIcon" bindtap="selectItem" data-type="all">
-        <i-icon type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="34" wx:if="{{iconShow}}" />
+        <i-icon type="success_fill" i-class="checks" style="line-height:0;padding:0;margin:0;color:#fba414;" size="35" wx:if="{{iconShow}}" />
       </view>
       <view>全选</view>
     </view>
@@ -212,7 +212,7 @@
           <view style="font-size:26rpx">已付款</view>
         </view>
       </view>
-      <view class="generalPanel" bindtap="toAddress">
+      <view class="generalPanel" bindtap="toAddress" data-set="address">
         <view class="generalHead">
           <i-icon type="addressbook" size="23" style="line-height:0;padding-right:10rpx;" />
           <view>地址管理</view>

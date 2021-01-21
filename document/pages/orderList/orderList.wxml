@@ -6,7 +6,7 @@
   <view wx:if="{{orderListshow}}" class="banner">
     <view class="oneOrder" wx:for="{{orderList}}" wx:key="order_id">
       <view class="pay_status"><text>{{item.status_text}}</text></view>
-      <view class="goods-msg" wx:for="{{item.childern}}" wx:for-item="ite" wx:for-index="inde" wx:key="good_id">
+      <view class="goods-msg" wx:for="{{item.childern}}" wx:for-item="ite" wx:for-index="inde" wx:key="good_id" bindtap="handeGoodCheng" data-goosId="{{ite.good_id}}">
         <image class="goods-img" src="{{ite.img}}" mode="aspectFit"></image>
         <view class="goods-text">
           <view class="goods-name">{{ite.good_name}}</view>

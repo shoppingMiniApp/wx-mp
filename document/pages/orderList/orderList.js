@@ -26,6 +26,15 @@ Page({
     orderList: [],
     orderListshow: false
   },
+  //商品点击事件
+  handeGoodCheng(e) {
+    const {
+      goosid
+    } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `../product/product?good_id=${goosid}`,
+    })
+  },
   //再次购买按钮
   async handleBuyAgain(e) {
     let {
@@ -81,6 +90,7 @@ Page({
     }
     this.orderListShow(resOrderList)
   },
+  //初始化
   async init(index) {
     let tabs = JSON.parse(JSON.stringify(this.data.tabs));
     tabs.forEach((ele, i) => i === index ? ele.isActive = true : ele.isActive = false)
@@ -131,9 +141,9 @@ Page({
         orderListshow: false
       })
     }
-    console.log(this.data.orderList)
   },
   onLoad: function (options) {
-    this.init(0);
+    let index = Number(options.index)
+    this.init(index);
   },
 })
