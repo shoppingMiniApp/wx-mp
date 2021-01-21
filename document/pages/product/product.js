@@ -46,8 +46,18 @@ Page({
     let tmp = this.data.itemNum + e.currentTarget.dataset.unit;
     if (tmp <= 1) {
       tmp = 1;
-    } else if (tmp >= 99) {
+      $Toast({
+        content: "数量低于范围~",
+        type: "warning",
+        duration: 1,
+      });
+    } else if (tmp > 99) {
       tmp = 99;
+      $Toast({
+        content: "数量超出范围~",
+        type: "warning",
+        duration: 1,
+      });
     }
     this.setData({
       itemNum: tmp,
@@ -145,7 +155,6 @@ Page({
   },
   onPageScroll: function (e) {
     //监听用户滑动页面事件
-
     if (e.scrollTop <= 0) {
       // 滚动到最顶部
       e.scrollTop = 0;
@@ -161,16 +170,16 @@ Page({
       e.scrollTop >= this.data.scrollHeight
     ) {
       //向下滚动
-      // console.log("向下 ", this.data.scrollHeight);
       this.setData({
         navOpacity: this.data.navOpacity + 0.04,
       });
     } else {
       //向上滚动
-      // console.log("向上滚动 ", this.data.scrollHeight);
-      this.setData({
-        navOpacity: this.data.navOpacity - 0.04,
-      });
+      if (e.scrollTop <= 150) {
+        this.setData({
+          navOpacity: this.data.navOpacity - 0.04,
+        });
+      }
     }
     //给scrollTop重新赋值
     this.setData({
@@ -198,24 +207,32 @@ Page({
   close() {
     this.clickPup();
   },
-  // *加入购物车弹窗确认键
+  // *加入购物车弹窗键
   addOkBtn() {
-    this.setData({
-      loadingHidden: false,
-    });
-    this.addToCart();
-    var that = this;
-    setTimeout(function () {
-      that.setData({
-        loadingHidden: true,
+    if (this.data.isselect) {
+      this.setData({
+        loadingHidden: false,
       });
-      that.clickPup();
+      this.addToCart();
+      var that = this;
+      setTimeout(function () {
+        that.setData({
+          loadingHidden: true,
+        });
+        that.clickPup();
+        $Toast({
+          content: "已成功添加购物车",
+          type: "success",
+          duration: 1,
+        });
+      }, 800);
+    } else {
       $Toast({
-        content: "已成功添加购物车",
-        type: "success",
+        content: "请选择 颜色分类",
+        type: "warning",
         duration: 1,
       });
-    }, 800);
+    }
   },
   // *回到顶部
   goTopBtn() {
@@ -243,12 +260,12 @@ Page({
         good_id: this.data.goods_id,
         num: this.data.itemNum,
         price: this.data.goodPrice,
-        money: "2259.00",
+        money: 0.01,
         sku: this.data.isselectSku,
       },
       header: { "content-type": "application/json" },
       success: (result) => {
-        console.log(result, "Addcart");
+        console.log(result);
       },
     });
   },

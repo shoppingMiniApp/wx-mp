@@ -16,7 +16,7 @@ Page({
     fix: false,
     top: false,
     message:
-      "2021年7月-8月，将会在成都举办大运会，2022年将会在日本东京举办奥运会",
+      "国家卫生健康委权威回应: 返乡人员需持7天内有效新冠病毒核酸检测阴性结果返乡，返乡后实行14天居家健康监测，期间不聚集、不流动，每7天开展一次核酸检测。",
     showEmpty: false,
     manageText: "管理",
     manageCart: true,
@@ -412,10 +412,12 @@ Page({
         success: (result) => {
           console.log(result, "cart");
           let tmp = result.data.data.data;
+
           this.setData({
             cartList: tmp,
             cartTotal: tmp.length,
           });
+          console.log("tmp", this.data.cartList);
           if (tmp.length <= 0) {
             this.setData({
               showEmpty: true,
