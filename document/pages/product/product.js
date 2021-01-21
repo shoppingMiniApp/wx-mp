@@ -44,7 +44,7 @@ Page({
   // *计数器
   modifyNum(e) {
     let tmp = this.data.itemNum + e.currentTarget.dataset.unit;
-    if (tmp <= 1) {
+    if (tmp < 1) {
       tmp = 1;
       $Toast({
         content: "数量低于范围~",
