@@ -61,6 +61,7 @@
 .goods-text {
   font-size: 28rpx;
   line-height: 1.4rem;
+  flex-grow: 1;
 }
 
 .goods-name {

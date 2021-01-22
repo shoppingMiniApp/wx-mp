@@ -1,7 +1,18 @@
 <!-- <view class="" wx:for="{{userAddressData}}" wx:key="*this" bindtap="选择地址"></view> -->
-<i-radio-group current="{{current}}" bindchange="handleFruitChange">
-    <i-radio wx:for="{{userAddressData}}" addressdatas="{{item}}" position="left" wx:key="id" value="{{item.address_id}}"></i-radio>
+<i-radio-group current="{{current}}" bindchange="handleFruitChange" wx:if="{{addressListShow}}">
+    <i-radio wx:for="{{userAddressData}}" addressdatas="{{item}}" position="left" wx:key="id"
+        value="{{item.address_id}}"></i-radio>
 </i-radio-group>
+<view wx:else>
+    <view wx:for="{{userAddressData}}" wx:key="address_id" class="address-content">
+        <view class="address-text">
+            <view class="address-name">{{item.name}} <text>{{item.phone}}</text></view>
+            <view class="address-detailed">{{item.procince+item.city+item.area+item.detailed}}</view>
+        </view>
+        <view class="edit-address" bindtap="editAddress" data-address="{{item}}">编辑</view>
+    </view>
+</view>
+
 <view class="address_buttom">
     <view>
         <i-button i-class="address_btn" bind:click="handleImportSite" type="ghost" shape="circle" size="small">
