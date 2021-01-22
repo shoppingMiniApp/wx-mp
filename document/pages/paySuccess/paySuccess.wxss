@@ -1,1 +1,27 @@
 /* pages/paySuccess/paySuccess.wxss */
+.success{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  background: #fdd189;
+  padding: 200rpx 0;
+  height: 1800rpx;
+}
+.success-text{
+  padding: 30rpx;
+  color: #f3f3f3;
+  font-size: 40rpx;
+  font-weight: 600;
+}
+.icons{
+  background: #f3f3f3;
+  border-radius: 50px;
+}
+.success-btn{
+  border: 1px solid #f3f3f3;
+  border-radius: 50px;
+  padding: 10rpx 50rpx;
+  font-size: 28rpx;
+  color: #f3f3f3;
+}

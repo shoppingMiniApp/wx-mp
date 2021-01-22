@@ -38,7 +38,7 @@ Page({
     });
     this.data.userAddressData.forEach((element) => {
       if (detail.value == element.address_id) {
-        wx.setStorageSync("selectAddress", JSON.stringify(element));
+        wx.setStorageSync("selectAddress", element);
         wx.navigateTo({
           url: "../order/order",
         });

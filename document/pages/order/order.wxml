@@ -82,3 +82,4 @@
     <view class="pay-btn" bindtap="handleOrderPay">微信支付</view>
 </view>
 <view class="buttom-block"></view>
+<i-toast id="toast" />

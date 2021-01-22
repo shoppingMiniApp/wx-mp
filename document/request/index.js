@@ -56,8 +56,6 @@ export const requestPayment = (pay) => {
     })
   })
 }
-
-
 export const showToast = (toast) => {
   return new Promise((resolve, reject) => {
     wx.showToast({
