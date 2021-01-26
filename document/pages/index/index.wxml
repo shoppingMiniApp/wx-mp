@@ -17,18 +17,24 @@
         <b>顶部</b>
       </view>
       <!-- 分类 -->
-      <scroll-view class="nav {{fix?'fixed':'fff'}}" scroll-x="true" scroll-left="0" scroll-into-view="">
-        <view class="{{ num == index ? 'navborder' : 'navbordernone' }} nav_view" wx:for="{{recommendData}}" wx:key="index" bindtap="handleChangeScroll" data-index="{{index}}" data-title="{{recommendData[index].type_name}}">
-          {{recommendData[index].type_name}}
+      <view class="xxxx">
+        <scroll-view class="nav {{fix?'fixed':'fff'}}" scroll-x="true" scroll-left="0" scroll-into-view="">
+          <view class="{{ num == index ? 'navborder' : 'navbordernone' }} nav_view" wx:for="{{recommendData}}" wx:key="index" bindtap="handleChangeScroll" data-index="{{index}}" data-title="{{recommendData[index].type_name}}">
+            {{recommendData[index].type_name}}
+          </view>
+        </scroll-view>
+        <view class="nameChild {{fix?'fixeds':''}}" wx:if="true">
+          <view class="{{ nums == ind ? 'navborders' : 'navbordernone' }} nameS" wx:for="{{towList}}" wx:for-item="itm" wx:for-index="ind" catchtap="kids" data-child="{{itm}}" data-ind="{{ind}}" wx:key="good_type_id">
+            {{itm.type_name}}
+          </view>
         </view>
-      </scroll-view>
+      </view>
       <!-- 推荐 -->
       <view class="" wx:if="{{ current_scroll == '推荐'}}">
         <!-- promise -->
         <view class="promise">
           <i-notice-bar icon="systemprompt" loop closable i-class="message">
             {{message}}
-            
           </i-notice-bar>
         </view>
         <!-- swiper -->
@@ -39,7 +45,7 @@
         </swiper>
         <!-- recommended -->
         <view class="recommended">
-          <view class="re-v" wx:for="{{recommenMain}}" wx:key="index" data-index="{{index}}" bindtap="handleRecommend">
+          <view class="re-v" wx:for="{{recommenMain}}" wx:key="index" data-index="{{index}}" data-arr="recommenMain" bindtap="detailmore">
             <image class="re-v-image" src="{{recommenMain[index].img}}" mode="aspectFit|aspectFill|widthFix"></image>
             <text class="retext" space="false" decode="false">
               {{recommenMain[index].good_name}}
@@ -48,7 +54,7 @@
         </view>
         <!-- main -->
         <view class="main" id="main">
-          <view class="main-view" wx:for="{{list}}" wx:key="index" bindtap="detail" data-index="{{index}}">
+          <view class="main-view" wx:for="{{list}}" wx:key="index" bindtap="detailmore" data-index="{{index}}" data-arr="list">
             <view class="img">
               <image class="img-image" src="{{list[index].img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false"></image>
             </view>
@@ -72,7 +78,7 @@
       <view class="more" wx:if="{{current_scroll == navName}}">
         <view class="nodata">{{alert}}</view>
         <view class="classify">
-          <view class="classify-view" wx:for="{{classify}}" wx:key="index" bindtap="detailmore" data-index="{{index}}">
+          <view class="classify-view" wx:for="{{classify}}" wx:key="index" bindtap="detailmore" data-index="{{index}}" data-arr="classify">
             <view class="">
               <image class="classify-view-image" src="{{classify[index].img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="true"></image>
             </view>
