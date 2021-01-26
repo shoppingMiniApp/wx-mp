@@ -1,2 +1,25 @@
 <!--pages/orderList/orderList.wxml-->
-<text>pages/orderList/orderList.wxml</text>
+<Tabs tabs="{{tabs}}" bindChange="handeItemChange">
+  <!-- <view wx:if="{{tabs[0].isActive}}">0</view>
+  <view wx:if="{{tabs[1].isActive}}">1</view>
+  <view wx:if="{{tabs[2].isActive}}">2</view> -->
+  <view wx:if="{{orderListshow}}" class="banner">
+    <view class="oneOrder" wx:for="{{orderList}}" wx:key="order_id">
+      <view class="pay_status"><text>{{item.status_text}}</text></view>
+      <view class="goods-msg" wx:for="{{item.childern}}" wx:for-item="ite" wx:for-index="inde" wx:key="good_id" bindtap="handeGoodCheng" data-goosId="{{ite.good_id}}">
+        <image class="goods-img" src="{{ite.img}}" mode="aspectFit"></image>
+        <view class="goods-text">
+          <view class="goods-name">{{ite.good_name}}</view>
+          <view>{{ite.sku}}</view>
+        </view>
+        <view class="goods-num">x{{ite.num}}</view>
+      </view>
+      <view class="money"><text>应付 <text class="money-text">￥{{item.money}}</text></text></view>
+      <view class="buyAgain">
+        <view class="buyAgain-btn" bindtap="handleBuyAgain" data-goosMsg="{{item.childern}}">再次购买</view>
+      </view>
+    </view>
+  </view>
+  <view wx:else="{{orderListshow}}" class="hint-text">您暂时没有相关订单</view>
+</Tabs>
+<i-toast id="toast" />

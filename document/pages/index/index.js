@@ -1,7 +1,7 @@
 // index.js
 // 获取应用实例
 const app = getApp();
-
+const { $Toast } = require("../../dist/base/index");
 Page({
   data: {
     registerStatus: "",
@@ -26,7 +26,24 @@ Page({
     top: false,
     searchlist: "",
     message:
-      "2020-01-19成都金桥发现新冠，社区连夜对周围住户进行核酸检测，及时控制了疫情的传播",
+      "国家卫生健康委权威回应: 返乡人员需持7天内有效新冠病毒核酸检测阴性结果返乡，返乡后实行14天居家健康监测，期间不聚集、不流动，每7天开展一次核酸检测。",
+    showEmpty: false,
+    manageText: "管理",
+    manageCart: true,
+    cartTotal: 0,
+    totalPrice: 0,
+    checkList: [],
+    cartItemCount: 0,
+    iconShow: false,
+    currentItem: "",
+    registerStatus: false,
+    openid: "",
+    avatarUrl: "",
+    userInfo: "",
+    hasUserInfo: false,
+    canIUse: wx.canIUse("button.open-type.getUserInfo"),
+    current: "mine",
+    visible: false,
   },
 
   handleChange: function ({ detail }) {
@@ -38,7 +55,8 @@ Page({
     }
 
     if (detail.key == "cart") {
-      wx.setNavigationBarTitle({ title: "我的购物车" });
+      wx.setNavigationBarTitle({ title: "购物车" });
+      this.getCartList();
     }
     this.setData({
       current: detail.key,
@@ -66,7 +84,7 @@ Page({
     // 请求nav数据-zy
     this.REQUEST({
       url: "/api/goodType",
-    }).then((res) => {  
+    }).then((res) => {
       console.log(res.data.data);
       let listt = [];
       this.parentDeal(res.data.data, 0, listt);
@@ -334,30 +352,58 @@ Page({
   },
 
   onLoad() {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true,
-      });
-    } else if (this.data.canIUse) {
-      app.userInfoReadyCallback = (res) => {
+    this.star();
+    this.baseInfo();
+  },
+  baseInfo() {
+    wx.setStorageSync("checkList", "");
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      openid: wx.getStorageSync("openid"),
+    });
+    console.log(wx.getStorageSync("registered"), "00");
+    console.log(typeof wx.getStorageSync("registered"), "11");
+
+    if (wx.getStorageSync("registered") == true) {
+      console.log("3");
+      if (app.globalData.userInfo) {
         this.setData({
-          userInfo: res.userInfo,
+          userInfo: app.globalData.userInfo,
           hasUserInfo: true,
         });
-      };
-    } else {
-      wx.getUserInfo({
-        success: (res) => {
-          app.globalData.userInfo = res.userInfo;
+      } else if (this.data.canIUse) {
+        // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+        // 所以此处加入 callback 以防止这种情况
+        app.userInfoReadyCallback = (res) => {
           this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true,
           });
-        },
+        };
+      } else {
+        wx.getUserInfo({
+          success: (res) => {
+            app.globalData.userInfo = res.userInfo;
+            this.setData({
+              userInfo: res.userInfo,
+              hasUserInfo: true,
+            });
+          },
+        });
+      }
+    } else if (wx.getStorageSync("registered") == "") {
+      console.log("1!!!");
+      let _this = this;
+      setTimeout(() => {
+        _this.okRegister();
+      }, 500);
+    } else {
+      console.log("4");
+      // console.log(_this.data.registerStatus);
+      this.setData({
+        visible: true,
       });
     }
-    this.star();
   },
   getUserInfo(e) {
     app.globalData.userInfo = e.detail.userInfo;
@@ -375,29 +421,164 @@ Page({
     });
     // app.globalData.userInfo = false;
   },
-  toAddress() {
-    wx.navigateTo({
-      url: "/pages/address/address",
-      success: (result) => {},
-      fail: () => {},
-      complete: () => {},
+  toAddress(e) {
+    // console.log(e.currentTarget, "tiao");
+    let tag = e.currentTarget.dataset.set;
+    if (tag == "address") {
+      wx.navigateTo({
+        url: "/pages/address/address",
+        success: (result) => {},
+        fail: () => {},
+        complete: () => {},
+      });
+    } else if (tag == "order") {
+      let index = e.currentTarget.dataset.index;
+      wx.navigateTo({
+        url: "/pages/orderList/orderList?index=" + index,
+        success: (result) => {},
+        fail: () => {},
+        complete: () => {},
+      });
+    } else if (tag == "product") {
+      let tmp = e.currentTarget.dataset.mark;
+      wx.navigateTo({
+        url: "/pages/product/product?good_id=" + tmp.good_id,
+        success: (result) => {},
+        fail: () => {},
+        complete: () => {},
+      });
+    }
+  },
+  okRegister() {
+    wx.getUserInfo({
+      success: (res) => {
+        console.log("7");
+        app.globalData.userInfo = res.userInfo;
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true,
+        });
+        this.register();
+        this.setData({
+          visible: false,
+        });
+      },
     });
   },
-  change() {
-    var reqTask = wx.request({
-      url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
-      data: {},
-      header: { "content-type": "application/json" },
-      method: "GET",
-      dataType: "json",
-      responseType: "text",
-      success: (result) => {
-        console.log(result, "cart");
-      },
-      fail: () => {},
-      complete: () => {},
+  cancelRegister() {
+    this.setData({
+      visible: false,
     });
-    return reqTask;
+  },
+  register() {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      openid: wx.getStorageSync("openid"),
+    });
+    if (wx.getStorageSync("registered") == false) {
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/register",
+        data: {
+          openid: wx.getStorageSync("openid"),
+          nick_name: this.data.userInfo.nickName,
+          icon: this.data.userInfo.avatarUrl,
+        },
+        success(res) {
+          console.log("5", res);
+          wx.setStorageSync("token", res.data.data.token);
+          wx.setStorageSync("registered", true);
+        },
+      });
+    } else {
+      console.log("6");
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/refreshToken",
+        data: {
+          openid: wx.getStorageSync("openid"),
+        },
+        success(res) {
+          wx.setStorageSync("token", res.data.data.token);
+          wx.setStorageSync("registered", true);
+        },
+        fail() {
+          console.log("error");
+        },
+      });
+    }
+  },
+  getCartList() {
+    this.setData({
+      registerStatus: wx.getStorageSync("registered"),
+      iconShow: false,
+      totalPrice: 0,
+      cartItemCount: 0,
+      checkList: [],
+    });
+
+    if (this.data.registerStatus == true) {
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/shoppingCarList",
+        data: {
+          token: wx.getStorageSync("token"),
+        },
+        header: { "content-type": "application/json" },
+        success: (result) => {
+          console.log(result, "cart");
+          let tmp = result.data.data.data;
+
+          this.setData({
+            cartList: tmp,
+            cartTotal: tmp.length,
+          });
+          console.log("tmp", this.data.cartList);
+          if (tmp.length <= 0) {
+            this.setData({
+              showEmpty: true,
+            });
+          } else {
+            this.setData({
+              showEmpty: false,
+            });
+          }
+        },
+        fail: () => {},
+        complete: () => {},
+      });
+    } else {
+    }
+    if (this.data.manageCart == false) {
+      this.manageCart();
+    }
+  },
+  modifyNum(e) {
+    let dataList = this.data.cartList;
+    let tmp =
+      dataList[e.currentTarget.dataset.set].num + e.currentTarget.dataset.unit;
+    if (tmp <= 1) {
+      tmp = 1;
+    } else if (tmp >= 99) {
+      tmp = 99;
+    }
+    dataList[e.currentTarget.dataset.set].num = tmp;
+    this.setData({
+      cartList: dataList,
+    });
+    wx.request({
+      url: "http://api_devs.wanxikeji.cn/api/shoppingCarAddModify",
+      data: {
+        token: wx.getStorageSync("token"),
+        good_id: dataList[e.currentTarget.dataset.set].good_id,
+        num: tmp,
+        price: dataList[e.currentTarget.dataset.set].price,
+        money: "0.01",
+        sku: dataList[e.currentTarget.dataset.set].sku,
+        shopping_car_id: dataList[e.currentTarget.dataset.set].shopping_car_id,
+      },
+      header: { "content-type": "application/json" },
+      success: (result) => {
+        console.log(result, "se");
+      },
+    });
   },
   register() {
     wx.getStorage({
@@ -427,5 +608,183 @@ Page({
         }
       },
     });
+  },
+  checkOut() {
+    if (this.data.checkList.length > 0) {
+      wx.setStorageSync("checkList", this.data.checkList);
+      wx.navigateTo({
+        url: "/pages/order/order",
+        success: (result) => {},
+        fail: () => {},
+        complete: () => {},
+      });
+    } else {
+      $Toast({
+        content: "未选择结算物品",
+        type: "warning",
+        duration: 0,
+        mask: false,
+      });
+      setTimeout(() => {
+        $Toast.hide();
+      }, 1500);
+    }
+  },
+  selectItem(e) {
+    // console.log(e.currentTarget.dataset.type);
+    let dataList = this.data.cartList;
+    let counts = this.data.cartItemCount;
+    let check = this.data.checkList;
+    let price = 0;
+    if (e.currentTarget.dataset.type == "single") {
+      if (dataList[e.currentTarget.dataset.set].remark == true) {
+        dataList[e.currentTarget.dataset.set].remark = false;
+        counts--;
+        for (let a = 0; a < check.length; a++) {
+          if (
+            check[a].shopping_car_id ==
+            dataList[e.currentTarget.dataset.set].shopping_car_id
+          ) {
+            check.splice(a, 1);
+            a--;
+          }
+        }
+        for (let b = 0; b < check.length; b++) {
+          price += Number(check[b].money) * Number(check[b].num);
+        }
+        this.setData({
+          checkList: check,
+        });
+      } else {
+        dataList[e.currentTarget.dataset.set].remark = true;
+        counts++;
+        check.push(dataList[e.currentTarget.dataset.set]);
+        for (let b = 0; b < check.length; b++) {
+          price += Number(check[b].money) * Number(check[b].num);
+        }
+        this.setData({
+          checkList: check,
+        });
+      }
+      this.setData({
+        cartList: dataList,
+        cartItemCount: counts,
+        totalPrice: price,
+      });
+      if (this.data.checkList.length == this.data.cartList.length) {
+        this.setData({
+          iconShow: true,
+        });
+      } else if (this.data.checkList.length < this.data.cartList.length) {
+        this.setData({
+          iconShow: false,
+        });
+      }
+    } else {
+      console.log("all");
+      let show = this.data.iconShow;
+      console.log(show, !show);
+      this.setData({
+        iconShow: !show,
+      });
+      check = [];
+      price = 0;
+      for (let i = 0; i < dataList.length; i++) {
+        if (this.data.iconShow == true) {
+          dataList[i].remark = true;
+          price += Number(dataList[i].money) * Number(dataList[i].num);
+          // console.log(dataList[i].money++);
+          this.setData({
+            cartItemCount: dataList.length,
+          });
+          check.push(dataList[i]);
+        } else {
+          dataList[i].remark = false;
+          this.setData({
+            cartItemCount: 0,
+          });
+          check = [];
+          price = 0;
+        }
+      }
+      this.setData({
+        cartList: dataList,
+        checkList: check,
+        totalPrice: price,
+      });
+      console.log(this.data.checkList, "check");
+    }
+  },
+  manageCart() {
+    let tmp = this.data.manageCart;
+    let dataList = this.data.cartList;
+
+    console.log(tmp);
+    this.setData({
+      manageCart: !tmp,
+    });
+    console.log(this.data.ma);
+    if (this.data.manageCart == true) {
+      this.setData({
+        manageText: "管理",
+        iconShow: false,
+      });
+    } else if (this.data.manageCart == false) {
+      this.setData({
+        manageText: "完成",
+        iconShow: false,
+      });
+    }
+    for (let i = 0; i < dataList.length; i++) {
+      dataList[i].remark = false;
+    }
+    // console.log(price, "$");
+    this.setData({
+      cartList: dataList,
+      cartItemCount: 0,
+      totalPrice: 0,
+      checkList: [],
+    });
+  },
+  deleteCart() {
+    let dataList = this.data.checkList;
+    let cart = this.data.cartList;
+    this.setData({
+      iconShow: false,
+    });
+    for (let i = 0; i < dataList.length; i++) {
+      for (let k = 0; k < cart.length; k++) {
+        if (dataList[i].shopping_car_id == cart[k].shopping_car_id) {
+          cart.splice(k, 1);
+          k--;
+        }
+      }
+
+      wx.request({
+        url: "http://api_devs.wanxikeji.cn/api/shoppingCarDelete",
+        data: {
+          token: wx.getStorageSync("token"),
+          shopping_car_id: dataList[i].shopping_car_id,
+        },
+        header: { "content-type": "application/json" },
+        success: (result) => {
+          console.log(result, "DEL");
+        },
+      });
+    }
+    if (cart.length <= 0) {
+      this.setData({
+        cartList: cart,
+        showEmpty: true,
+        cartTotal: 0,
+        cartItemCount: 0,
+      });
+    } else {
+      this.setData({
+        cartList: cart,
+        cartTotal: cart.length,
+        cartItemCount: 0,
+      });
+    }
   },
 });

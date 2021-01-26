@@ -1,0 +1,6 @@
+<!--pages/paySuccess/paySuccess.wxml-->
+<view class="success">
+  <i-icon i-class="icons" type="right" size="80" color="#00B26A" />
+  <view class="success-text">支付成功</view>
+  <view class="success-btn" bindtap="getBack">返回首页</view>
+</view>

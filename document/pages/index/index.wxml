@@ -1,6 +1,10 @@
 <!-- index.wxml -->
 <!-- 页面显示 -->
 <!-- 首页 -->
+<i-modal visible="{{ visible }}" bind:ok="okRegister" bind:cancel="cancelRegister" i-class="register">
+  <view>用户您好，您未注册，需要帮您注册嘛？</view>
+  <view>(未注册无法使用所用功能)</view>
+</i-modal>
 <view class="homepage" wx:if="{{ current == 'homepage'}}">
   <!-- 搜索栏 -->
   <view class="search-part">
@@ -97,10 +101,79 @@
 </view>
 <!-- 购物车 -->
 <view class="cart" wx:if="{{ current == 'cart'}}">
-  <!-- <block wx:for="{{}}">
-    
-  </block> -->
-  <button bindtap="change">cart</button>
+  <i-toast id="toast" />
+  <view wx:if="{{registerStatus}}" class="cartListContent">
+    <view class="cartTop">
+      <view class="topTitle">
+        <!-- <view>物品总数量：</view> -->
+        <view>共{{cartTotal}}件宝贝</view>
+      </view>
+      <button style="font-weight:normal;font-size:24rpx;width:180rpx;padding:15rpx;" bindtap="manageCart">
+        {{manageText}}
+      </button>
+    </view>
+    <view wx:for="{{cartList}}" class="cartList" wx:key="shopping_car_id">
+      <view class="checkIcon" bindtap="selectItem" data-set="{{index}}" data-type="single">
+        <i-icon i-class="checks" type="success_fill" style="line-height:0;padding:0;margin:0;color:#fba414;" size="35" wx:if="{{item.remark}}" />
+      </view>
+      <view class="cartItem">
+        <image class="" src="{{item.img}}" mode="aspectFit" bindtap="toAddress" data-set="product" data-mark="{{item}}" />
+        <view class="cartItem_right">
+          <view class="cartItem_name">{{item.good_name}}</view>
+          <button class="cartItem_sku" style="padding:0;font-weight:normal;font-size:24rpx;">
+            {{item.sku}}
+          </button>
+          <view class="cartItem_bottom">
+            <view class="cartItem_price">
+              <view class="cartMoneyIcon">￥</view>
+              <view>{{item.money}}</view>
+            </view>
+            <view class="cartItem_number">
+              <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{-1}}" style="width:40rpx;height:40rpx;padding:0px;line-height:1;padding:0;border-radius:0;background:none;">
+                -
+              </button>
+              <view class="itemNum">
+                <input value="{{item.num}}" disabled="true" />
+              </view>
+              <button bindtap="modifyNum" data-set="{{index}}" data-unit="{{1}}" style="width:40rpx;height:40rpx;padding:0px;line-height:1;padding:0;border-radius:0;background:none;">
+                +
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{registerStatus & showEmpty}}" class="empty">-您的购物车空空如也，快去选购宝贝吧-</view>
+  <i-load-more wx:else tip="您的购物车已经到底拉！" loading="{{ false }}" />
+  <!-- <button bindtap="change">cart</button> -->
+  <!-- <button bindtap="addToCart">Add to Cart</button> -->
+  <view class="cartButton">
+    <view class="cartButtonLeft">
+      <view class="checkIcon" bindtap="selectItem" data-type="all">
+        <i-icon type="success_fill" i-class="checks" style="line-height:0;padding:0;margin:0;color:#fba414;" size="35" wx:if="{{iconShow}}" />
+      </view>
+      <view>全选</view>
+    </view>
+    <view class="cartButtonRight" wx:if="{{manageCart}}">
+      <view class="cartButtonRightPrice">
+        <view>合计：</view>
+        <view class="cartMoneyIcon">￥{{totalPrice}}</view>
+      </view>
+      <i-button bind:click="checkOut" color="#fba414" shape="circle" size="small" i-class="checkOut">
+        结算({{cartItemCount}})
+      </i-button>
+    </view>
+    <view wx:else class="cartButtonRight">
+      <view class="cartButtonRightPrice">
+        <view>已选中：</view>
+        <view class="cartMoneyIcon">{{cartItemCount}}件</view>
+      </view>
+      <i-button bind:click="deleteCart" type="warning" shape="circle" size="small" i-class="checkOut cartDelete">
+        删除
+      </i-button>
+    </view>
+  </view>
 </view>
 <!-- 我的 -->
 <view class="mine" wx:if="{{ current == 'mine'}}">
@@ -122,7 +195,7 @@
   <!-- <view class="shopHistory"></view> -->
   <i-panel title="dw" i-class="shopHistory">
     <view style="padding-left:50rpx;padding-right:50rpx;background:#fef5e780;margin-bottom:25rpx;">
-      <view class="historyHeader">
+      <view class="historyHeader" bindtap="toAddress" data-set="order" data-index="0">
         <view class="headeright">
           <i-icon type="activity" size="23" i-class="icon" style="line-height:0;padding-right:10rpx;" />
           <view style="padding:0">购买记录</view>
@@ -133,20 +206,20 @@
         </view>
       </view>
       <view class="shopStatus">
-        <view class="shopStatusIcon">
+        <view class="shopStatusIcon" bindtap="toAddress" data-set="order" data-index="0">
+          <i-icon type="task" size="25" style="line-height:0;" />
+          <view style="font-size:26rpx">全部订单</view>
+        </view>
+        <view class="shopStatusIcon" bindtap="toAddress" data-set="order" data-index="1">
           <i-icon type="redpacket" size="25" style="line-height:0;" />
           <view style="font-size:26rpx">待付款</view>
         </view>
-        <view class="shopStatusIcon">
+        <view class="shopStatusIcon" bindtap="toAddress" data-set="order" data-index="2">
           <i-icon type="editor" size="25" style="line-height:0;" />
-          <view style="font-size:26rpx">待发货</view>
-        </view>
-        <view class="shopStatusIcon">
-          <i-icon type="task" size="25" style="line-height:0;" />
-          <view style="font-size:26rpx">待收货</view>
+          <view style="font-size:26rpx">已付款</view>
         </view>
       </view>
-      <view class="generalPanel" bindtap="toAddress">
+      <view class="generalPanel" bindtap="toAddress" data-set="address">
         <view class="generalHead">
           <i-icon type="addressbook" size="23" style="line-height:0;padding-right:10rpx;" />
           <view>地址管理</view>
@@ -193,3 +266,4 @@
   <i-tab-bar-item key="cart" icon="publishgoods_fill" current-icon="publishgoods_fill" title="购物车"></i-tab-bar-item>
   <i-tab-bar-item key="mine" icon="mine" current-icon="mine_fill" title="我的"></i-tab-bar-item>
 </i-tab-bar>
+<view class="bottomBox"></view>

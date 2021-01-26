@@ -1,27 +1,51 @@
 // pages/address/address.js
-import { getSetting, chooseAddress, openSetting } from "../../utils/asyncWx.js";
-import { request } from "../../request/index.js";
-
+import {
+  getSetting,
+  chooseAddress,
+  openSetting
+} from "../../utils/asyncWx.js";
+import {
+  request
+} from "../../request/index.js";
+const {
+  $Message
+} = require('../../dist/base/index');
 Page({
   data: {
     userAddressData: [],
     current: "",
+    addressListShow: false
   },
-  handleFruitChange({ detail = {} }) {
-    console.log(detail);
+  //编辑收货地址
+  editAddress(e) {
+    const address = JSON.stringify(e.currentTarget.dataset.address)
+    wx.navigateTo({
+      url: '../newAddress/newAddress?data=' + address,
+    })
+  },
+  //新增收货地址
+  handleAddSite() {
+    wx.navigateTo({
+      url: '../newAddress/newAddress',
+    })
+  },
+  //单选按钮功能
+  handleFruitChange({
+    detail = {}
+  }) {
     this.setData({
       current: detail.value,
     });
     this.data.userAddressData.forEach((element) => {
       if (detail.value == element.address_id) {
-        wx.setStorageSync("selectAddress", JSON.stringify(element));
+        wx.setStorageSync("selectAddress", element);
         wx.navigateTo({
           url: "../order/order",
         });
       }
     });
   },
-
+  //将获取到的微信地址添加至服务器
   async handleImportSite() {
     try {
       const res2 = await chooseAddress();
@@ -34,7 +58,7 @@ Page({
         area: res2.countyName,
         detailed: res2.detailInfo,
       };
-      // console.log(userAddressData);
+
       const token = wx.getStorageSync("token");
       const setAddress = await request({
         url: "/api/userAddressAddModify",
@@ -49,7 +73,6 @@ Page({
         },
       });
 
-      console.log(setAddress);
       this.getAddress();
       //设置本地数据
 
@@ -59,6 +82,7 @@ Page({
       console.log(error);
     }
   },
+  //获取服务器地址列表
   async getAddress() {
     const token = wx.getStorageSync("token");
     const reslists = await request({
@@ -68,12 +92,26 @@ Page({
       },
     });
     let addressList = reslists.data.data;
-    console.log(addressList);
     this.setData({
       userAddressData: addressList,
     });
   },
+
   onLoad: function (options) {
+    if (options.index == "order") {
+      this.setData({
+        addressListShow: true
+      })
+    } else {
+      this.setData({
+        addressListShow: false
+      })
+    }
+    if (options.address_id) {
+      this.setData({
+        current: options.address_id,
+      });
+    }
     this.getAddress();
   },
 

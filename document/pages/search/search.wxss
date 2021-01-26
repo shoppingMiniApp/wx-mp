@@ -80,7 +80,7 @@
   width: auto !important;
 }
 .search-goods-list {
-  /* width: 100%; */
+  width: 720rpx;
   position: absolute;
   top: 75rpx;
   padding: 20rpx 12rpx 20rpx;

@@ -14,6 +14,7 @@
     "i-checkbox": "../../dist/checkbox/index",
     "i-notice-bar": "../../dist/notice-bar/index",
     "i-toast": "../../dist/toast/index",
-    "i-load-more": "../../dist/load-more/index"
+    "i-load-more": "../../dist/load-more/index",
+    "i-swipeout": "../../dist/swipeout/index"
   }
 }

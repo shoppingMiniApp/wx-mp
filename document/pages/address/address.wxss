@@ -18,3 +18,28 @@
     font-size: 14px !important;
     font-weight: normal;
 }
+
+.address-content{
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+}
+.address-text{
+  flex-grow: 1;
+}
+.edit-address{
+  font-size: 28rpx;
+  color: #f00;
+  text-align: center;
+  width: 70rpx;
+  flex-shrink: 0;
+}
+.address-name{
+  font-weight: 600;
+  line-height: 1.4rem;
+}
+.address-detailed{
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.4rem;
+}

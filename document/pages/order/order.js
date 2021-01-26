@@ -4,6 +4,9 @@ import {
   requestPayment,
   showToast
 } from "../../request/index";
+const {
+  $Toast
+} = require('../../dist/base/index');
 Page({
 
   data: {
@@ -16,8 +19,11 @@ Page({
 
   //更换地址
   handleChooseAdd() {
+    const {
+      address_id
+    } = this.data.address;
     wx.navigateTo({
-      url: '../address/address'
+      url: '../address/address?index=order&address_id=' + address_id
     });
   },
   //支付按钮
@@ -34,7 +40,7 @@ Page({
         method: "POST",
         data: {
           token,
-          address_id: JSON.parse(wx.getStorageSync('selectAddress')).address_id,
+          address_id: wx.getStorageSync('selectAddress').address_id,
           money: this.data.original_price,
           shopping_car_ids: shopping_car_Id
         }
@@ -47,10 +53,18 @@ Page({
         timeStamp: payres.data.data.timeStamp,
         signType: "MD5",
       })
-      await showToast({
-        title: '支付成功',
-        icon: 'success'
-      })
+      //支付成功后跳往的页面
+      $Toast({
+        content: '支付成功',
+        type: 'success',
+        duration: 0
+      });
+      setTimeout(() => {
+        $Toast.hide();
+        wx.navigateTo({
+          url: '../paySuccess/paySuccess',
+        })
+      }, 1000);
       //支付成功后删除购物车数据
       shopping_car_Id.forEach(ele => {
         request({
@@ -61,36 +75,21 @@ Page({
           }
         })
       });
-      //支付成功后跳往的页面
-      // wx.navigateTo({
-      //   url: '',
-      // })
     } catch (error) {
       await showToast({
         title: '支付失败',
         icon: 'none'
       })
+      console.log(error)
     }
 
   },
-  //查看订单
-  handleOrderList() {
-    const token = wx.getStorageSync('token');
-    const addressList = request({
-      url: "/api/orderList",
-      method: "POST",
-      data: {
-        token
-      }
-    })
-    console.log(addressList);
-  },
   //初始化
   async init() {
+    //获取缓存地址
     let LocalAddress = wx.getStorageSync('selectAddress');
     let address = {}
     if (!LocalAddress) {
-      // console.log(2)
       let token = wx.getStorageSync('token')
       const addressList = await request({
         url: "/api/userAddressList",
@@ -98,34 +97,36 @@ Page({
           token
         }
       })
-      console.log(addressList);
+      //取出默认地址
       addressList.data.data.forEach(element => {
         if (element.default) {
           address = element;
         }
       });
+      //如果默认地址存在，显示默认地址
       if (address.name) {
+        wx.setStorageSync('selectAddress', address)
         this.setData({
           address,
           addressShow: true
         });
       }
     } else {
-      // console.log(1)
       this.setData({
-        address: JSON.parse(LocalAddress),
+        address: LocalAddress,
         addressShow: true
       });
     }
-    console.log(this.data.address)
-
+    //情况商品列表
     let goodsMsgs = this.data.goodsMsg;
     goodsMsgs = [];
+    //获取购物车传来的缓存商品列表
     let checkList = wx.getStorageSync('checkList');
+    //更新商品列表
     checkList.forEach((element, index) => {
       goodsMsgs[index] = element;
     });
-    console.log(checkList)
+
     let sumMoney = 0
     checkList.forEach((ele) => {
       sumMoney += Number(ele.money) * ele.num;

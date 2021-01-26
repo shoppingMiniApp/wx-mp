@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "i-icon": "../../dist/icon/index",
+    "i-switch": "../../dist/switch/index",
+    "i-toast": "../../dist/toast/index",
+    "i-modal": "../../dist/modal/index"
+  },
+  "navigationBarTitleText": "新增收货地址"
+}
