@@ -1,7 +1,14 @@
 <!-- pages/product/product.wxml -->
 <view class="product-detail">
     <view class="goods-img">
-        <image class="goodimgimg" src="{{goodImg}}"></image>
+        <!-- <image class="goodimgimg" src="{{goodImg}}"></image> -->
+        <swiper class="swiper-info" indicator-dots indicator-active-color="rgb(251,164,20)">
+            <block wx:for="{{good_infoImg}}" wx:key="*this" wx:for-item="imgitem">
+                <swiper-item>
+                    <image class="" src="{{imgitem}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+                </swiper-item>
+            </block>
+        </swiper>
     </view>
     <!-- *版心 -->
     <view class="product-wrap">
@@ -221,16 +228,8 @@
         <view class="goods-detail-title">-宝贝详情-</view>
         <!-- *全是图片 -->
         <view class="goods-detail-img">
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
-            <image class="goods-image" src="{{goodImg}}"></image>
+            <import src="../../wxParse/wxParse.wxml" />
+            <template is="wxParse" data="{{wxParseData:goods_detail.nodes}}"></template>
         </view>
     </view>
     <!-- <button catchtap='clickPup'>点击底部动画弹窗</button> -->
@@ -244,13 +243,13 @@
                         <!-- *图片 -->
                         <view class="goods-sku-top">
                             <view class="goods-sku-img">
-                                <image class="" src="{{goodImg}}" mode="aspectFit|aspectFill|widthFix"></image>
+                                <image class="" src="{{!skuImg?goodImg:skuImg}}" mode="aspectFit|aspectFill|widthFix"></image>
                             </view>
                             <!-- *价格 -->
                             <view class="goods-sku-price">
                                 <b class="dollar">
                                     <i>￥</i>
-                                    <b>{{goodPrice}}</b>
+                                    <b>{{!skuPrice?goodPrice:skuPrice}}</b>
                                 </b>
                             </view>
                         </view>

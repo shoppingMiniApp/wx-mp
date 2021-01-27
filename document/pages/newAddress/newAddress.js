@@ -8,6 +8,25 @@ const {
 const {
   $Message
 } = require('../../dist/base/index');
+
+function checkPermission(obj) {
+  console.log("-------------checkPermission----------");
+  wx.getSetting({
+    success: function (res) {
+      if (!res.authSetting['scope.userLocation']) {
+        console.log("-------------不满足scope.userLocation权限----------");
+        //申请授权
+        wx.authorize({
+          scope: 'scope.userLocation',
+          success() {
+
+          }
+        })
+      }
+    }
+  })
+}
+var app = getApp();
 Page({
   data: {
     address: "",
@@ -23,9 +42,22 @@ Page({
       address_id: ""
     },
     delbtn: false,
-    visible1: false
+    visible1: false,
+    backtrack: {
+      backtracks: "",
+      current: ""
+    }
   },
   onLoad: function (options) {
+    if (options.backtrack) {
+      let backtrack = this.data.backtrack;
+      backtrack.backtracks = options.backtrac;
+      backtrack.current = options.address_id;
+      this.setData({
+        backtrack,
+      })
+    }
+    checkPermission(app);
     if (options.data) {
       let addressce = JSON.parse(options.data);
       let address_ids = {}
@@ -147,11 +179,19 @@ Page({
           type: 'success',
           duration: 0
         });
+        let _this = this;
         setTimeout(() => {
           $Toast.hide();
-          wx.navigateTo({
-            url: '../address/address',
-          })
+          if (_this.data.backtrack.backtracks != "") {
+            wx.navigateTo({
+              url: '../address/address?index=order&address_id=' + _this.data.backtrack.current
+            });
+          } else {
+            wx.navigateTo({
+              url: '../address/address',
+            })
+          }
+
         }, 2000);
       }
 
@@ -222,6 +262,33 @@ Page({
           address: that.data.procince + that.data.city + that.data.area
         });
       },
+      fail: function () {
+        wx.getSetting({
+          success: function (res) {
+            var statu = res.authSetting;
+            if (!statu['scope.userLocation']) {
+              wx.showModal({
+                title: '是否授权当前位置',
+                content: '需要获取您的地理位置，请确认授权，否则地图功能将无法使用',
+                success: function (tip) {
+                  if (tip.confirm) {
+                    wx.navigateTo({
+                      url: '../getopen/getopen',
+                    })
+                  }
+                }
+              })
+            }
+          },
+          fail: function (res) {
+            wx.showToast({
+              title: '调用授权窗口失败',
+              icon: 'success',
+              duration: 1000
+            })
+          }
+        })
+      }
     })
   }
 })

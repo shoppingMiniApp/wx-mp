@@ -568,11 +568,13 @@
 .cartButtonRight {
   display: flex;
   align-items: center;
+  
 }
 .cartButtonRightPrice {
   display: flex;
   width: 180rpx;
   font-size: 24rpx;
+  text-overflow: hidden;
 }
 .cartButtonRightPrice .cartMoneyIcon {
   color: #f00;

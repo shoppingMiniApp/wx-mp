@@ -121,15 +121,27 @@ Page({
   orderListShow(datas) {
     if (datas.data.data.data) {
       datas.data.data.data.forEach((ele, index) => {
+        console.log(ele)
         if (ele.status === 1) {
           ele.status_text = "已取消"
         } else if (ele.status === 2) {
           ele.status_text = "已支付"
-        }
-        if (!ele.childern) {
-          datas.data.data.data.splice(index, 1);
+        } else if (ele.status === 3) {
+          ele.status_text = "未发货"
+        } else if (ele.status === 4) {
+          ele.status_text = "已发货"
+        } else if (ele.status === 5) {
+          ele.status_text = "已收货"
+        } else if (ele.status === 6) {
+          ele.status_text = "退款"
         }
       })
+      for (let i = 0; i < datas.data.data.data.length; i++) {
+        if (!datas.data.data.data[i].childern) {
+          datas.data.data.data.splice(i, 1);
+          i--;
+        }
+      }
       this.setData({
         orderList: datas.data.data.data
       });

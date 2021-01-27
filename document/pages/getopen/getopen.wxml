@@ -1,0 +1,6 @@
+<!--pages/getopen/getopen.wxml-->
+<view class="address_btn">
+  <view class="get_btn">
+    <button open-type="openSetting" bindopensetting="callback">打开设置页</button>
+  </view>
+</view>

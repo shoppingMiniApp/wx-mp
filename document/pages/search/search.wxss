@@ -64,15 +64,17 @@
   position: absolute;
   background: #fff;
   padding: 15rpx;
+  width: 700rpx;
+  top:67rpx
 }
 .search-resitem {
-  width: 716rpx;
+  width: 700rpx;
   font-size: 28rpx;
   border-bottom: 1rpx solid #ccc9;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 15rpx;
+  padding:22rpx 15rpx;
 }
 .ok button {
   color: #fba414 !important;
@@ -109,7 +111,7 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   color: #555;
-  height: 70rpx;
+  height: 75rpx;
 }
 sup {
   font-size: 25rpx;
@@ -139,4 +141,8 @@ sup {
   align-items: center;
   text-align: center;
   color: #5556;
+}
+.search-result-list-search-icon{
+  padding-right: 5rpx;
+  padding-bottom: 2rpx;
 }
