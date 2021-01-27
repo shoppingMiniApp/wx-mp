@@ -247,6 +247,7 @@ Page({
     let that = this;
     wx.chooseLocation({
       success: function (res) {
+        console.log(res);
         const procince = res.address.split("省")[0] + "省";
         const city = res.address.split("省")[1].split("市")[0] + "市";
         const area = res.address.split("省")[1].split("市")[1].split("区")[0] + "区";
