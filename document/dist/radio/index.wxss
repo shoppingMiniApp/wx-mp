@@ -1,26 +1,50 @@
 .i-radio-cell::after {
   display: block;
 }
+
 .i-radio-radio-left {
   float: left;
 }
+
 .i-radio-radio-right {
   float: right;
 }
+
 .i-radio-radio {
   vertical-align: middle;
   margin-top: 18rpx;
 }
+
 .i-radio-title {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  vertical-align: middle;
+  flex-direction: column;
 }
-.phoen{
-  padding-right: 100rpx;
+
+.detailed {
+  color: #666666;
+  font-size: 24rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
-.i-radio-text{
+
+.phoen {
+  padding-left: 60rpx;
+}
+
+.i-radio-text {
   display: flex;
   justify-content: space-between;
+}
+
+.names,
+.phoen {
+  font-size: 28rpx;
+}
+
+.text-address {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 80rpx;
 }

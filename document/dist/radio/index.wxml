@@ -5,9 +5,11 @@
                 class="i-radio-radio {{positionCls}}" />
             <!-- <view class="i-radio-title">{{datas.userName}}</view> -->
             <view class="i-radio-title">
-                <view class="">{{addressdatas.name}}</view>
-                <view class="phoen">{{addressdatas.phone}}</view>
-                <view class="">
+                <view class="text-address">
+                    <view class="names">{{addressdatas.name}}</view>
+                    <view class="phoen">{{addressdatas.phone}}</view>
+                </view>
+                <view class="detailed">
                     {{addressdatas.procince+addressdatas.city+addressdatas.area+addressdatas.detailed}}
                 </view>
             </view>
