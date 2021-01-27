@@ -4,7 +4,16 @@ const app = getApp();
 const { $Toast } = require("../../dist/base/index");
 Page({
   data: {
+    registerStatus: "",
+    avatarUrl: "",
+    userInfo: "",
+    hasUserInfo: false,
+    canIUse: wx.canIUse("button.open-type.getUserInfo"),
+    current: "homepage",
+
+    towList: [],
     num: 0,
+    nums: 0,
     care: -1,
     current_scroll: "推荐",
     navName: "头部导航名称",
@@ -15,6 +24,7 @@ Page({
     alert: "",
     fix: false,
     top: false,
+    searchlist: "",
     message:
       "国家卫生健康委权威回应: 返乡人员需持7天内有效新冠病毒核酸检测阴性结果返乡，返乡后实行14天居家健康监测，期间不聚集、不流动，每7天开展一次核酸检测。",
     showEmpty: false,
@@ -35,6 +45,7 @@ Page({
     current: "mine",
     visible: false,
   },
+
   handleChange: function ({ detail }) {
     if (detail.key == "homepage") {
       wx.setNavigationBarTitle({ title: "商城" });
@@ -52,86 +63,115 @@ Page({
     });
     // console.log(this.data.current);
   },
-
+  // 封装请求
+  REQUEST(obj) {
+    let URL = "http://api_devs.wanxikeji.cn";
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: URL + obj.url,
+        data: obj.data,
+        success: (result) => {
+          resolve(result);
+        },
+        fail: (error) => {
+          reject(error);
+        },
+      });
+    });
+  },
   //页面初始化-zy
   star() {
     // 请求nav数据-zy
-    wx.request({
-      url: "http://api_devs.wanxikeji.cn/api/goodType",
-      success: (result) => {
-        let json = {};
-        json.type_name = "推荐";
-        result.data.data.unshift(json);
-        this.setData({
-          recommendData: result.data.data,
-        });
-      },
+    this.REQUEST({
+      url: "/api/goodType",
+    }).then((res) => {
+      console.log(res.data.data);
+      let listt = [];
+      this.parentDeal(res.data.data, 0, listt);
+      let json = {};
+      json.type_name = "推荐";
+      listt.unshift(json);
+      console.log(listt);
+      this.setData({
+        recommendData: listt,
+      });
     });
     // 请求banner-zy
-    wx.request({
-      url: "http://api_devs.wanxikeji.cn/api/bannerList",
-      success: (result) => {
-        this.setData({
-          swiperSrc: result.data.data,
-        });
-      },
+    this.REQUEST({
+      url: "/api/bannerList",
+    }).then((res) => {
+      this.setData({
+        swiperSrc: res.data.data,
+      });
     });
     //请求的4个推荐-zy
-    wx.request({
-      url: "http://api_devs.wanxikeji.cn/api/goodList",
+    this.REQUEST({
+      url: "/api/goodList",
       data: {
         search: "小米",
       },
-      success: (result) => {
-        let arr = [];
-        for (let i = 0; i < 4; i++) {
-          arr[arr.length] = result.data.data.data[i];
-        }
-        this.setData({
-          recommenMain: arr,
-        });
-      },
+    }).then((res) => {
+      let arr = [];
+      for (let i = 0; i < 4; i++) {
+        arr[arr.length] = res.data.data.data[i];
+      }
+      this.setData({
+        recommenMain: arr,
+      });
     });
     // 请求list数据-zy
-    wx.request({
-      url: "http://api_devs.wanxikeji.cn/api/goodList",
+    this.REQUEST({
+      url: "/api/goodList",
       data: {
         search: "三只松鼠",
       },
-      success: (result) => {
-        result.data.data.data.forEach((item, index, arr) => {
-          item.isactive = false;
-        });
-        this.setData({
-          list: result.data.data.data,
-        });
-      },
+    }).then((res) => {
+      res.data.data.data.forEach((item, index, arr) => {
+        item.isactive = false;
+      });
+      this.setData({
+        list: res.data.data.data,
+      });
     });
   },
-  //头部分页点击事件-zy
+  //头部分类点击事件-zy
   handleChangeScroll(e) {
     this.setData({
       num: e.currentTarget.dataset.index,
       classify: [],
+      nums: 0,
+      towList: [],
     });
+
     let title = e.currentTarget.dataset.title;
     if (title !== "推荐") {
       this.setData({
         current_scroll: title,
         navName: title,
       });
-      let navName = this.data.navName;
-      // 根据分类请求到的数据
-      wx.request({
-        url: "http://api_devs.wanxikeji.cn/api/goodList",
-        data: {
-          search: navName,
-        },
-        success: (result) => {
-          let length = result.data.data.data.length;
+      let navName = "";
+      this.data.recommendData.forEach((ele, index) => {
+        if (this.data.num == index) {
+          console.log(ele);
+          if (ele.children) {
+            navName = ele.children[0].type_name;
+            this.setData({
+              towList: ele.children,
+            });
+          }
+        }
+      });
+      if (navName != "") {
+        this.REQUEST({
+          url: "/api/goodList",
+          data: {
+            search: navName,
+          },
+        }).then((res) => {
+          let length = res.data.data.data.length;
           if (length > 0) {
             this.setData({
-              classify: result.data.data.data,
+              classify: res.data.data.data,
               alert: "",
             });
           } else {
@@ -139,38 +179,78 @@ Page({
               alert: "这部分数据溜走了",
             });
           }
-        },
-      });
+        });
+      } else {
+        this.setData({
+          alert: "这部分数据溜走了",
+        });
+      }
     } else {
       this.setData({
         current_scroll: title,
         navName: "头部导航名称",
+        towList: [],
       });
     }
   },
-
-  // 跳search页面-zy
+  kids(e) {
+    this.setData({
+      nums: e.currentTarget.dataset.ind,
+      classify: [],
+    });
+    let navName = e.currentTarget.dataset.child.type_name;
+    console.log(navName);
+    this.REQUEST({
+      url: "/api/goodList",
+      data: {
+        search: navName,
+      },
+    }).then((res) => {
+      console.log(res);
+      let length = res.data.data.data.length;
+      if (length > 0) {
+        this.setData({
+          classify: res.data.data.data,
+          alert: "",
+        });
+      } else {
+        this.setData({
+          alert: "这部分数据溜走了",
+        });
+      }
+    });
+  },
+  //跳search页面-zy
   jump() {
     wx.navigateTo({
       url: "/pages/search/search",
     });
   },
-  //点击其他分类的商品，跳转详情页-zy
+  //点击商品，跳转详情页-zy
   detailmore(e) {
-    let id = this.data.classify[e.currentTarget.dataset.index].good_id;
+    let E = e;
+    let id = this.getID(E);
     this.jumpTo(id);
   },
-  //点击推荐的4个商品-zy
-  handleRecommend(e) {
-    let id = this.data.recommenMain[e.currentTarget.dataset.index].good_id;
-    this.jumpTo(id);
+  //获取商品id-zy
+  getID(e) {
+    let name = e.currentTarget.dataset.arr;
+    let str;
+    if (name == "classify") {
+      str = this.data.classify;
+    } else if (name == "recommenMain") {
+      str = this.data.recommenMain;
+    } else if (name == "list") {
+      str = this.data.list;
+    }
+    this.setData({
+      searchlist: str,
+    });
+    let index = e.currentTarget.dataset.index;
+    let id = this.data.searchlist[index].good_id;
+    return id;
   },
-  //推荐列表点击跳转商品详情-zy
-  detail(e) {
-    let id = this.data.list[e.currentTarget.dataset.index].good_id;
-    this.jumpTo(id);
-  },
-  // 带着id跳转商品详情页-zy
+  //带着id跳转商品详情页-zy
   jumpTo(id) {
     wx.navigateTo({
       url: "../product/product?good_id=" + id,
@@ -208,7 +288,7 @@ Page({
       care: -1,
     });
   },
-  // 取消不感兴趣-zy
+  //取消不感兴趣-zy
   cancel(e) {
     let index = e.currentTarget.dataset.hide;
     let arr = this.data.list;
@@ -217,7 +297,7 @@ Page({
       list: arr,
     });
   },
-  // 页面滚动事件-zy
+  //页面滚动事件-zy
   onPageScroll(e) {
     // nav固定
     if (e.scrollTop >= 83) {
@@ -240,13 +320,37 @@ Page({
       });
     }
   },
-  // 回到顶部-zy
+  //回到顶部-zy
   top() {
     wx.pageScrollTo({
       scrollTop: 0,
       duration: 300,
     });
   },
+  //nav分级处理-zy
+  parentDeal(data, pid, list) {
+    data.forEach((item) => {
+      if (item.parent_id === pid) {
+        delete item.parent_id;
+        list.push(item);
+        this.childrenDeal(data, item, item.good_type_id);
+      }
+    });
+  },
+  childrenDeal(arr, itemData, itemId) {
+    itemData.children = itemData.children ? itemData.children : [];
+    arr.forEach((item) => {
+      if (item.parent_id === itemId) {
+        delete item.parent_id;
+        itemData.children.push(item);
+        this.childrenDeal(arr, item, item.good_type_id);
+      }
+    });
+    if (itemData.children.length == 0) {
+      delete itemData.children;
+    }
+  },
+
   onLoad() {
     this.star();
     this.baseInfo();
@@ -264,9 +368,18 @@ Page({
       console.log("3");
       if (app.globalData.userInfo) {
         this.setData({
-          userInfo: res.userInfo,
+          userInfo: app.globalData.userInfo,
           hasUserInfo: true,
         });
+      } else if (this.data.canIUse) {
+        // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+        // 所以此处加入 callback 以防止这种情况
+        app.userInfoReadyCallback = (res) => {
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true,
+          });
+        };
       } else {
         wx.getUserInfo({
           success: (res) => {
@@ -464,6 +577,35 @@ Page({
       header: { "content-type": "application/json" },
       success: (result) => {
         console.log(result, "se");
+      },
+    });
+  },
+  register() {
+    wx.getStorage({
+      key: "registered",
+      success: (result) => {
+        console.log(result.data, "!");
+        this.setData({ registerStatus: result.data });
+        if (result.data == false) {
+          console.log(this.data.userInfo, "ewqewqeqweqweq");
+          // this.getUserInfo();
+          wx.getStorage({
+            key: "openid",
+            success: (result) => {
+              wx.request({
+                url: "http://api_devs.wanxikeji.cn/api/register",
+                data: {
+                  openid: result.data,
+                  nick_name: this.data.userInfo.nickName,
+                  icon: this.data.userInfo.avatarUrl,
+                },
+                success(res) {
+                  console.log(res.data.data, "eqeq");
+                },
+              });
+            },
+          });
+        }
       },
     });
   },

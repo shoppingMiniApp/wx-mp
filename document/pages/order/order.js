@@ -4,6 +4,9 @@ import {
   requestPayment,
   showToast
 } from "../../request/index";
+const {
+  $Toast
+} = require('../../dist/base/index');
 Page({
 
   data: {
@@ -37,7 +40,7 @@ Page({
         method: "POST",
         data: {
           token,
-          address_id: JSON.parse(wx.getStorageSync('selectAddress')).address_id,
+          address_id: wx.getStorageSync('selectAddress').address_id,
           money: this.data.original_price,
           shopping_car_ids: shopping_car_Id
         }
@@ -50,10 +53,18 @@ Page({
         timeStamp: payres.data.data.timeStamp,
         signType: "MD5",
       })
-      await showToast({
-        title: '支付成功',
-        icon: 'success'
-      })
+      //支付成功后跳往的页面
+      $Toast({
+        content: '支付成功',
+        type: 'success',
+        duration: 0
+      });
+      setTimeout(() => {
+        $Toast.hide();
+        wx.navigateTo({
+          url: '../paySuccess/paySuccess',
+        })
+      }, 1000);
       //支付成功后删除购物车数据
       shopping_car_Id.forEach(ele => {
         request({
@@ -64,15 +75,12 @@ Page({
           }
         })
       });
-      //支付成功后跳往的页面
-      // wx.navigateTo({
-      //   url: '',
-      // })
     } catch (error) {
       await showToast({
         title: '支付失败',
         icon: 'none'
       })
+      console.log(error)
     }
 
   },
@@ -97,6 +105,7 @@ Page({
       });
       //如果默认地址存在，显示默认地址
       if (address.name) {
+        wx.setStorageSync('selectAddress', address)
         this.setData({
           address,
           addressShow: true
@@ -104,7 +113,7 @@ Page({
       }
     } else {
       this.setData({
-        address: JSON.parse(LocalAddress),
+        address: LocalAddress,
         addressShow: true
       });
     }
