@@ -1,5 +1,6 @@
 // pages/product/product.js
 const { $Toast } = require("../../dist/base/index");
+let WxParse = require("../../wxParse/wxParse");
 Page({
   /**
    * 页面的初始数据
@@ -19,16 +20,7 @@ Page({
     itemNum: 1,
     goods_id: "",
     goTop: false,
-    skuData: [
-      { id: 1, sku: "红色(ass)" },
-      { id: 2, sku: "哈哈哈哈哈哈色(ass)" },
-      { id: 3, sku: "红色(ass)" },
-      { id: 4, sku: "256色(ass)" },
-      { id: 5, sku: "红色(ass)" },
-      { id: 6, sku: "纤纤嘻嘻色(ass)" },
-      { id: 7, sku: "加单色(ass)" },
-      { id: 8, sku: "机麻色(ass)" },
-    ],
+    skuData: [],
     skuColor: "skuColor",
     idx: -1,
     showNav: false,
@@ -40,6 +32,12 @@ Page({
     collectionIcon: "collection",
     collectionColor: "",
     collectionTxt: "收藏",
+    // *接收富文本 商品详情
+    goods_detail: "",
+    good_infoImg: [],
+    skuImg: "",
+    skuPrice: "",
+    userInfo: "",
   },
   // *计数器
   modifyNum(e) {
@@ -100,6 +98,9 @@ Page({
     });
     // console.log(options.good_id);
     this.getGoodData(options.good_id);
+    this.setData({
+      userInfo: options.status,
+    });
   },
   // *请求数据
   getGoodData(goodid) {
@@ -113,7 +114,18 @@ Page({
         "content-type": "application/json",
       },
       success: function (res) {
+        console.log(JSON.parse(res.data.data.info[0].edition));
+        WxParse.wxParse(
+          "goods_detail",
+          "html",
+          JSON.parse(res.data.data.info[0].info),
+          that,
+          0
+        );
         that.setData({
+          // goods_detail: JSON.parse(res.data.data.info[0].info),
+          skuData: JSON.parse(res.data.data.info[0].edition),
+          good_infoImg: JSON.parse(res.data.data.info[0].imgs),
           goods_id: res.data.data.good_id,
           goodImg: res.data.data.img,
           goodTitle: res.data.data.good_name,
@@ -209,26 +221,35 @@ Page({
   },
   // *加入购物车弹窗键
   addOkBtn() {
-    if (this.data.isselect) {
-      this.setData({
-        loadingHidden: false,
-      });
-      this.addToCart();
-      var that = this;
-      setTimeout(function () {
-        that.setData({
-          loadingHidden: true,
+    console.log(this.data.userInfo);
+    if (wx.getStorageSync("token") != "" && this.data.userInfo == "true") {
+      if (this.data.isselect) {
+        this.setData({
+          loadingHidden: false,
         });
-        that.clickPup();
+        this.addToCart();
+        var that = this;
+        setTimeout(function () {
+          that.setData({
+            loadingHidden: true,
+          });
+          that.clickPup();
+          $Toast({
+            content: "已成功添加购物车",
+            type: "success",
+            duration: 1,
+          });
+        }, 800);
+      } else {
         $Toast({
-          content: "已成功添加购物车",
-          type: "success",
+          content: "请选择 颜色分类",
+          type: "warning",
           duration: 1,
         });
-      }, 800);
+      }
     } else {
       $Toast({
-        content: "请选择 颜色分类",
+        content: "未登录！",
         type: "warning",
         duration: 1,
       });
@@ -243,12 +264,20 @@ Page({
   },
   // *sku
   skuChoose(e) {
+    console.log(e);
     let index = e.currentTarget.dataset.index;
+    // if (!this.data.skuImg) {
+    //   this.setData({
+    //     skuImg: this.data.goodImg,
+    //   });
+    // }
     this.setData({
       idx: index,
       unselect: false,
       isselect: true,
       isselectSku: e.currentTarget.dataset.item.sku,
+      skuImg: e.currentTarget.dataset.item.pic,
+      skuPrice: e.currentTarget.dataset.item.price,
     });
   },
   // *加入购物车借口
@@ -259,8 +288,8 @@ Page({
         token: wx.getStorageSync("token"),
         good_id: this.data.goods_id,
         num: this.data.itemNum,
-        price: this.data.goodPrice,
-        money: 0.01,
+        price: this.data.skuPrice,
+        money: this.data.skuPrice,
         sku: this.data.isselectSku,
       },
       header: { "content-type": "application/json" },
