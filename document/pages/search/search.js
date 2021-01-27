@@ -36,6 +36,7 @@ Page({
     searchGoodsList: [],
     // *没有数据显示状态
     noDataTip: false,
+    statusInfo: "",
   },
   // *定时器
   timeId: -1,
@@ -212,17 +213,25 @@ Page({
   },
   // *搜索结果商品列表每个点击事件跳转信息详情页
   goodsClick(e) {
+    let status = this.data.statusInfo;
+    console.log("sssssssss", status);
     // console.log(e.currentTarget.dataset.item.good_id);
     wx.navigateTo({
       url:
         "/pages/product/product?good_id=" +
-        e.currentTarget.dataset.item.good_id,
+        e.currentTarget.dataset.item.good_id +
+        "&status=" +
+        status,
     });
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
+  onLoad: function (option) {
+    console.log(option.status);
+    this.setData({
+      statusInfo: option.status,
+    });
     var that = this;
     wx.setNavigationBarTitle({
       title: "搜索",

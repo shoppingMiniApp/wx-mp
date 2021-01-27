@@ -245,8 +245,9 @@ Page({
   },
   //跳search页面-zy
   jump() {
+    let status = this.data.hasUserInfo;
     wx.navigateTo({
-      url: "/pages/search/search",
+      url: "/pages/search/search?status="+status,
     });
   },
   //点击商品，跳转详情页-zy

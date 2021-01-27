@@ -37,6 +37,7 @@ Page({
     good_infoImg: [],
     skuImg: "",
     skuPrice: "",
+    userInfo: "",
   },
   // *计数器
   modifyNum(e) {
@@ -97,6 +98,9 @@ Page({
     });
     // console.log(options.good_id);
     this.getGoodData(options.good_id);
+    this.setData({
+      userInfo: options.status,
+    });
   },
   // *请求数据
   getGoodData(goodid) {
@@ -217,7 +221,8 @@ Page({
   },
   // *加入购物车弹窗键
   addOkBtn() {
-    if (wx.getStorageSync("token") != "") {
+    console.log(this.data.userInfo);
+    if (wx.getStorageSync("token") != "" && this.data.userInfo == "true") {
       if (this.data.isselect) {
         this.setData({
           loadingHidden: false,
