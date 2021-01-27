@@ -305,14 +305,15 @@ Page({
   },
   // *加入购物车借口
   addToCart() {
+    console.log(this.data.isselectSku, this.data.skuPrice, "9999999999");
     wx.request({
       url: "http://api_devs.wanxikeji.cn/api/shoppingCarAddModify",
       data: {
         token: wx.getStorageSync("token"),
         good_id: this.data.goods_id,
         num: this.data.itemNum,
-        price: this.data.skuPrice,
-        money: this.data.skuPrice,
+        price: 0.1, //*this.data.skuPrice
+        money: 0.1,
         sku: this.data.isselectSku,
       },
       header: { "content-type": "application/json" },
