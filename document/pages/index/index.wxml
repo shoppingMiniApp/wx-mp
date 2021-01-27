@@ -2,8 +2,9 @@
 <!-- 页面显示 -->
 <!-- 首页 -->
 <i-modal visible="{{ visible }}" bind:ok="okRegister" bind:cancel="cancelRegister" i-class="register">
-  <view>用户您好，您未注册，需要帮您注册嘛？</view>
-  <view>(未注册无法使用所用功能)</view>
+  <view>用户您好，检测到你未注册，需要帮您注册嘛</view>
+  <view>(点击确定后登陆即可)</view>
+  <!-- <view>(未注册无法使用所用功能)</view> -->
 </i-modal>
 <view class="homepage" wx:if="{{ current == 'homepage'}}">
   <!-- 搜索栏 -->
