@@ -85,15 +85,19 @@ Page({
     this.REQUEST({
       url: "/api/goodType",
     }).then((res) => {
-      console.log(res.data.data);
       let listt = [];
       this.parentDeal(res.data.data, 0, listt);
       let json = {};
       json.type_name = "推荐";
       listt.unshift(json);
-      console.log(listt);
+      let arr = []
+      listt.forEach((item,index)=>{
+        if(!item.type_name.includes("ktpd")){
+          arr.push(item)
+        }
+      })
       this.setData({
-        recommendData: listt,
+        recommendData: arr,
       });
     });
     // 请求banner-zy
@@ -199,7 +203,6 @@ Page({
       classify: [],
     });
     let navName = e.currentTarget.dataset.child.type_name;
-    console.log(navName);
     this.REQUEST({
       url: "/api/goodList",
       data: {
@@ -354,6 +357,7 @@ Page({
   onLoad() {
     this.star();
     this.baseInfo();
+    
   },
   baseInfo() {
     wx.setStorageSync("checkList", "");
