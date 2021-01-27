@@ -10,7 +10,7 @@ Page({
       { id: 1, title: "分期" },
       { id: 2, title: "AK47（伊拉克战损版）" },
       { id: 3, title: "三只松鼠" },
-      { id: 4, title: "小米" },
+      { id: 4, title: "ktpd" },
       { id: 5, title: "洗衣机" },
       { id: 6, title: "奶奶甜" },
       { id: 7, title: "新冠肺炎疫苗（买一送一）" },
