@@ -10,7 +10,6 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
     current: "homepage",
-
     towList: [],
     num: 0,
     nums: 0,
@@ -42,7 +41,6 @@ Page({
     userInfo: "",
     hasUserInfo: false,
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
-    current: "mine",
     visible: false,
   },
 
