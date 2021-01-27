@@ -93,6 +93,12 @@
         {
           "name": "支付成功",
           "pathName": "pages/paySuccess/paySuccess",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "权限",
+          "pathName": "pages/getopen/getopen",
           "scene": null
         }
       ]

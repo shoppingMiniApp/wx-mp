@@ -664,10 +664,11 @@ Page({
           checkList: check,
         });
       }
+      
       this.setData({
         cartList: dataList,
         cartItemCount: counts,
-        totalPrice: price,
+        totalPrice: price.toFixed(2),
       });
       if (this.data.checkList.length == this.data.cartList.length) {
         this.setData({
@@ -708,7 +709,7 @@ Page({
       this.setData({
         cartList: dataList,
         checkList: check,
-        totalPrice: price,
+        totalPrice: price.toFixed(2),
       });
       console.log(this.data.checkList, "check");
     }
@@ -757,7 +758,6 @@ Page({
           k--;
         }
       }
-
       wx.request({
         url: "http://api_devs.wanxikeji.cn/api/shoppingCarDelete",
         data: {

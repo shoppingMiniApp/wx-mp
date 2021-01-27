@@ -8,6 +8,25 @@ const {
 const {
   $Message
 } = require('../../dist/base/index');
+
+function checkPermission(obj) {
+  console.log("-------------checkPermission----------");
+  wx.getSetting({
+    success: function (res) {
+      if (!res.authSetting['scope.userLocation']) {
+        console.log("-------------不满足scope.userLocation权限----------");
+        //申请授权
+        wx.authorize({
+          scope: 'scope.userLocation',
+          success() {
+
+          }
+        })
+      }
+    }
+  })
+}
+var app = getApp();
 Page({
   data: {
     address: "",
@@ -26,6 +45,7 @@ Page({
     visible1: false
   },
   onLoad: function (options) {
+    checkPermission(app);
     if (options.data) {
       let addressce = JSON.parse(options.data);
       let address_ids = {}
@@ -207,6 +227,7 @@ Page({
     let that = this;
     wx.chooseLocation({
       success: function (res) {
+        console.log(res)
         const procince = res.address.split("省")[0] + "省";
         const city = res.address.split("省")[1].split("市")[0] + "市";
         const area = res.address.split("省")[1].split("市")[1].split("区")[0] + "区";
@@ -221,6 +242,33 @@ Page({
           address: that.data.procince + that.data.city + that.data.area
         });
       },
+      fail: function () {
+        wx.getSetting({
+          success: function (res) {
+            var statu = res.authSetting;
+            if (!statu['scope.userLocation']) {
+              wx.showModal({
+                title: '是否授权当前位置',
+                content: '需要获取您的地理位置，请确认授权，否则地图功能将无法使用',
+                success: function (tip) {
+                  if (tip.confirm) {
+                    wx.navigateTo({
+                      url: '../getopen/getopen',
+                    })
+                  }
+                }
+              })
+            }
+          },
+          fail: function (res) {
+            wx.showToast({
+              title: '调用授权窗口失败',
+              icon: 'success',
+              duration: 1000
+            })
+          }
+        })
+      }
     })
   }
 })
