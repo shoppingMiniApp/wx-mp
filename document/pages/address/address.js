@@ -14,7 +14,8 @@ Page({
   data: {
     userAddressData: [],
     current: "",
-    addressListShow: false
+    addressListShow: false,
+    backtrack: ""
   },
   //编辑收货地址
   editAddress(e) {
@@ -23,11 +24,18 @@ Page({
       url: '../newAddress/newAddress?data=' + address,
     })
   },
-  //新增收货地址
+  //新增收货地址按钮
   handleAddSite() {
-    wx.navigateTo({
-      url: '../newAddress/newAddress',
-    })
+    if (this.data.backtrack != "") {
+      wx.navigateTo({
+        url: '../newAddress/newAddress?backtrack=' + this.data.backtrack + "&address_id=" + this.data.current,
+      })
+    } else {
+      wx.navigateTo({
+        url: '../newAddress/newAddress',
+      })
+    }
+
   },
   //单选按钮功能
   handleFruitChange({
@@ -100,7 +108,8 @@ Page({
   onLoad: function (options) {
     if (options.index == "order") {
       this.setData({
-        addressListShow: true
+        addressListShow: true,
+        backtrack: "order"
       })
     } else {
       this.setData({

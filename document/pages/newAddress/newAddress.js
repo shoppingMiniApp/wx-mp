@@ -42,9 +42,21 @@ Page({
       address_id: ""
     },
     delbtn: false,
-    visible1: false
+    visible1: false,
+    backtrack: {
+      backtracks: "",
+      current: ""
+    }
   },
   onLoad: function (options) {
+    if (options.backtrack) {
+      let backtrack = this.data.backtrack;
+      backtrack.backtracks = options.backtrac;
+      backtrack.current = options.address_id;
+      this.setData({
+        backtrack,
+      })
+    }
     checkPermission(app);
     if (options.data) {
       let addressce = JSON.parse(options.data);
@@ -167,11 +179,19 @@ Page({
           type: 'success',
           duration: 0
         });
+        let _this = this;
         setTimeout(() => {
           $Toast.hide();
-          wx.navigateTo({
-            url: '../address/address',
-          })
+          if (_this.data.backtrack.backtracks != "") {
+            wx.navigateTo({
+              url: '../address/address?index=order&address_id=' + _this.data.backtrack.current
+            });
+          } else {
+            wx.navigateTo({
+              url: '../address/address',
+            })
+          }
+
         }, 2000);
       }
 
@@ -227,7 +247,6 @@ Page({
     let that = this;
     wx.chooseLocation({
       success: function (res) {
-        console.log(res)
         const procince = res.address.split("省")[0] + "省";
         const city = res.address.split("省")[1].split("市")[0] + "市";
         const area = res.address.split("省")[1].split("市")[1].split("区")[0] + "区";
