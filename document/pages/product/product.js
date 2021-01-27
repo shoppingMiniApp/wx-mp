@@ -21,6 +21,15 @@ Page({
     goods_id: "",
     goTop: false,
     skuData: [],
+    standbySku: [
+      { id: 1, sku: "红色" },
+      { id: 2, sku: "藏青色" },
+      { id: 3, sku: "阿米巴原虫色" },
+      { id: 4, sku: "蓝色" },
+      { id: 5, sku: "蓝白色" },
+      { id: 6, sku: "黑白色" },
+      { id: 7, sku: "啥也没有色" },
+    ],
     skuColor: "skuColor",
     idx: -1,
     showNav: false,
@@ -114,7 +123,7 @@ Page({
         "content-type": "application/json",
       },
       success: function (res) {
-        console.log(JSON.parse(res.data.data.info[0].edition));
+        // console.log(JSON.parse(res.data.data.info[0].edition));
         WxParse.wxParse(
           "goods_detail",
           "html",
@@ -131,6 +140,20 @@ Page({
           goodTitle: res.data.data.good_name,
           goodPrice: res.data.data.price,
         });
+
+        if (that.data.skuData[0].sku) {
+          console.log("是ktpd");
+          that.setData({
+            skuData: JSON.parse(res.data.data.info[0].edition),
+            good_infoImg: JSON.parse(res.data.data.info[0].imgs),
+          });
+        } else {
+          console.log("不是开天");
+          that.setData({
+            skuData: that.data.standbySku,
+            good_infoImg: JSON.parse(res.data.data.info[0].imgs),
+          });
+        }
       },
     });
   },
@@ -282,14 +305,15 @@ Page({
   },
   // *加入购物车借口
   addToCart() {
+    console.log(this.data.isselectSku, this.data.skuPrice, "9999999999");
     wx.request({
       url: "http://api_devs.wanxikeji.cn/api/shoppingCarAddModify",
       data: {
         token: wx.getStorageSync("token"),
         good_id: this.data.goods_id,
         num: this.data.itemNum,
-        price: this.data.skuPrice,
-        money: this.data.skuPrice,
+        price: 0.1, //*this.data.skuPrice
+        money: 0.1,
         sku: this.data.isselectSku,
       },
       header: { "content-type": "application/json" },

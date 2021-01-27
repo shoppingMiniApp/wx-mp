@@ -20,6 +20,7 @@ Page({
   //编辑收货地址
   editAddress(e) {
     const address = JSON.stringify(e.currentTarget.dataset.address)
+    console.log(address);
     wx.navigateTo({
       url: '../newAddress/newAddress?data=' + address,
     })
